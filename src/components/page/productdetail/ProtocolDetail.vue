@@ -1,6 +1,5 @@
 <template>
   <div class="protocoldetail">
-    <MyHeader title="协议详情" />
     <h2>“民生如意宝”货币基金产品业务服务协议</h2>
     <h3>甲方：                    （投资者）</h3>
     <h3>乙方：     （以下简称“基金管理人”）</h3>
@@ -158,7 +157,7 @@
 </template>
 
 <script>
-import MyHeader from "@/components/base/MyHeader.vue";
+
 
 export default {
   name: "ProtocolDetail",
@@ -178,7 +177,7 @@ export default {
   computed: {},
   mounted() {},
   components: {
-    MyHeader
+
   },
   beforeDestroy() {}
 };
