@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <MyHeader></MyHeader>
+
     <div class="banner">
       <swiper :options="horizontalSwiperOption" ref="horizontalSwiper" @someSwiperEvent="callback">
         <swiper-slide>

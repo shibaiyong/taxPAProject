@@ -1,6 +1,6 @@
 <template>
   <div class="personalcenter">
-    <MyHeader title="相关协议" />
+    
 
     <div class="permenulist">
       <ul>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import MyHeader from "@/components/base/MyHeader.vue";
 import Service from "@/components/base/Service.vue";
 export default {
   name: "PersonalCenter",
@@ -45,7 +44,6 @@ export default {
   computed: {},
   mounted() {},
   components: {
-    MyHeader,
     Service
   },
   beforeDestroy() {}

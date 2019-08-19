@@ -1,7 +1,6 @@
 
 <template>
   <div class="enterrealinfo">
-    <MyHeader title="信息验证" />
     <div class="realinfocontainer">
       <h3>请填写实名制信息</h3>
       <span>以保障您的资金账户安全</span>
@@ -50,10 +49,9 @@
 </template>
 
 <script>
-import MyHeader from "@/components/base/MyHeader.vue"
 import Service from "@/components/base/Service.vue"
 import MyButton from "@/components/base/MyButton"
-import { Toast } from "mint-ui"
+
 import { DebitCardQuery } from "@/requestDataInterface"
 
 export default {
@@ -103,7 +101,6 @@ export default {
   computed: {},
   mounted() {},
   components: {
-    MyHeader,
     Service,
     MyButton
   },

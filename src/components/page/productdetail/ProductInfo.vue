@@ -2,20 +2,7 @@
   <div class="productinfo">
     <MyHeader title="个人中心" />
 
-    <mt-navbar v-model="selected">
-      <mt-tab-item id="1">万份收益（元）</mt-tab-item>
-      <mt-tab-item id="2">七日年化收益率（%）</mt-tab-item>
-    </mt-navbar>
-
-    <!-- tab-container -->
-    <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
-        <div class="echartcontainer" id="income"></div>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="2">
-        <div class="echartcontainer" id="incomerate"></div>
-      </mt-tab-container-item>
-    </mt-tab-container>
+    
 
     <div class="product productrecord">
       <h3>产品介绍</h3>
@@ -116,7 +103,7 @@
 </template>
 
 <script>
-import MyHeader from "@/components/base/MyHeader.vue"
+
 import Service from "@/components/base/Service.vue"
 import MyButton from "@/components/base/MyButton"
 import { ProdInfoHisQuery } from "@/requestDataInterface"
@@ -223,7 +210,6 @@ export default {
     
   },
   components: {
-    MyHeader,
     Service,
     MyButton
   },

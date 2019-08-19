@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import store from './vuex/store'
 // import 'mint-ui/lib/style.css'
-import '@/assets/utils/ajustScreen.js'
 import '@/assets/css/common.css'
 //按需引入 借助 babel-plugin-component
 import { Button, DatetimePicker, Cell, Header, Navbar, TabItem, Loadmore, TabContainer, TabContainerItem, Field, Picker, Popup, Actionsheet } from 'mint-ui'

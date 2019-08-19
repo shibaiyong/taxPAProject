@@ -1,6 +1,5 @@
 <template>
   <div class="setpassword">
-    <MyHeader title="身份验证" />
     <div class="content">
       <div class="password mui-input-group">
         <div class="mui-input-row">
@@ -22,7 +21,6 @@
 </template>
 
 <script>
-import MyHeader from "@/components/base/MyHeader.vue"
 import MyButton from "@/components/base/MyButton"
 import Service from "@/components/base/Service.vue"
 import { getRandom } from "@/requestDataInterface"
@@ -149,7 +147,6 @@ export default {
     this.initKeyBoard()
   },
   components: {
-    MyHeader,
     MyButton
   },
   beforeDestroy() {}
