@@ -6,6 +6,21 @@ import qs from 'qs'
  * @author baiyongshi
  * **/
 
+//登录
+export const Login = params => {
+    return axiosInstance.post("/user/login", params).then(res => res.data)
+}
+
+//登出
+export const Logout = params => {
+    return axiosInstance.get("/user/logout").then(res => res.data)
+}
+
+//获取数据总量
+export const getTotalData = params => {
+    return axiosInstance.get("/statistics").then(res => res.data)
+}
+
 //产品信息查询
 export const ProdInfoQuery = params => {
     return axiosInstance.post("/product/LERybProdInfoQuery").then(res => res.data)
