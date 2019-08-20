@@ -16,19 +16,19 @@
     </div>
     <div class="loginright">
       <div class="logo">
-        <img src="../../assets/logo.png"/>
+        <img src=""/>
       </div>
       <h3 class="font44">欢迎登录</h3>
       <ul>
         <li class="bottom16" :class="{ 'verify': errorUserNameShow }">用户名</li>
         <li class="input bottom46" :class="{ 'verify': errorUserNameShow }">
           <input :class="{ 'verify': errorUserNameShow,'verifylan': errorUserNameShowAcive }" type="text" v-model="userInfo.userName" placeholder="请输入用户名" @focus="changeStatusActive('username')" @blur="changeStatusBlur('username')"/>
-          <span v-show="errorUserNameShow"><img src="../../assets/error.png"/>&nbsp;{{ errorUserNameMessage }}</span>
+          <span v-show="errorUserNameShow"><img src=""/>&nbsp;{{ errorUserNameMessage }}</span>
         </li>
         <li class="bottom16" :class="{ 'verify': errorPassWordShow }">密码</li>
         <li class="input bottom24" :class="{ 'verify': errorPassWordShow }">
           <input :class="{ 'verify': errorPassWordShow, 'verifylan': errorPassWordShowAcive }" type="password" autocomplete="off" v-model="userInfo.password" @keyup.enter="gotoLogin" placeholder="请输入密码" @focus="changeStatusActive('password')" @blur="changeStatusBlur('password')"/>
-          <span v-show="errorPassWordShow"><img src="../../assets/error.png"/>&nbsp;{{ errorPassWordMessage }}</span>
+          <span v-show="errorPassWordShow"><img src=""/>&nbsp;{{ errorPassWordMessage }}</span>
         </li>
         <li class="remeberme">
           <CheckBox :label="'选中'" :dataArr="dataArr" :all="isChecked"><a href="javascript:void(0)" class="font14">记住密码</a></CheckBox>
@@ -45,9 +45,10 @@
 
 <script>
 
-import messageBox from "@/components/common/MessageBox"
-import CheckBox from "@/components/common/CheckBox"
-import { Login, getTotalData} from "@/assets/util"
+import messageBox from "@/components/base/MessageBox"
+import CheckBox from "@/components/base/CheckBox"
+import { Login } from "@/requestDataInterface"
+import { setCookie, getCookie, deleteCookie} from "@/assets/utils"
 
 export default {
   name: "login",
@@ -77,25 +78,25 @@ export default {
       dataArr: [],
       isChecked: "",
       totalTimer:''
-    };
+    }
   },
   created() {
     //初始化当前数据总量
-    getTotalData().then(res => {
-      if (res.data) {
-        this.numberEnd = res.data.total;
-      }
-    });
+    // getTotalData().then(res => {
+    //   if (res.data) {
+    //     this.numberEnd = res.data.total;
+    //   }
+    // });
   },
   mounted() {
-    this.initUser();
-    this.changeNumber(5, 1500);
-    this.getTotalData();
+    //this.initUser();
+    //this.changeNumber(5, 1500);
+    // this.getTotalData();
   },
   methods: {
     initUser() {
       //初始化用户名和密码,从cookie中获取。
-      let rlUserInfo = iknowsUtil.getCookie("rlUserInfo");
+      let rlUserInfo = getCookie("rlUserInfo");
 
       if (rlUserInfo.password) {
         let len = rlUserInfo.password.length - 64;
@@ -106,39 +107,41 @@ export default {
     },
 
     gotoLogin(e) {
-      let verifyResult = this.formValidation(); //验证结果
 
-      if (!verifyResult) {
-        //如果验证没有通过，中断登录操作
-        return false;
-      }
+      sessionStorage.setItem('token','1q2w3e4r')
+      localStorage.setItem('requireAuth','admin')
+      this.$router.push({ path: "/home" });
+      // let verifyResult = this.formValidation(); //验证结果
 
-      let password256 = sha256(this.userInfo.password);
-      let params = {
-        userName: this.userInfo.userName,
-        password: password256
-      };
-      login(params).then(res => {
-        if (res.code == "200" && res.data != null) {
-          let data = res.data;
-          let token = data.token;
-          let userName = this.userInfo.userName;
-          document.getElementById('app').setAttribute('userName',userName)
-          //将请求到的token,保存到localStorage
-          localStorage.setItem('iKnows'+userName+'Token', token);          
-          localStorage.setItem('iKnows'+userName, userName);
-          //将请求到的用户配置信息,保存到localStorage，0未配置 1已配置
-          if (data.configured == 0){
-            localStorage.setItem('iKnows'+userName+'Config', 0);
-          } else {
-            localStorage.setItem('iKnows'+userName+'Config', 1);
-          }
-          //登录成功后，跳转到首页
-          this.$router.push({ path: "/home/"+userName });
-        } else {
-          this.$mAlert("用户名和密码不正确");
-        }
-      });
+      // if (!verifyResult) {
+      //   //如果验证没有通过，中断登录操作
+      //   return false;
+      // }
+
+      // let password256 = sha256(this.userInfo.password);
+      // let params = {
+      //   userName: this.userInfo.userName,
+      //   password: password256
+      // };
+      // login(params).then(res => {
+      //   if (res.code == "200" && res.data != null) {
+          // let data = res.data;
+          // let token = data.token;
+          // let userName = this.userInfo.userName;
+          // document.getElementById('app').setAttribute('userName',userName)
+          // localStorage.setItem('iKnows'+userName+'Token', token);          
+          // localStorage.setItem('iKnows'+userName, userName);
+          // if (data.configured == 0){
+          //   localStorage.setItem('iKnows'+userName+'Config', 0);
+          // } else {
+          //   localStorage.setItem('iKnows'+userName+'Config', 1);
+          // }
+          // this.$router.push({ path: "/home/"+userName });
+
+      //   } else {
+      //     //this.$mAlert("用户名和密码不正确");
+      //   }
+      // })
     },
     rememberMe() {
       //记住密码
@@ -151,7 +154,7 @@ export default {
           confirme: "确定",
           content: "用户名和密码不能为空",
           confirmCallback: () => {
-            this.isVisible = -1;
+            this.isVisible = -1
           }
         });
         return false;
@@ -160,11 +163,11 @@ export default {
         sha256(userInfo.password).substr(0, 32) +
         userInfo.password +
         sha256(userInfo.password).substr(32, 32);
-      iknowsUtil.setCookie("rlUserInfo", 7, userInfo); //设置cookie
+        setCookie("rlUserInfo", 7, userInfo); //设置cookie
     },
 
     forgotMe() {
-      iknowsUtil.deleteCookie("rlUserInfo");
+      deleteCookie("rlUserInfo");
     },
 
     forgotPassWord() {
@@ -345,7 +348,7 @@ export default {
 .loginleft{
   width:62%;
   height:100%;
-  background: url("../../assets/login_bg.jpg") no-repeat center center;
+  /* background: url("../../assets/login_bg.jpg") no-repeat center center; */
   float:left;
   background-size:100% 100%;
   position: relative;
@@ -425,29 +428,29 @@ export default {
   border:none;
   box-sizing: border-box;
 }
-.loginright li.bottom46 input{
+/* .loginright li.bottom46 input{
   background:rgba(255,255,255,1) url(../../assets/username-ico.png) no-repeat 12px center;
 }
 .loginright li.bottom24 input{
   background:rgba(255,255,255,1) url(../../assets/password-ico.png) no-repeat 12px center;
-}
+} */
 .loginright li.verify {
   border-color: red;
   color:red;
 }
 .loginright li.bottom46 input.verify {
   color:red;
-  background:rgba(255,255,255,1) url(../../assets/username-error.png) no-repeat 12px center;
+  /* background:rgba(255,255,255,1) url(../../assets/username-error.png) no-repeat 12px center; */
 }
 .loginright li.bottom24 input.verify {
   color:red;
-  background:rgba(255,255,255,1) url(../../assets/password-error.png) no-repeat 12px center;
+  /* background:rgba(255,255,255,1) url(../../assets/password-error.png) no-repeat 12px center; */
 }
 .loginright li.bottom46 input.verifylan {
-  background:rgba(255,255,255,1) url(../../assets/username-active.png) no-repeat 12px center;
+  /* background:rgba(255,255,255,1) url(../../assets/username-active.png) no-repeat 12px center; */
 }
 .loginright li.bottom24 input.verifylan {
-  background:rgba(255,255,255,1) url(../../assets/password-active.png) no-repeat 12px center;
+  /* background:rgba(255,255,255,1) url(../../assets/password-active.png) no-repeat 12px center; */
 }
 .loginright li span{
   display: inline-block;

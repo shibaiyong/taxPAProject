@@ -24,7 +24,7 @@
     </div>
 
     <div class="goodsSummary">
-      <h3>如意宝</h3>
+      <h3 @click="gotoPage('ProtocolDetail')">如意宝</h3>
       <ul>
         <li>
           <span class="percent">{{annualrate}}</span>
@@ -37,7 +37,7 @@
           <span>低风险</span>
         </li>
         <li>
-          <MyButton @click.native="gotoPage('ProductInfo')"></MyButton>
+          <MyButton @click.native="gotoPage('/protocoldetail')"></MyButton>
         </li>
       </ul>
     </div>
@@ -63,7 +63,6 @@ import Service from "@/components/base/Service.vue"
 import MyFooter from "@/components/base/MyFooter"
 import MyButton from "@/components/base/MyButton"
 import "swiper/dist/css/swiper.css"
-import MyHeader from "@/components/base/MyHeader"
 import { swiper, swiperSlide } from "vue-awesome-swiper"
 import { ProdInfoQuery } from "@/requestDataInterface"
 
@@ -109,7 +108,8 @@ export default {
       }
     },
     gotoPage( url ){
-      this.$router.push({ name: url, params: { userid: "123" } });
+      console.log(url)
+      this.$router.push({ path: url });
     },
     queryAnnualRate(){
       ProdInfoQuery().then(res => {
@@ -127,7 +127,6 @@ export default {
    this.queryAnnualRate()
   },
   components: {
-    MyHeader,
     swiper,
     swiperSlide,
     MyButton,

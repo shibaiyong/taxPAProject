@@ -1,19 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-
+const Login = r => require.ensure([], () => r(require('@/components/page/login/Login')), 'Login')
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
-const ProductInfo = r => require.ensure([], () => r(require('@/components/page/productdetail/ProductInfo')), 'ProductInfo')
 const ProtocolList = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolList')), 'ProtocolList')
 const ProtocolDetail = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolDetail')), 'ProtocolDetail')
-const EnterRealInfo = r => require.ensure([], () => r(require('@/components/page/productdetail/EnterRealInfo')), 'EnterRealInfo')
-const EnterPassword = r => require.ensure([], () => r(require('@/components/page/setpassword/enterpassword')), 'EnterPassword')
+const NoFound = r => require.ensure([], () => r(require('@/components/page/noFound/404.vue')), 'NoFound')
+
 
 const instance = new Router({
   mode: 'history',
   routes: [
-    { path: '/', redirect: '/home' },
-
+    { path: '/', redirect: '/login' },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        title: 'Login',
+        requireAuth: false,
+        roles: ['user','admin','superadmin']
+      }
+    },
     {
       path: '/home',
       name: 'Home',
@@ -21,21 +29,9 @@ const instance = new Router({
       meta: {
         title: 'Home',
         requireAuth: true,
-        roles: ['superadmin']
+        roles: ['admin','superadmin']
       }
     },
-
-    {
-      path: '/productinfo',
-      name: 'ProductInfo',
-      component: ProductInfo,
-      meta: {
-        title: 'ProductInfo',
-        requireAuth: true,
-        roles: ['superadmin']
-      }
-    },
-
     {
       path: '/protocollist',
       name: 'ProtocolList',
@@ -43,7 +39,7 @@ const instance = new Router({
       meta: {
         title: 'ProtocolList',
         requireAuth: true,
-        roles: ['superadmin']
+        roles: ['admin','superadmin']
       }
     },
     {
@@ -57,38 +53,42 @@ const instance = new Router({
       }
     },
     {
-      path: '/enterrealinfo',
-      name: 'EnterRealInfo',
-      component: EnterRealInfo,
+      path: '*',
+      name: 'NoFound',
+      component: NoFound,
       meta: {
-        title: 'EnterRealInfo',
-        requireAuth: true,
-        roles: ['superadmin']
-      }
-    },
-    
-    {
-      path: '/enterpassword',
-      name: 'EnterPassword',
-      component: EnterPassword,
-      meta: {
-        title: 'EnterPassword',
+        title: '404',
         requireAuth: true,
         roles: ['superadmin']
       }
     }
-    
   ]
 })
 
 
 instance.beforeEach((to, from, next) => {
+ 
   let _title = to.meta.title
   document.title = _title ? _title : '默认标题'
-  // if (to.meta.requireAuth) {
-  //   next()
-  // }
-  next()
+  let auth = localStorage.getItem('requireAuth')
+  let token = sessionStorage.getItem('token')
+  if (!to.meta.requireAuth) {
+    next()
+  }else{
+    if(!token){
+      //未登录，没有权限进入，终止路由跳转
+      next({path:'/login'})
+    }else if( to.meta.roles.indexOf(auth) > -1 ){
+      next()
+    }else{
+      //停在当前页面
+      next(false)
+    }
+  }
+})
+
+instance.onError(function(){
+  console.log('error')
 })
 
 export default instance
