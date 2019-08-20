@@ -222,8 +222,6 @@ export default {
 };
 </script>
 <style scoped>
-.service {
-}
 .echartcontainer {
   width: 4rem;
   height: 2.2rem;
