@@ -11,7 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      
+      '/apii': {
+        target: 'http://192.168.129.108:8088',//设置你调用的接口域名和端口号 别忘了加http
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apii': 'http://192.168.129.108:8088'
+        }
+      }
     },
 
     // Various Dev Server settings

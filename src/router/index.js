@@ -87,9 +87,7 @@ instance.beforeEach((to, from, next) => {
   }
 })
 
-instance.onError(function(){
-  console.log('error')
-})
+
 
 export default instance
 

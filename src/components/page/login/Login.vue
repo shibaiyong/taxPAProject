@@ -108,9 +108,23 @@ export default {
 
     gotoLogin(e) {
 
-      sessionStorage.setItem('token','1q2w3e4r')
-      localStorage.setItem('requireAuth','admin')
-      this.$router.push({ path: "/home" });
+
+      let params = this.userInfo
+      // sessionStorage.setItem('token','1q2w3e4r')
+      // localStorage.setItem('requireAuth','admin')
+      // this.$router.push({ path: "/home" })
+
+      Login( params ).then( res => {
+
+        console.log(res)
+
+        
+
+      })
+
+      // sessionStorage.setItem('token','1q2w3e4r')
+      // localStorage.setItem('requireAuth','admin')
+      // this.$router.push({ path: "/home" })
       // let verifyResult = this.formValidation(); //验证结果
 
       // if (!verifyResult) {
@@ -446,12 +460,12 @@ export default {
   color:red;
   /* background:rgba(255,255,255,1) url(../../assets/password-error.png) no-repeat 12px center; */
 }
-.loginright li.bottom46 input.verifylan {
-  /* background:rgba(255,255,255,1) url(../../assets/username-active.png) no-repeat 12px center; */
-}
-.loginright li.bottom24 input.verifylan {
-  /* background:rgba(255,255,255,1) url(../../assets/password-active.png) no-repeat 12px center; */
-}
+/* .loginright li.bottom46 input.verifylan {
+  background:rgba(255,255,255,1) url(../../assets/username-active.png) no-repeat 12px center;
+} */
+/*.loginright li.bottom24 input.verifylan {
+   background:rgba(255,255,255,1) url(../../assets/password-active.png) no-repeat 12px center; 
+}*/
 .loginright li span{
   display: inline-block;
   width:42%;

@@ -5,7 +5,7 @@ import axios from 'axios'
 
 // 创建实例
 let axiosInstance = axios.create({
-    baseURL:'http://192.168.129.108:8080/cmbcFund_war_exploded',
+    //baseURL:'http://192.168.129.108:8088',
     timeout:60000
 })
 
