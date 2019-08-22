@@ -1,60 +1,6 @@
 <template>
   <div class="home">
 
-    <div class="banner">
-      <swiper :options="horizontalSwiperOption" ref="horizontalSwiper" @someSwiperEvent="callback">
-        <swiper-slide>
-
-        </swiper-slide>
-      </swiper>
-    </div>
-    <div class="noticeContainer">
-      <div class="noticeIco">
-        
-      </div>
-      <div class="notice">
-        <swiper :options="verticalSwiperOption" ref="verticalSwiper" @someSwiperEvent="callback">
-          <swiper-slide>I'm Slide 1I'm Slide 1</swiper-slide>
-          <swiper-slide>好好好好好好好好好好好好好</swiper-slide>
-        </swiper>
-      </div>
-      <div class="goIntoDet">
-        <i class="mintui mintui-back" />
-      </div>
-    </div>
-
-    <div class="goodsSummary">
-      <h3 @click="gotoPage('ProtocolDetail')">如意宝</h3>
-      <ul>
-        <li>
-          <span class="percent">{{annualrate}}</span>
-          <span class="percentico">%</span>
-        </li>
-        <li class="incomerate">近七日年化收益率</li>
-        <li class="feature">
-          <span>存取灵活</span>
-          <span>快速到账</span>
-          <span>低风险</span>
-        </li>
-        <li>
-          <MyButton @click.native="gotoPage('/protocoldetail')"></MyButton>
-        </li>
-      </ul>
-    </div>
-
-    <div class="advertising">
-      <div class="advertising_item" v-for="item in advertising" :key="item.id">
-        <img :src="item.img" />
-        <dl>
-          <dt>{{item.slogan}}</dt>
-          <dd>{{item.explain}}</dd>
-        </dl>
-      </div>
-    </div>
-    <div class="service">
-        <Service/>
-    </div>
-    <MyFooter></MyFooter>
   </div>
 </template>
 
@@ -65,7 +11,6 @@ export default {
   props: {},
   data() {
     return {
-     
     }
   },
   created() {},

@@ -158,180 +158,47 @@ export default {
       // })
     },
     rememberMe() {
-      //记住密码
-      let userInfoStr = JSON.stringify(this.userInfo);
-      let userInfo = JSON.parse(userInfoStr);
-      if (userInfo.userName == "" || userInfo.passWord == "") {
-        this.showMessageBox({
-          title: "",
-          cancel: "",
-          confirme: "确定",
-          content: "用户名和密码不能为空",
-          confirmCallback: () => {
-            this.isVisible = -1
-          }
-        });
-        return false;
-      }
-      userInfo.password =
-        sha256(userInfo.password).substr(0, 32) +
-        userInfo.password +
-        sha256(userInfo.password).substr(32, 32);
-        setCookie("rlUserInfo", 7, userInfo); //设置cookie
+      
     },
 
     forgotMe() {
-      deleteCookie("rlUserInfo");
+      
     },
 
     forgotPassWord() {
       //忘记密码
 
-      this.showMessageBox({
-        title: "请输入注册邮箱",
-        cancel: "取消",
-        confirme: "确定",
-        content: "",
-        confirmCallback: () => {
-          this.showMessageBox({
-            title: "",
-            cancel: "",
-            confirme: "确定",
-            content: "邮件已成功发到你的邮箱",
-            confirmCallback: () => {
-              this.isVisible = -1;
-            }
-          });
-        },
-        cancelCallback: () => {
-          this.isVisible = -1;
-        }
-      });
+      
+      
     },
 
     showMessageBox(textOptions) {
-      //调用弹窗组件的方法,形参的数据类型为对象格式。
-      this.isVisible = 1;
-      this.textOptions = textOptions;
+      
     },
 
     changeNumber(keepTime, cycleTime) {
-      //数字滚动叠加
-
-      let span = this.numberEnd - this.numberStart;
-      let translateTime = cycleTime;
-      let changeTime = Math.ceil(translateTime / keepTime);
-      let step = Math.ceil(span / changeTime);
-      let changeNumberInterval = setInterval(() => {
-        this.numberStart = this.numberStart + step;
-        if (this.numberStart >= this.numberEnd && span >= 0) {
-          clearInterval(changeNumberInterval);
-          this.numberStart = this.numberEnd;
-        } else if (this.numberStart <= this.numberEnd && span < 0) {
-          clearInterval(changeNumberInterval);
-          this.numberStart = this.numberEnd;
-        }
-      }, keepTime);
+      
     },
 
     formValidation() {
-      //用户名支持数字，字母，区分大小写；密码支持数字，字母，区分大小写。
-      let userName = this.userInfo.userName;
-      let passWord = this.userInfo.password;
-
-      let userReg = /^[a-zA-Z\d]{3,20}$/;
-      let passwordReg = /^[a-zA-Z\d]{6,20}$/;
-
-      if (!userReg.test(userName)) {
-        this.errorUserNameMessage = "用户名错误";
-        this.errorUserNameShow = true;
-        this.errorUserNameShowAcive = false;
-        return false;
-      }  else {
-        this.errorUserNameShow = false;
-      }
-      if (!passwordReg.test(passWord)) {
-        this.errorPassWordMessage = "密码错误";
-        this.errorPassWordShow = true;
-        this.errorPassWordShowAcive = false;
-        return false
-      } else {
-        this.errorPassWordShow = false;
-      }
-
-      return true
+      
     },
 
     getTotalData() {
-      this.totalTimer = setInterval(() => {
-        getTotalData().then(res => {
-          if (res.data) {
-            this.numberEnd = res.data.total;
-          }
-        });
-      }, 10000);
+      
     },
 
     changeStatusActive( data ){
-      if( data == 'username' ){
-        this.errorUserNameShow = false
-        this.errorUserNameShowAcive = true
-      }else if( data == 'password' ){
-        this.errorPassWordShow = false
-        this.errorPassWordShowAcive = true
-      }
+      
     },
     changeStatusBlur(data){
-      if( data == 'username' ){
-        this.errorUserNameShow = false
-        this.errorUserNameShowAcive = false
-      }else if( data == 'password' ){
-        this.errorPassWordShow = false
-        this.errorPassWordShowAcive = false
-      }
+      
     },
     toThousands(num){
-      if (num == null || num == undefined) return "";
-      var flag = false;
-      var indexDot = num.toString().indexOf('.');
-      var dot;
-      if (indexDot > 0) {
-        dot = num.toString().substring(indexDot);
-        num = num.toString().substring(0, indexDot);
-      }
-      var result = '', counter = 0;
-      var reg = /^\-/;
-      var reg1 = /\(/g;
-      num = (num || 0).toString();
-      if (reg1.test(num)) {
-        num = num.replace(reg1, '');
-        flag = true;
-      } else {
-        flag = false;
-      }
-      var num1 = num;
-      num = num.replace(reg, '');
-      for (var i = num.length - 1; i >= 0; i--) {
-        counter++;
-        result = num.charAt(i) + result;
-        if (!(counter % 3) && i != 0) {
-          result = ',' + result;
-        }
-      }
-      if (num1 < 0) {
-        result = "-" + result
-      }
-      if (indexDot > 0) {
-        result = result + dot;
-      }
-      if (flag == true) {
-        result = '(' + result;
-      }
-      return result;
     }
   },
   beforeDestroy(){
-    clearInterval( this.totalTimer )
+    
   },
   watch: {
     dataArr(val) {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 const Login = r => require.ensure([], () => r(require('@/components/page/login/Login')), 'Login')
+const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
 const ProtocolList = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolList')), 'ProtocolList')
 const ProtocolDetail = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolDetail')), 'ProtocolDetail')
@@ -20,6 +21,16 @@ const instance = new Router({
         title: 'Login',
         requireAuth: false,
         roles: ['user','admin','superadmin']
+      }
+    },
+    {
+      path: '/usermanage',
+      name: 'UserManage',
+      component: UserManage,
+      meta: {
+        title: '用户管理',
+        requireAuth: true,
+        roles: ['admin','superadmin']
       }
     },
     {
@@ -72,19 +83,20 @@ instance.beforeEach((to, from, next) => {
   document.title = _title ? _title : '默认标题'
   let auth = localStorage.getItem('requireAuth')
   let token = sessionStorage.getItem('token')
-  if (!to.meta.requireAuth) {
-    next()
-  }else{
-    if(!token){
-      //未登录，没有权限进入，终止路由跳转
-      next({path:'/login'})
-    }else if( to.meta.roles.indexOf(auth) > -1 ){
-      next()
-    }else{
-      //停在当前页面
-      next(false)
-    }
-  }
+  next()
+  // if (!to.meta.requireAuth) {
+  //   next()
+  // }else{
+  //   if(!token){
+  //     //未登录，没有权限进入，终止路由跳转
+  //     next({path:'/login'})
+  //   }else if( to.meta.roles.indexOf(auth) > -1 ){
+  //     next()
+  //   }else{
+  //     //停在当前页面
+  //     next(false)
+  //   }
+  // }
 })
 
 

@@ -6,15 +6,15 @@
       <ul>
         <li>
           <span>“如意宝”货币基金业务服务协议</span>
-          <img src="@/assets/img/rightarow@2x.png" />
+
         </li>
         <li>
           <span>《中国民生银行个人人民币银行结算账户管理协议》</span>
-          <img src="@/assets/img/rightarow@2x.png" />
+
         </li>
         <li>
           <span>《跨行通协议》</span>
-          <img src="@/assets/img/rightarow@2x.png" />
+
         </li>
       </ul>
     </div>

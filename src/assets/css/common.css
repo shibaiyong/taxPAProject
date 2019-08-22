@@ -3,7 +3,7 @@ body, div, ul, ol, dl, dt, dd, li, dl, h1, h2, h3, h4
  
 ol, ul ,li{list-style: none;} 
 img {border: 0; vertical-align:middle;} 
-body{color:#000000;background:#e4ecfd;} 
+body{color:#000000;background:white;} 
 .clear{clear:both;height:1px;width:100%; overflow:hidden; margin-top:-1px;} 
 a,a:hover{color:#000000;text-decoration:none !important;} 
 a:hover{text-decoration:none !important;}
@@ -41,51 +41,11 @@ a:active{
 	background: none;
 	text-decoration: none;
 }
-.mint-header{
-    background:white;
-}
-.mint-header .mint-header-title{
-    color:black;
-    font-size: 0.18rem;
-}
-.mint-header .mintui-back{
-    color:black;
-    font-size: 0.18rem
+.navbar .el-menu{
+  border-right:none;
 }
 
-.home .swiper-slide{
-    font-size: 0.12rem
-}
-
-.home .notice .swiper-slide{
-  line-height: 40px;
-}
-.goIntoDet .mintui-back{
-
-  font-size: 0.14rem
-}
-
-.mint-header .mint-button-text{
-  color:black;
-}
-
-.mint-navbar .mint-tab-item.is-selected{
-  border-bottom: 3px solid #3965ff;
-  color: #3965ff;
-  margin-bottom: -3px;
-}
-
-.mint-tab-item-label{
-  font-size:0.16rem;
-}
-
-.mui-input-group::before{
-  height:0;
-}
-.mui-input-group::after{
-  height:0;
-}
-
-.mytip .mint-popup{
-  width:100%;
+.paddingcontainer{
+  padding:0 3%;
+  box-sizing: border-box;
 }

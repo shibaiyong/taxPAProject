@@ -2,8 +2,7 @@
   
 <div class="customerervice">
         <dl>
-          <dt>
-            <img src="@/assets/img/customerervice@2x.png" />10100123
+          <dt>10100123
           </dt>
           <dd>此页面由民生银行提供</dd>
         </dl>

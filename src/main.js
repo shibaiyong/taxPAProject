@@ -7,25 +7,26 @@ import store from './vuex/store'
 // import 'mint-ui/lib/style.css'
 import '@/assets/css/common.css'
 //按需引入 借助 babel-plugin-component
-import { Button, DatetimePicker, Cell, Header, Navbar, TabItem, Loadmore, TabContainer, TabContainerItem, Field, Picker, Popup, Actionsheet } from 'mint-ui'
-//以下是mint-ui完整引入
-//import MintUI from 'mint-ui'
-//Vue.use(MintUI)
-Vue.component(Loadmore.name, Loadmore)
-Vue.component(Actionsheet.name, Actionsheet)
-Vue.component(Popup.name, Popup)
-Vue.component(Picker.name, Picker)
-Vue.component(Button.name, Button)
-Vue.component(DatetimePicker.name, DatetimePicker)
-
-Vue.component(Cell.name, Cell)
-// Vue.use(Lazyload)
-Vue.component(Header.name, Header)
-Vue.component(Navbar.name, Navbar)
-Vue.component(TabItem.name, TabItem)
-Vue.component(TabContainer.name, TabContainer)
-Vue.component(TabContainerItem.name, TabContainerItem)
-Vue.component(Field.name, Field)
+// import { Button, Select, Table, TableColumn,Form, FormItem, Tree, MessageBox,Icon, Row, Col, Menu, Submenu, MenuItem, MenuItemGroup,} from 'element-ui'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
+// Vue.component(Button.name, Button)
+// Vue.component(Select.name, Select)
+// Vue.component(Table.name, Table)
+// Vue.component(TableColumn.name, TableColumn)
+// Vue.component(Form.name, Form)
+// Vue.component(FormItem.name, FormItem)
+// Vue.component(Tree.name, Tree)
+// Vue.component(MessageBox.name, MessageBox)
+// Vue.component(Icon.name, Icon)
+// Vue.component(Row.name, Row)
+// Vue.component(Col.name, Col)
+// Vue.component(Menu.name, Menu)
+// Vue.component(Submenu.name, Submenu)
+// Vue.component(MenuItem.name, MenuItem)
+// Vue.component(MenuItemGroup.name, MenuItemGroup)
+//Vue.prototype.$msgbox = MessageBox
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
