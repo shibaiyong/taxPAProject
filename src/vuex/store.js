@@ -4,12 +4,16 @@ import actions from "./actions"
 Vue.use(Vuex)
 //状态管理的变量名固定为state
 const state = {
-    PerInfoAnswer:''
+    PerInfoAnswer:'',
+    bread:[]
 }
 
 const mutations = {
     storeAnswer(state,data){
         state.PerInfoAnswer = data
+    },
+    setBread(state,data){
+        state.bread = data
     }
 }
 

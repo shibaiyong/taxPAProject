@@ -7,14 +7,13 @@
     <div class="dropdown">
       <el-dropdown trigger="click" @command="handleCommand">
         <span class="el-dropdown-link">
-          下拉菜单
+          欢迎小赵同学
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="a">黄金糕</el-dropdown-item>
           <el-dropdown-item command="b">狮子头</el-dropdown-item>
           <el-dropdown-item command="c">螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled command="d">双皮奶</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -25,12 +24,12 @@
 export default {
   props: {},
   data() {
-    return {};
+    return {}
   },
   created() {},
   methods: {
     handleCommand(command) {
-      this.$message("click on item " + command);
+      this.$message("click on item " + command)
     }
   },
   computed: {},

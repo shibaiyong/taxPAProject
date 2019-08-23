@@ -1,16 +1,50 @@
 <template>
-  <div class="userlist">
+  <div class="commercialList">
     <div class="operate">
-      <el-form :inline="true" :model="formSearch" size="small">
-        <el-form-item label="审批人">
-          <el-input v-model="formSearch.user" placeholder="审批人"></el-input>
+      <el-form :model="formSearch" size="small">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="商户编号">
+              <el-input v-model="formSearch.user" placeholder="商户编号"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="企业名称">
+              <el-input v-model="formSearch.user" placeholder="企业名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="企业银行账号">
+              <el-input v-model="formSearch.user" placeholder="企业银行账号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="纳税人识别号">
+          <el-input v-model="formSearch.user" placeholder="纳税人识别号"></el-input>
         </el-form-item>
-        <el-form-item label="活动区域">
-          <el-select v-model="formSearch.region" placeholder="活动区域">
+          </el-col>
+          <el-col :span="8">
+<el-form-item label="当前状态">
+          <el-select v-model="formSearch.region" placeholder="当前状态">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
         </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="入网日期">
+          <el-date-picker
+            v-model="value6"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item>
           <el-button type="primary" @click="onSubmit" size="small">
             <i class="el-icon-search"></i>&nbsp;查询
@@ -92,6 +126,7 @@ export default {
   props: {},
   data() {
     return {
+      value6: "",
       dialogTitle: "编辑",
       userList: [
         {
@@ -140,13 +175,12 @@ export default {
       console.log(this.roleList);
     },
     cancelRole() {
-      this.dialogRoleVisible = false
+      this.dialogRoleVisible = false;
     }
   },
   computed: {},
   mounted() {},
-  components: {
-  },
+  components: {},
   beforeDestroy() {}
 };
 </script>
@@ -174,5 +208,9 @@ export default {
 
 .el-form-item__content > .el-select {
   width: 200px;
+}
+
+.el-form{
+  width:100%;
 }
 </style>

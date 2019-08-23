@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../vuex/store'
 Vue.use(Router)
 const Login = r => require.ensure([], () => r(require('@/components/page/login/Login')), 'Login')
-const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
+
+
+const CommercialCustomList = r => require.ensure([], () => r(require('@/components/page/commercialcustom/CommercialCustomList')), 'CommercialCustomList')
+
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
-const ProtocolList = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolList')), 'ProtocolList')
-const ProtocolDetail = r => require.ensure([], () => r(require('@/components/page/productdetail/ProtocolDetail')), 'ProtocolDetail')
+const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
+const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
+const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
 const NoFound = r => require.ensure([], () => r(require('@/components/page/noFound/404.vue')), 'NoFound')
 
 
@@ -24,44 +29,64 @@ const instance = new Router({
       }
     },
     {
-      path: '/usermanage',
-      name: 'UserManage',
-      component: UserManage,
-      meta: {
-        title: '用户管理',
-        requireAuth: true,
-        roles: ['admin','superadmin']
-      }
-    },
-    {
       path: '/home',
       name: 'Home',
       component: Home,
       meta: {
-        title: 'Home',
-        requireAuth: true,
-        roles: ['admin','superadmin']
-      }
-    },
-    {
-      path: '/protocollist',
-      name: 'ProtocolList',
-      component: ProtocolList,
-      meta: {
-        title: 'ProtocolList',
-        requireAuth: true,
-        roles: ['admin','superadmin']
-      }
-    },
-    {
-      path: '/protocoldetail',
-      name: 'ProtocolDetail',
-      component: ProtocolDetail,
-      meta: {
-        title: 'ProtocolDetail',
-        requireAuth: true,
-        roles: ['superadmin']
-      }
+        title: '主页',
+        requireAuth: false,
+        roles: ['admin','superadmin'],
+        bread:['主页']
+      },
+      children:[
+
+        {
+          path: '/home/commercialcustom',
+          name: 'CommercialCustomList',
+          component: CommercialCustomList,
+          meta: {
+            title: '商户管理',
+            requireAuth: false,
+            roles: ['user','admin','superadmin']
+          }
+        },
+
+        {
+          path: '/home/usermanage',
+          name: 'UserManage',
+          component: UserManage,
+          meta: {
+            title: '用户管理',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','权限管理','用户管理']
+          }
+        },
+
+        {
+          path: '/home/rolemanage',
+          name: 'RoleMange',
+          component: RoleMange,
+          meta: {
+            title: '角色管理',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','权限管理','角色管理']
+          }
+        },
+        {
+          path: '/home/operatemanage',
+          name: 'OperateManage',
+          component: OperateManage,
+          meta: {
+            title: '权限列表',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','权限管理','权限列表']
+          }
+        },
+
+      ]
     },
     {
       path: '*',
@@ -69,7 +94,7 @@ const instance = new Router({
       component: NoFound,
       meta: {
         title: '404',
-        requireAuth: true,
+        requireAuth: false,
         roles: ['superadmin']
       }
     }
@@ -78,25 +103,28 @@ const instance = new Router({
 
 
 instance.beforeEach((to, from, next) => {
- 
   let _title = to.meta.title
+  let bread = to.meta.bread
+  let path = to.path
   document.title = _title ? _title : '默认标题'
   let auth = localStorage.getItem('requireAuth')
   let token = sessionStorage.getItem('token')
-  next()
-  // if (!to.meta.requireAuth) {
-  //   next()
-  // }else{
-  //   if(!token){
-  //     //未登录，没有权限进入，终止路由跳转
-  //     next({path:'/login'})
-  //   }else if( to.meta.roles.indexOf(auth) > -1 ){
-  //     next()
-  //   }else{
-  //     //停在当前页面
-  //     next(false)
-  //   }
-  // }
+  store.dispatch('setBread',bread)
+  sessionStorage.setItem('path',path)
+
+  if (!to.meta.requireAuth) {
+    next()
+  }else{
+    if(!token){
+      //未登录，没有权限进入，终止路由跳转
+      next({path:'/login'})
+    }else if( to.meta.roles.indexOf(auth) > -1 ){
+      next()
+    }else{
+      //停在当前页面
+      next(false)
+    }
+  }
 })
 
 

@@ -1,158 +1,157 @@
 <template>
-  <div class="home">
+  <div class="rolelist">
+    <div class="operate">
+      <div></div>
+      <el-button type="success" size="small" @click="addUser">
+        <i class="el-icon-circle-plus-outline"></i>&nbsp;添加用户
+      </el-button>
+    </div>
+    <div class="paddingcontainer">
+      <el-table :data="userList" style="width: 100%">
+        <el-table-column label="日期" prop="date"></el-table-column>
+        <el-table-column label="姓名" prop="name"></el-table-column>
+        <el-table-column label="昵称" prop="nick"></el-table-column>
+        <el-table-column label="手机号" prop="mobile"></el-table-column>
+        <el-table-column label="操作" width="210">
+          <template slot-scope="scope">
+            <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">
+              <i class="el-icon-edit"></i>&nbsp;编辑
+            </el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
+              <i class="el-icon-delete"></i>&nbsp;删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="paddingcontainer pagecontainer">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="1000"
+        @current-change="getUserList"
+      ></el-pagination>
+    </div>
 
+    <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
+      <el-form :model="formEdit">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="活动名称">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="活动区域">
+              <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="dialogEditVisible = false" size="small">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-
+import Header from "@/components/base/Header";
+import NavBar from "@/components/base/NavBar";
+import Bread from "@/components/base/Bread";
 
 export default {
   props: {},
   data() {
     return {
-    }
+      dialogTitle: "编辑",
+      userList: [
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        }
+      ],
+      dialogEditVisible: false,
+      formEdit: {},
+      resetFormEdit: {}
+    };
   },
   created() {},
   methods: {
-    
+    addUser() {
+      this.dialogTitle = "添加用户";
+      this.dialogEditVisible = true;
+    },
+    getUserList(currentPage) {
+      console.log(currentPage);
+    },
+    handleEdit(index, row) {
+      this.dialogTitle = "编辑";
+      this.dialogEditVisible = true;
+    },
+    handleDelete() {
+      this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    cancelEidt() {},
+    confirmEdit() {}
   },
-  computed: {
-
-  },
-  mounted() {
-   this.queryAnnualRate()
-  },
+  computed: {},
+  mounted() {},
   components: {
-    
+    Header,
+    NavBar,
+    Bread
   },
-  beforeDestroy() {
-
-  }
+  beforeDestroy() {}
 };
 </script>
 <style scoped>
-.notice {
-  height: 40px;
-  overflow: hidden;
-  margin-left: 0.18rem;
-  width: 100%;
-}
-
-.banner {
-  padding: 0 0.07rem;
+.operate {
+  padding: 0 3%;
   box-sizing: border-box;
-  background: white;
-}
-.banner img {
-  width: 100%;
-}
-
-.noticeContainer {
-  padding: 0 0.3rem;
   display: flex;
-  align-items: center;
-  font-size: 0.12rem;
   justify-content: space-between;
-  background: white;
-}
-.noticeContainer .noticeIco img {
-  width: 0.17rem;
-}
-.goIntoDet {
-  transform: rotateZ(180deg);
-}
-.goodsSummary {
-  width: 92%;
-  background: white;
-  border-radius: 6px;
-  margin: 0 auto;
-  margin-top: 0.11rem;
-  margin-bottom: 0.11rem;
-  padding: 0.21rem 0 0.19rem;
-  box-sizing: border-box;
-}
-.goodsSummary h3 {
-  font-size: 0.17rem;
-  margin-left: 0.31rem;
-  border-left: 4px solid rgb(57, 101, 255);
-  padding-left: 0.08rem;
-  box-sizing: border-box;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.goodsSummary .incomerate {
-  font-size: 0.12rem;
-  margin-bottom: 0.19rem;
+.pagecontainer {
+  text-align: right;
+  margin-top: 20px;
 }
-.goodsSummary .feature span:nth-child(1) {
-  padding-right: 0.3rem;
-}
-.goodsSummary .feature span:nth-child(3) {
-  padding-left: 0.3rem;
-}
-.goodsSummary .feature {
-  font-size: 0.13rem;
-  color: rgb(57, 101, 255);
-  margin-bottom: 0.19rem;
-}
-.goodsSummary .feature span:nth-child(2) {
-  padding: 0 0.3rem;
-  border-left: 1px solid rgba(57, 101, 255, 0.6);
-  border-right: 1px solid rgba(57, 101, 255, 0.6);
-}
-.goodsSummary .percent {
-  font-size: 0.32rem;
-  color: rgb(255, 96, 0);
-}
-.goodsSummary .percentico {
-  font-size: 0.18rem;
-  color: rgb(255, 96, 0);
-}
-.goodsSummary ul {
-  font-size: 0px;
-  text-align: center;
-}
-.goodsSummary ul li:nth-child(1) {
-  margin-bottom: 0.1rem;
+.el-pagination {
+  display: inline-block;
 }
 
-.advertising{
-  background:white;
-  display:flex;
-  align-content: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding:0.3rem 0;
-}
-.advertising img{
-  width:0.27rem;
-}
-.advertising .advertising_item{
-  font-size:12px;
-  width:40%;
-}
-.advertising .advertising_item:nth-child(n+3){
-  margin-top:0.32rem;
+.el-form-item__content > .el-input {
+  width: 200px;
 }
 
-.advertising dl{
-  display:inline-block;
-  vertical-align: middle;
-  margin-left:0.08rem;
+.el-form-item__content > .el-select {
+  width: 200px;
 }
-
-.advertising dl dt{
-  font-size:0.14rem;
-  color:black;
-  margin-bottom: 0.08rem;
-}
-.advertising dl dd{
-  font-size:0.12rem;
-  color:rgb(73,73,73)
-}
-
-.service{
-  margin-bottom: 0.7rem;
-}
-
 </style>

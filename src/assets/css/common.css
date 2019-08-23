@@ -9,15 +9,15 @@ a,a:hover{color:#000000;text-decoration:none !important;}
 a:hover{text-decoration:none !important;}
 
 .clearfixed::after{
-    display:block; content:" "; height:0; clear:both; overflow:hidden; visibility:hidden;
+  display:block; content:" "; height:0; clear:both; overflow:hidden; visibility:hidden;
 }
 
 .error-tip{
-    color:red;
-    font-size: 12px;
-    font-weight: normal;
-    display: inline-block;
-    height: 12px;
+  color:red;
+  font-size: 12px;
+  font-weight: normal;
+  display: inline-block;
+  height: 12px;
 }
 
 input::-webkit-input-placeholder{
@@ -48,12 +48,5 @@ a:active{
 .paddingcontainer{
   padding:0 3%;
   box-sizing: border-box;
-}
-
-.el-form-item__content>.el-input{
-  width:200px;
-}
-
-.el-form-item__content>.el-select{
-  width:200px;
+  margin-top:10px;
 }
