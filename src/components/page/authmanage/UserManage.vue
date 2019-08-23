@@ -53,15 +53,21 @@
 
     <el-dialog title="编辑" :visible.sync="dialogEditVisible">
       <el-form :model="formEdit">
-        <el-form-item label="活动名称">
-          <el-input v-model="formEdit.name" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+        <el-col :span="12">
+          <el-form-item label="活动名称">
+            <el-input v-model="formEdit.name" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
         <el-form-item label="活动区域">
           <el-select v-model="formEdit.region" placeholder="请选择活动区域">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
         </el-form-item>
+        </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false">取 消</el-button>
@@ -84,9 +90,9 @@
 </template>
 
 <script>
-import Header from "@/components/base/Header";
-import NavBar from "@/components/base/NavBar";
-import Bread from "@/components/base/Bread";
+import Header from "@/components/base/Header"
+import NavBar from "@/components/base/NavBar"
+import Bread from "@/components/base/Bread"
 
 export default {
   props: {},
@@ -103,17 +109,18 @@ export default {
         }
       ],
       roleList:[],
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
       formSearch: {
         user: "",
         region: ""
       },
       dialogEditVisible: false,
       dialogRoleVisible: false,
-      formEdit: {}
+      formEdit: {
+
+      },
+      resetFormEdit:{
+
+      }
     };
   },
   created() {},
@@ -126,10 +133,10 @@ export default {
       this.dialogRoleVisible = true
     },
     handleEdit(index, row) {
-
+      this.dialogEditVisible = true
     },
     cancelEidt(){
-      
+
     },
     confirmEdit(){
 

@@ -49,3 +49,11 @@ a:active{
   padding:0 3%;
   box-sizing: border-box;
 }
+
+.el-form-item__content>.el-input{
+  width:200px;
+}
+
+.el-form-item__content>.el-select{
+  width:200px;
+}
