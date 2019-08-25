@@ -52,13 +52,22 @@
           <i class="el-icon-search"></i>&nbsp;查询
         </el-button>
         <el-button type="primary" size="small">
-          <i class="el-icon-search"></i>&nbsp;查询
+          <i class="el-icon-search"></i>&nbsp;清空
         </el-button>
         <el-button type="primary" size="small">
-          <i class="el-icon-search"></i>&nbsp;查询
+          <i class="el-icon-search"></i>&nbsp;录入
         </el-button>
         <el-button type="primary" size="small">
-          <i class="el-icon-search"></i>&nbsp;查询
+          <i class="el-icon-search"></i>&nbsp;编辑
+        </el-button>
+        <el-button type="primary" size="small">
+          <i class="el-icon-search"></i>&nbsp;删除
+        </el-button>
+        <el-button type="primary" size="small">
+          <i class="el-icon-search"></i>&nbsp;加入黑名单
+        </el-button>
+        <el-button type="primary" size="small">
+          <i class="el-icon-search"></i>&nbsp;调账
         </el-button>
       </div>
     </div>
@@ -91,20 +100,171 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit">
+      <el-form :model="formEdit" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="活动名称">
+            <el-form-item label="商户编号">
               <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="活动区域">
-              <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
+            <el-form-item label="其他编号">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
             </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="企业名称">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="纳税人识别号">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="法人姓名">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="纳税人类型">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="联系人姓名">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系人手机号">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="联系人姓名">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系人手机号">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="联系人邮箱">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="状态">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="注册地址">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="实际经营地址">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="开户行名称">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="企业账户">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="开户行地域">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="开户行信息">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="开户行联行号">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="企业电子账户">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="资质方关联">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="开票信息">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="商户服务费">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <!-- 商户服务费有问题 -->
+          <el-col :span="12">
+            <el-form-item label="商户服务费">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="销售经理">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系方式">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="邮箱">
+              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
           </el-col>
         </el-row>
       </el-form>
@@ -115,11 +275,38 @@
     </el-dialog>
 
     <el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-      <el-checkbox-group v-model="roleList">
-        <el-checkbox label="复选框 A"></el-checkbox>
-        <el-checkbox label="复选框 B"></el-checkbox>
-        <el-checkbox label="复选框 C"></el-checkbox>
-      </el-checkbox-group>
+      <el-form>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="商户名称">
+          <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="商户编号">
+            <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="调账类型">
+          <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="调账金额">
+            <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelRole" size="small">取 消</el-button>
         <el-button type="primary" @click="confirmRole" size="small">确 定</el-button>
@@ -137,10 +324,10 @@ export default {
       dialogTitle: "编辑",
       dialogEditVisible: false,
       dialogRoleVisible: false,
-      statusOptions:[
-        {label:"全部",value:"0"},
-        {label:"生效中",value:"1"},
-        {label:"停用中",value:"2"}
+      statusOptions: [
+        { label: "全部", value: "0" },
+        { label: "生效中", value: "1" },
+        { label: "停用中", value: "2" }
       ],
       userList: [
         {
@@ -152,14 +339,13 @@ export default {
           registerdate: "2011/09/09"
         }
       ],
-      roleList: [],
       formSearch: {
         code: "",
         status: "",
-        name:"",
-        bankaccount:"",
-        taxpayercode:"",
-        datespan:""
+        name: "",
+        bankaccount: "",
+        taxpayercode: "",
+        datespan: ""
       },
       formEdit: {},
       resetFormEdit: {}
