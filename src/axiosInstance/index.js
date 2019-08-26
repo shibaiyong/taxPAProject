@@ -17,6 +17,7 @@ axiosInstance.interceptors.request.use(
         //     config.headers.Authorization = `bearer ${cookie.get('ktoken')}`
         //     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
         // }
+        config.headers.Authorization = localStorage.getItem('RyxToken')
         return config
     },
     err => {

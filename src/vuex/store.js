@@ -5,7 +5,9 @@ Vue.use(Vuex)
 //状态管理的变量名固定为state
 const state = {
     PerInfoAnswer:'',
-    bread:[]
+    bread:[],
+    navbarList:[],
+    userid:''
 }
 
 const mutations = {

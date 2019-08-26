@@ -22,7 +22,7 @@
       <ul>
         <li class="bottom16" :class="{ 'verify': errorUserNameShow }">用户名</li>
         <li class="input bottom46" :class="{ 'verify': errorUserNameShow }">
-          <input :class="{ 'verify': errorUserNameShow,'verifylan': errorUserNameShowAcive }" type="text" v-model="userInfo.userName" placeholder="请输入用户名" @focus="changeStatusActive('username')" @blur="changeStatusBlur('username')"/>
+          <input :class="{ 'verify': errorUserNameShow,'verifylan': errorUserNameShowAcive }" type="text" v-model="userInfo.username" placeholder="请输入用户名" @focus="changeStatusActive('username')" @blur="changeStatusBlur('username')"/>
           <span v-show="errorUserNameShow"><img src=""/>&nbsp;{{ errorUserNameMessage }}</span>
         </li>
         <li class="bottom16" :class="{ 'verify': errorPassWordShow }">密码</li>
@@ -64,7 +64,7 @@ export default {
       isVisible: -1,
       email: "",
       userInfo: {
-        userName: "",
+        Username: "",
         password: ""
       },
       numberStart: 0,
@@ -115,47 +115,15 @@ export default {
       // this.$router.push({ path: "/home" })
 
       Login( params ).then( res => {
-
-        console.log(res)
-
-        
+        if(res.success){
+          localStorage.setItem('RyxToken',res.result.token)
+          localStorage.setItem('userid',res.result.user.id)
+          
+          this.$router.push('/home/commercialcustom')
+        }
+      }).catch(err => {
 
       })
-
-      // sessionStorage.setItem('token','1q2w3e4r')
-      // localStorage.setItem('requireAuth','admin')
-      // this.$router.push({ path: "/home" })
-      // let verifyResult = this.formValidation(); //验证结果
-
-      // if (!verifyResult) {
-      //   //如果验证没有通过，中断登录操作
-      //   return false;
-      // }
-
-      // let password256 = sha256(this.userInfo.password);
-      // let params = {
-      //   userName: this.userInfo.userName,
-      //   password: password256
-      // };
-      // login(params).then(res => {
-      //   if (res.code == "200" && res.data != null) {
-          // let data = res.data;
-          // let token = data.token;
-          // let userName = this.userInfo.userName;
-          // document.getElementById('app').setAttribute('userName',userName)
-          // localStorage.setItem('iKnows'+userName+'Token', token);          
-          // localStorage.setItem('iKnows'+userName, userName);
-          // if (data.configured == 0){
-          //   localStorage.setItem('iKnows'+userName+'Config', 0);
-          // } else {
-          //   localStorage.setItem('iKnows'+userName+'Config', 1);
-          // }
-          // this.$router.push({ path: "/home/"+userName });
-
-      //   } else {
-      //     //this.$mAlert("用户名和密码不正确");
-      //   }
-      // })
     },
     rememberMe() {
       

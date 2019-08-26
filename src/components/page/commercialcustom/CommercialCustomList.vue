@@ -100,168 +100,174 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px">
+      <el-form :model="formEdit" label-width="100px"  auto-complete="off">
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户编号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="其他编号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="企业名称">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="纳税人识别号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="法人姓名">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="纳税人类型">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-radio-group v-model="formEdit.taxPersonType">
+                <el-radio :label="1">一般纳税人</el-radio>
+                <el-radio :label="2">小规模纳税人</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人姓名">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系人手机号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人姓名">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系人手机号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人邮箱">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="状态">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="注册地址">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="实际经营地址">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行名称">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业账户">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行地域">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开户行信息">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行联行号">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业电子账户">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="资质方关联">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开票信息">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            <el-form-item label="开票类型">
+              <el-radio-group v-model="formEdit.taxType">
+                <el-radio :label="1">普通发票</el-radio>
+                <el-radio :label="2">专用发票</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户服务费">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <!-- 商户服务费有问题 -->
           <el-col :span="12">
-            <el-form-item label="商户服务费">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            <el-form-item label="个人服务费">
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="销售经理">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系方式">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="邮箱">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+              <el-input v-model="formEdit.name" size="small"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -287,7 +293,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户编号">
-            <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            <el-input v-model="formEdit.name" size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -302,7 +308,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="调账金额">
-            <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+            <el-input v-model="formEdit.name" size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -316,6 +322,9 @@
 </template>
 
 <script>
+
+//import { getMenuList } from "@/requestDataInterface"
+
 export default {
   props: {},
   data() {
@@ -330,6 +339,62 @@ export default {
         { label: "停用中", value: "2" }
       ],
       userList: [
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
+        {
+          date: "2014/02/06",
+          name: "赵佳浩",
+          nick: "过往云烟",
+          mobile: "13716420520",
+          email: "1850418899@qq.com",
+          registerdate: "2011/09/09"
+        },
         {
           date: "2014/02/06",
           name: "赵佳浩",
@@ -381,7 +446,8 @@ export default {
     }
   },
   computed: {},
-  mounted() {},
+  mounted() {
+  },
   components: {},
   beforeDestroy() {}
 };
@@ -416,5 +482,9 @@ export default {
 }
 .el-form {
   width: 100%;
+}
+
+.el-dialog{
+  width:58%;
 }
 </style>
