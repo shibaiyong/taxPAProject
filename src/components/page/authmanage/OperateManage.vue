@@ -2,23 +2,26 @@
   <div class="rolelist">
     <div class="operate">
       <div></div>
-      <el-button type="success" size="small" @click="addUser">
-        <i class="el-icon-circle-plus-outline"></i>&nbsp;添加用户
+      <el-button type="success" size="small" @click="handleAddPermission">
+        <i class="el-icon-circle-plus-outline"></i>&nbsp;添加权限
       </el-button>
     </div>
     <div class="paddingcontainer">
-      <el-table :data="userList" style="width: 100%">
-        <el-table-column label="日期" prop="date"></el-table-column>
-        <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="昵称" prop="nick"></el-table-column>
-        <el-table-column label="手机号" prop="mobile"></el-table-column>
-        <el-table-column label="操作" width="210">
+      <el-table :data="roleList" style="width: 100%">
+        <el-table-column type="index"></el-table-column>
+        <el-table-column label="权限名称" prop="name"></el-table-column>
+        <el-table-column label="创建时间" prop="createdTime"></el-table-column>
+        <el-table-column label="权限链接" prop="url"></el-table-column>
+        <el-table-column label="操作" width="360">
           <template slot-scope="scope">
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">
               <i class="el-icon-edit"></i>&nbsp;编辑
             </el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
               <i class="el-icon-delete"></i>&nbsp;删除
+            </el-button>
+            <el-button size="mini" v-show="scope.row.isButton==0" type="danger" @click="handleSubAddPermission(scope.$index, scope.row)">
+              <i class="el-icon-circle-plus-outline"></i>&nbsp;添加子节点
             </el-button>
           </template>
         </el-table-column>
@@ -28,47 +31,55 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000"
-        @current-change="getUserList"
+        :total="total"
+        @current-change="handleGetPermissionList"
+        :current-page="currenPage"
       ></el-pagination>
     </div>
 
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit">
+      <el-form :model="formEdit" size="small" auto-complete="off" label-width="100px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="活动名称">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="活动区域">
-              <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
+          <el-col :span="24">
+            <el-form-item label="权限名称">
+              <el-input v-model="formEdit.name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="权限链接">
+              <el-input v-model="formEdit.url" :disabled="ispath"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!-- <el-row>
+          <el-col :span="24">
+            <el-form-item label="按钮权限">
+              <el-switch v-model="isButton"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="dialogEditVisible = false" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import Header from "@/components/base/Header";
-import NavBar from "@/components/base/NavBar";
-import Bread from "@/components/base/Bread";
-
+import { getPermissionList, addPermission, editPermission, deletePermission } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
     return {
       dialogTitle: "编辑",
+      currenPage:1,
+      total:1,
+      ispath:false,
       userList: [
         {
           date: "2014/02/06",
@@ -79,52 +90,118 @@ export default {
           registerdate: "2011/09/09"
         }
       ],
+      roleList: [],
       dialogEditVisible: false,
-      formEdit: {},
-      resetFormEdit: {}
-    };
+      dialogRoleVisible: false,
+      formEdit: {
+        name:'',
+        url:'',
+        parentId:'0'
+      },
+      resetFormEdit: {
+        name:'',
+        url:'',
+        parentId:'0'
+      }
+    }
   },
   created() {},
   methods: {
-    addUser() {
-      this.dialogTitle = "添加用户";
-      this.dialogEditVisible = true;
+    handleAddPermission() {
+      this.dialogTitle = "添加权限"
+      this.dialogEditVisible = true
+      this.ispath = true
+      Object.assign(this.formEdit,this.resetFormEdit,{isButton:'0',url:'/'})
     },
-    getUserList(currentPage) {
-      console.log(currentPage);
+    handleSubAddPermission(index,row) {
+      this.dialogTitle = "添加子节点"
+      this.dialogEditVisible = true
+      this.ispath = false
+      Object.assign(this.formEdit,this.resetFormEdit,{parentId:row.parentId,isButton:row.isButton})
+    },
+    handleGetPermissionList(currentPage) {
+      let params = {page:currentPage,rows:10}
+      getPermissionList(params).then(res => {
+        if(res.success){
+          this.roleList = res.result.roles
+          this.total = res.result.total
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     handleEdit(index, row) {
-      this.dialogTitle = "编辑";
-      this.dialogEditVisible = true;
+      this.dialogTitle = "编辑"
+      this.dialogEditVisible = true
+      Object.assign(this.formEdit,row)
     },
-    handleDelete() {
+    handleDelete(index, row) {
+      let id = row.id
       this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+      }).then(() => {
+        deletePermission({roleId:id}).then(
+          res => {
+            console.log(res)
+            if(res.success){
+              this.handleGetPermissionList(this.currentPage)
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              })
+            }else{
+              this.$message({
+                type: "danger",
+                message: res.msg
+              })
+            }
+          }
+        ).catch(err=>{console.log(err)})
+      }).catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+      })
+    },
+    submitForm(){
+      if(this.dialogTitle == "添加权限" || this.dialogTitle == "添加子节点"){
+        let params = this.formEdit
+        addPermission( params ).then(res => {
+          if(res.success){
+            this.handleGetPermissionList(this.currentPage)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }else{
+        
+        editPermission( this.formEdit ).then( res => {
+          if(res.success){
+            this.handleGetPermissionList(this.currentPage)
+          }
+        }).catch( err => {
+          console.log( err )
+        })
+      }
+      this.dialogEditVisible = false
     },
     cancelEidt() {},
-    confirmEdit() {}
+    confirmEdit() {},
+    confirmRole() {
+      console.log(this.roleList)
+    },
+    cancelRole() {
+      this.dialogRoleVisible = false
+    }
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.handleGetPermissionList()
+  },
   components: {
-    Header,
-    NavBar,
-    Bread
   },
   beforeDestroy() {}
 };
@@ -147,11 +224,7 @@ export default {
   display: inline-block;
 }
 
-.el-form-item__content > .el-input {
-  width: 200px;
-}
-
-.el-form-item__content > .el-select {
-  width: 200px;
+.cell .el-button--mini{
+  padding:7px 7px;
 }
 </style>

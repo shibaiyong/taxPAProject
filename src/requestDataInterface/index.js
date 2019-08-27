@@ -71,7 +71,54 @@ export const editRole = params => {
     return axiosInstance.post("/apii/role/editRole",data).then(res => res.data)
 }
 
+//删除角色
+export const deleteRole = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/deleteRole",data).then(res => res.data)
+}
 
+//获取权限列表
+
+export const getPermissionList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/permission/getPermissionList",data).then(res => res.data)
+}
+
+//权限新增
+
+export const addPermission = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/permission/addPermission",data).then(res => res.data)
+}
+
+//编辑权限
+
+export const editPermission = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/permission/editPermission",data).then(res => res.data)
+}
+
+//删除权限
+export const deletePermission = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/permission/deletePermission",data).then(res => res.data)
+}
+
+
+//查询分配权限
+
+export const getALLPermissionList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/getALLPermissionList",data).then(res => res.data)
+}
+
+//分配权限
+
+
+export const configPermission = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/allocationPermissionToRole",data).then(res => res.data)
+}
 
 
 

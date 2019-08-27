@@ -48,7 +48,7 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000"
+        :total="total"
         @current-change="handleGetUserList"
         :current-page="currentPage"
       ></el-pagination>
@@ -132,6 +132,7 @@ export default {
   data() {
     return {
       dialogTitle: "编辑",
+      total:1,
       dialogEditVisible: false,
       dialogRoleVisible: false,
       currentPage:1,
@@ -208,6 +209,7 @@ export default {
       getUserList( params ).then(res => {
         if(res.success){
           this.userList = res.result.users
+          this.total = res.result.total
         }
       }).catch( err => {
         console.log(err)

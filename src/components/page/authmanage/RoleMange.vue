@@ -7,11 +7,11 @@
       </el-button>
     </div>
     <div class="paddingcontainer">
-      <el-table :data="userList" style="width: 100%">
-        <el-table-column label="日期" prop="date"></el-table-column>
-        <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="昵称" prop="nick"></el-table-column>
-        <el-table-column label="手机号" prop="mobile"></el-table-column>
+      <el-table :data="roleList" style="width: 100%">
+        <el-table-column type="index"></el-table-column>
+        <el-table-column label="角色名称" prop="name"></el-table-column>
+        <el-table-column label="创建时间" prop="createdTime"></el-table-column>
+        <el-table-column label="角色描述" prop="description"></el-table-column>
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
@@ -31,26 +31,26 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000"
+        :total="total"
         @current-change="handleGetRoleList"
         :current-page="currenPage"
       ></el-pagination>
     </div>
 
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit">
+      <el-form :model="formEdit" size="small" auto-complete="off" label-width="100px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="活动名称">
-              <el-input v-model="formEdit.name" auto-complete="off" size="small"></el-input>
+          <el-col :span="24">
+            <el-form-item label="角色名称">
+              <el-input v-model="formEdit.name"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="活动区域">
-              <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
+        </el-row>
+
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="角色描述">
+              <el-input v-model="formEdit.description"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -61,15 +61,13 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-      <el-checkbox-group v-model="roleList">
-        <el-checkbox label="复选框 A"></el-checkbox>
-        <el-checkbox label="复选框 B"></el-checkbox>
-        <el-checkbox label="复选框 C"></el-checkbox>
+    <el-dialog title="设置权限" :visible.sync="dialogRoleVisible">
+      <el-checkbox-group v-model="permissionList.permissionIds">
+        <el-checkbox :label="item.id" v-for="item in allPermissionList" :key="item.id">{{item.name}}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelRole" size="small">取 消</el-button>
-        <el-button type="primary" @click="confirmRole" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitPermission" size="small">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -77,7 +75,7 @@
 
 <script>
 
-import { getRoleList, addRole, editRole } from "@/requestDataInterface"
+import { getRoleList, addRole, editRole, deleteRole, getALLPermissionList, configPermission } from "@/requestDataInterface"
 
 export default {
   props: {},
@@ -85,6 +83,7 @@ export default {
     return {
       dialogTitle: "编辑",
       currenPage:1,
+      total:1,
       userList: [
         {
           date: "2014/02/06",
@@ -95,25 +94,48 @@ export default {
           registerdate: "2011/09/09"
         }
       ],
-      roleList: [],
+      permissionList: {
+        permissionIds:[],
+        roleId:''
+      },
+      roleList:[],
+      allPermissionList:[],
       dialogEditVisible: false,
       dialogRoleVisible: false,
       formEdit: {
-
+        description:'',
+        name:''
       },
-      resetFormEdit: {}
-    };
+      resetFormEdit: {
+        description:'',
+        name:''
+      }
+    }
   },
   created() {},
   methods: {
     handleAddRole() {
       this.dialogTitle = "添加角色"
       this.dialogEditVisible = true
+      Object.assign(this.formEdit,this.resetFormEdit)
     },
     handleGetRoleList(currentPage) {
       let params = {page:currentPage,rows:10}
       getRoleList(params).then(res => {
-        console.log(res)
+        if(res.success){
+          this.roleList = res.result.roles
+          this.total = res.result.total
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    handleGetPermissionList() {
+      getALLPermissionList().then(res => {
+        if(res.success){
+          this.allPermissionList = res.result
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -121,30 +143,37 @@ export default {
 
     handleRole(index, row) {
       this.dialogRoleVisible = true
+      Object.assign( this.permissionList, { roleId:row.id } )
     },
     handleEdit(index, row) {
       this.dialogTitle = "编辑"
       this.dialogEditVisible = true
       Object.assign(this.formEdit,row)
     },
-    handleDelete() {
+    handleDelete(index, row) {
+      let id = row.id
       this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        if(res.success){
-          this.handleGetRoleList(this.currentPage)
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          })
-        }else{
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          })
-        }
+        deleteRole({roleId:id}).then(
+          res => {
+            console.log(res)
+            if(res.success){
+              this.handleGetRoleList(this.currentPage)
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              })
+            }else{
+              this.$message({
+                type: "danger",
+                message: res.msg
+              })
+            }
+          }
+        ).catch(err=>{console.log(err)})
       }).catch(() => {
         this.$message({
           type: "info",
@@ -174,17 +203,29 @@ export default {
       }
       this.dialogEditVisible = false
     },
+    submitPermission() {
+      let params = this.permissionList
+      let arrtostring = params.permissionIds.join(',')
+      params.permissionIds = arrtostring
+      configPermission(params).then(res => {
+        if(res.success){
+          this.dialogRoleVisible = false
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     cancelEidt() {},
     confirmEdit() {},
-    confirmRole() {
-      console.log(this.roleList)
-    },
     cancelRole() {
       this.dialogRoleVisible = false
     }
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.handleGetRoleList()
+    this.handleGetPermissionList()
+  },
   components: {
   },
   beforeDestroy() {}
@@ -206,14 +247,6 @@ export default {
 }
 .el-pagination {
   display: inline-block;
-}
-
-.el-form-item__content > .el-input {
-  width: 200px;
-}
-
-.el-form-item__content > .el-select {
-  width: 200px;
 }
 .cell .el-button--mini{
   padding:7px 7px;
