@@ -87,7 +87,7 @@ export default {
           }
           this.$refs.navbar.style.height = height - 60 - 1 + "px"
           resolve()
-        }, 0)
+        }, 500)
       })
     }
   },

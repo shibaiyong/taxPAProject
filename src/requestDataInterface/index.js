@@ -104,21 +104,30 @@ export const deletePermission = params => {
     return axiosInstance.post("/apii/permission/deletePermission",data).then(res => res.data)
 }
 
-
 //查询分配权限
-
 export const getALLPermissionList = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/role/getALLPermissionList",data).then(res => res.data)
 }
 
 //分配权限
-
-
 export const configPermission = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/role/allocationPermissionToRole",data).then(res => res.data)
 }
+
+//获取所有角色
+export const getALLRoleList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/user/getALLRoleList",data).then(res => res.data)
+}
+
+//用户分配角色
+export const configRole = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/user/allocationRoleToUser",data).then(res => res.data)
+}
+
 
 
 

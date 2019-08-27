@@ -31,7 +31,7 @@
         <el-table-column label="邮箱" width="180" prop="email"></el-table-column>
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
+            <el-button size="mini" @click="handleGetRoleList(scope.$index, scope.row)">
               <i class="el-icon-setting"></i>&nbsp;设置管理
             </el-button>
             <el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">
@@ -112,12 +112,12 @@
     </el-dialog>
 
     <el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-      <el-checkbox-group v-model="checkedRoleList">
-        <el-checkbox v-for="item in roleList" :label="item.label" :key="item.label">{{item.name}}</el-checkbox>
+      <el-checkbox-group v-model="roleList.roleIds">
+        <el-checkbox :label="item.id" v-for="item in allRoleList" :key="item.id">{{item.name}}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelRole" size="small">取 消</el-button>
-        <el-button type="primary" @click="confirmRole" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitRole" size="small">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -125,7 +125,7 @@
 
 <script>
 
-import { addUser, getUserList, editUser, deleteUser } from "@/requestDataInterface"
+import { addUser, getUserList, editUser, deleteUser, getALLRoleList, configRole } from "@/requestDataInterface"
 
 export default {
   props: {},
@@ -146,12 +146,11 @@ export default {
           registerdate: "2011/09/09"
         }
       ],
-      checkedRoleList: [],
-      roleList:[
-        {name:'角色一', label:'1'},
-        {name:'角色二', label:'2'},
-        {name:'角色三', label:'3'}
-      ],
+      allRoleList:[],
+      roleList:{
+        roleIds:[],
+        userId:''
+      },
       formSearch: {
         page:1,
         rows:10
@@ -204,6 +203,18 @@ export default {
       }
       this.dialogEditVisible = false
     },
+    submitRole() {
+      let params = this.roleList
+      let arrtostring = params.roleIds.join(',')
+      params.roleIds = arrtostring
+      configRole(params).then(res => {
+        if(res.success){
+          this.dialogRoleVisible = false
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     handleGetUserList(currentPage) {
       let params = Object( {}, this.formSearch, { page:currentPage } )
       getUserList( params ).then(res => {
@@ -214,6 +225,20 @@ export default {
       }).catch( err => {
         console.log(err)
       })
+    },
+
+    handleGetRoleList(index,row) {
+
+      this.roleList.userId = row.id
+      getALLRoleList({userId:row.id}).then(res => {
+        if(res.success){
+          this.allRoleList = res.result.roles
+          this.roleList.roleIds = res.result.rolesCheck
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+      this.dialogRoleVisible = true
     },
 
     handleEdit(index, row) {
@@ -249,16 +274,8 @@ export default {
         });
       
     },
-
-    handleRole(index, row) {
-      this.dialogRoleVisible = true
-    },
-    
     cancelEidt() {},
     confirmEdit() {},
-    confirmRole() {
-      console.log(this.roleList)
-    },
     cancelRole() {
       this.dialogRoleVisible = false
     }

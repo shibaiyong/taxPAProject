@@ -12,7 +12,7 @@
         <el-table-column label="权限名称" prop="name"></el-table-column>
         <el-table-column label="创建时间" prop="createdTime"></el-table-column>
         <el-table-column label="权限链接" prop="url"></el-table-column>
-        <el-table-column label="操作" width="360">
+        <el-table-column label="操作" width="260">
           <template slot-scope="scope">
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">
               <i class="el-icon-edit"></i>&nbsp;编辑
@@ -20,7 +20,7 @@
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
               <i class="el-icon-delete"></i>&nbsp;删除
             </el-button>
-            <el-button size="mini" v-show="scope.row.isButton==0" type="danger" @click="handleSubAddPermission(scope.$index, scope.row)">
+            <el-button size="mini" v-show="scope.row.isButton==0" type="primary" @click="handleSubAddPermission(scope.$index, scope.row)">
               <i class="el-icon-circle-plus-outline"></i>&nbsp;添加子节点
             </el-button>
           </template>
@@ -29,6 +29,7 @@
     </div>
     <div class="paddingcontainer pagecontainer">
       <el-pagination
+        v-if="update"
         background
         layout="prev, pager, next"
         :total="total"
@@ -80,6 +81,7 @@ export default {
       currenPage:1,
       total:1,
       ispath:false,
+      update:true,
       userList: [
         {
           date: "2014/02/06",
@@ -117,14 +119,20 @@ export default {
       this.dialogTitle = "添加子节点"
       this.dialogEditVisible = true
       this.ispath = false
-      Object.assign(this.formEdit,this.resetFormEdit,{parentId:row.parentId,isButton:row.isButton})
+      let isButton = 0
+      if( row.parentId != '0'){
+        isButton = 1
+      }
+      Object.assign(this.formEdit,this.resetFormEdit,{parentId:row.id,isButton})
     },
     handleGetPermissionList(currentPage) {
+      this.update = false
       let params = {page:currentPage,rows:10}
       getPermissionList(params).then(res => {
         if(res.success){
           this.roleList = res.result.roles
           this.total = res.result.total
+          this.update = true 
         }
       }).catch(err => {
         console.log(err)
@@ -142,7 +150,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        deletePermission({roleId:id}).then(
+        deletePermission({permissionId:id}).then(
           res => {
             console.log(res)
             if(res.success){
@@ -177,7 +185,6 @@ export default {
           console.log(err)
         })
       }else{
-        
         editPermission( this.formEdit ).then( res => {
           if(res.success){
             this.handleGetPermissionList(this.currentPage)
@@ -187,6 +194,7 @@ export default {
         })
       }
       this.dialogEditVisible = false
+      this.currenPage = 1
     },
     cancelEidt() {},
     confirmEdit() {},

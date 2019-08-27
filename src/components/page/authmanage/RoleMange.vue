@@ -3,7 +3,7 @@
     <div class="operate">
       <div></div>
       <el-button type="success" size="small" @click="handleAddRole">
-        <i class="el-icon-circle-plus-outline"></i>&nbsp;添加用户
+        <i class="el-icon-circle-plus-outline"></i>&nbsp;添加角色
       </el-button>
     </div>
     <div class="paddingcontainer">
@@ -14,7 +14,7 @@
         <el-table-column label="角色描述" prop="description"></el-table-column>
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
+            <el-button size="mini" @click="handleGetPermissionList(scope.$index, scope.row)">
               <i class="el-icon-setting"></i>&nbsp;设置管理
             </el-button>
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">
@@ -131,19 +131,19 @@ export default {
       })
     },
 
-    handleGetPermissionList() {
-      getALLPermissionList().then(res => {
+    handleGetPermissionList(index,row) {
+
+      this.permissionList.roleId = row.id
+
+      getALLPermissionList({roleId:row.id}).then(res => {
         if(res.success){
-          this.allPermissionList = res.result
+          this.allPermissionList = res.result.permissions
+          this.permissionList.permissionIds = res.result.permissionsCheck
         }
       }).catch(err => {
         console.log(err)
       })
-    },
-
-    handleRole(index, row) {
       this.dialogRoleVisible = true
-      Object.assign( this.permissionList, { roleId:row.id } )
     },
     handleEdit(index, row) {
       this.dialogTitle = "编辑"
@@ -224,7 +224,6 @@ export default {
   computed: {},
   mounted() {
     this.handleGetRoleList()
-    this.handleGetPermissionList()
   },
   components: {
   },
