@@ -2,7 +2,7 @@
   <div class="navbar" ref="navbar">
     <!-- :default-active="checkedItem" -->
     <el-menu
-      
+      default-active="/home/commercialcustom"
       class="el-menu-vertical-demo"
       @select="handleSelect"
       router
@@ -28,13 +28,13 @@
         <el-menu-item index="1-2">选项22</el-menu-item>
         <el-menu-item index="1-3">选项23</el-menu-item>
       </el-submenu> -->
-      <el-submenu :index="item.id" v-for="item in permissions" :key="item.id">
+      <el-submenu :index="item.id" v-for="(item,index) in permissions" :key="item.id">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span>{{item.name}}</span>
         </template>
-        
-        <el-menu-item v-for="subitem in item.childrens" :index="subitem.url" :route="{path: subitem.url, query: { delete: subitem.childrens[0] == 1 ? 1 : 0, edit : subitem.childrens[1] == 1 ? 1 : 0, add : subitem.childrens[2] == 1 ? 1 : 0}}" :key="subitem.id">{{subitem.name}}</el-menu-item> 
+        <!-- <el-menu-item v-for="(subitem,subindex) in item.childrens" :ref="(index==0&&subindex==0) && 'changeActive'" @click.native="changeActive" :index="subitem.url" :route="{path: subitem.url, query: { delete: subitem.childrens[0] == 1 ? 1 : 0, edit : subitem.childrens[1] == 1 ? 1 : 0, add : subitem.childrens[2] == 1 ? 1 : 0}}" :key="subitem.id">{{subitem.name}}</el-menu-item>  -->
+        <el-menu-item v-for="(subitem,subindex) in item.childrens" :index="subitem.url" :route="{path: subitem.url, query: { add: subitem.childrens[0]?(subitem.childrens[0].isButton == 1 ? 1 : 0):0, edit : subitem.childrens[1]?(subitem.childrens[1].isButton == 1 ? 1 : 0):0, delete : subitem.childrens[2]?(subitem.childrens[2].isButton == 1 ? 1 : 0):0}}" :key="subitem.id">{{subitem.name}}</el-menu-item> 
       </el-submenu>
 
     </el-menu>
@@ -48,22 +48,25 @@ import { getMenuList } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
-    this.ajustHeightTimeout = null;
+    this.ajustHeightTimeout = null
     return {
       checkedItem: "",
       permissions:[]
     };
   },
   created() {
-    this.checkedItem = sessionStorage.getItem("path")
+    //this.checkedItem = sessionStorage.getItem("path")
   },
   methods: {
+    changeActive(){
+      alert('hahah')
+    },
     handleGetMenuList(){
       let userId = localStorage.getItem('userid')
       getMenuList({userId}).then( res => {
         if(res.success){
-          
           this.permissions = res.result.permissions
+          localStorage.setItem('navlist',JSON.stringify(res.result.permissions))
         }
       }).catch( err => {
         console.log(err)
@@ -76,11 +79,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.ajustHeightTimeout = setTimeout(() => {
           let documentH = document.body.scrollHeight
-
           let windowH = window.innerHeight
-
           let height
-
           if (windowH > documentH) {
             height = windowH
           } else {
@@ -97,7 +97,13 @@ export default {
     this.ajustHeight().then(res => {
       clearTimeout(this.ajustHeightTimeout)
     })
-    this.handleGetMenuList()
+    let navlist = localStorage.getItem('navlist')
+
+    if( navlist ){
+      this.permissions = JSON.parse(navlist)
+    }else{
+      this.handleGetMenuList()
+    }
   },
   beforeDestroy() {},
   watch: {

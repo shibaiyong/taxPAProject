@@ -47,7 +47,8 @@ const instance = new Router({
           meta: {
             title: '商户管理',
             requireAuth: false,
-            roles: ['user','admin','superadmin']
+            roles: ['user','admin','superadmin'],
+            bread:['主页','商户管理','商户列表']
           }
         },
 
@@ -105,13 +106,10 @@ const instance = new Router({
 instance.beforeEach((to, from, next) => {
   let _title = to.meta.title
   let bread = to.meta.bread
-  let path = to.path
   document.title = _title ? _title : '默认标题'
   let auth = localStorage.getItem('requireAuth')
   let token = sessionStorage.getItem('token')
   store.dispatch('setBread',bread)
-  sessionStorage.setItem('path',path)
-
   if (!to.meta.requireAuth) {
     next()
   }else{

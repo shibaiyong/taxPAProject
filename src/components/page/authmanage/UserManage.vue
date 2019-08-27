@@ -2,7 +2,7 @@
   <div class="userlist">
     <div class="operate">
       <el-form :inline="true" :model="formSearch" size="small">
-        <el-form-item label="审批人">
+        <!-- <el-form-item label="审批人">
           <el-input v-model="formSearch.user" placeholder="审批人"></el-input>
         </el-form-item>
         <el-form-item label="活动区域">
@@ -15,7 +15,7 @@
           <el-button type="primary" @click="onSubmit" size="small">
             <i class="el-icon-search"></i>&nbsp;查询
           </el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <el-button type="success" size="small" @click="handleAddUser">
         <i class="el-icon-circle-plus-outline"></i>&nbsp;添加用户

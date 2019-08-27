@@ -50,12 +50,26 @@ export const deleteUser = params => {
     return axiosInstance.post("/apii/user/deleteUser",data).then(res => res.data)
 }
 
-//获取数据总量
-export const getCityList = params => {
-    return axiosInstance.get("/apii/auth/getCityList").then(res => res.data)
+//获取角色列表
+
+export const getRoleList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/getRoleList",data).then(res => res.data)
 }
 
+//角色新增
 
+export const addRole = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/addRole",data).then(res => res.data)
+}
+
+//编辑角色
+
+export const editRole = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/role/editRole",data).then(res => res.data)
+}
 
 
 

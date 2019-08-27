@@ -2,7 +2,7 @@
   <div class="rolelist">
     <div class="operate">
       <div></div>
-      <el-button type="success" size="small" @click="addUser">
+      <el-button type="success" size="small" @click="handleAddRole">
         <i class="el-icon-circle-plus-outline"></i>&nbsp;添加用户
       </el-button>
     </div>
@@ -12,7 +12,7 @@
         <el-table-column label="姓名" prop="name"></el-table-column>
         <el-table-column label="昵称" prop="nick"></el-table-column>
         <el-table-column label="手机号" prop="mobile"></el-table-column>
-        <el-table-column label="操作" width="300">
+        <el-table-column label="操作" width="240">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
               <i class="el-icon-setting"></i>&nbsp;设置管理
@@ -32,7 +32,8 @@
         background
         layout="prev, pager, next"
         :total="1000"
-        @current-change="getUserList"
+        @current-change="handleGetRoleList"
+        :current-page="currenPage"
       ></el-pagination>
     </div>
 
@@ -56,7 +57,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="dialogEditVisible = false" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -75,14 +76,15 @@
 </template>
 
 <script>
-import Header from "@/components/base/Header";
-import NavBar from "@/components/base/NavBar";
+
+import { getRoleList, addRole, editRole } from "@/requestDataInterface"
 
 export default {
   props: {},
   data() {
     return {
       dialogTitle: "编辑",
+      currenPage:1,
       userList: [
         {
           date: "2014/02/06",
@@ -96,60 +98,94 @@ export default {
       roleList: [],
       dialogEditVisible: false,
       dialogRoleVisible: false,
-      formEdit: {},
+      formEdit: {
+
+      },
       resetFormEdit: {}
     };
   },
   created() {},
   methods: {
-    addUser() {
-      this.dialogTitle = "添加用户";
-      this.dialogEditVisible = true;
+    handleAddRole() {
+      this.dialogTitle = "添加角色"
+      this.dialogEditVisible = true
     },
-    getUserList(currentPage) {
-      console.log(currentPage);
+    handleGetRoleList(currentPage) {
+      let params = {page:currentPage,rows:10}
+      getRoleList(params).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
     handleRole(index, row) {
-      this.dialogRoleVisible = true;
+      this.dialogRoleVisible = true
     },
     handleEdit(index, row) {
-      this.dialogTitle = "编辑";
-      this.dialogEditVisible = true;
+      this.dialogTitle = "编辑"
+      this.dialogEditVisible = true
+      Object.assign(this.formEdit,row)
     },
     handleDelete() {
       this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
+      }).then(() => {
+        if(res.success){
+          this.handleGetRoleList(this.currentPage)
           this.$message({
             type: "success",
             message: "删除成功!"
-          });
-        })
-        .catch(() => {
+          })
+        }else{
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        })
+      })
+    },
+    submitForm(){
+      if(this.dialogTitle == "添加角色"){
+        let params = this.formEdit
+        addRole( params ).then(res => {
+          if(res.success){
+            this.handleGetRoleList(this.currentPage)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }else{
+        
+        editRole( this.formEdit ).then( res => {
+          if(res.success){
+            this.handleGetRoleList(this.currentPage)
+          }
+        }).catch( err => {
+          console.log( err )
+        })
+      }
+      this.dialogEditVisible = false
     },
     cancelEidt() {},
     confirmEdit() {},
     confirmRole() {
-      console.log(this.roleList);
+      console.log(this.roleList)
     },
     cancelRole() {
-      this.dialogRoleVisible = false;
+      this.dialogRoleVisible = false
     }
   },
   computed: {},
   mounted() {},
   components: {
-    Header,
-    NavBar
   },
   beforeDestroy() {}
 };
@@ -178,5 +214,8 @@ export default {
 
 .el-form-item__content > .el-select {
   width: 200px;
+}
+.cell .el-button--mini{
+  padding:7px 7px;
 }
 </style>
