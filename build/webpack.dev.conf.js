@@ -32,7 +32,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
     host: HOST || config.dev.host,
-    port: PORT || config.dev.port,
+    port: config.dev.port || PORT,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
       ? { warnings: false, errors: true }
@@ -77,12 +77,13 @@ module.exports = new Promise((resolve, reject) => {
       // publish the new Port, necessary for e2e tests
       process.env.PORT = port
       // add port to devServer config
-      devWebpackConfig.devServer.port = port
+
+      //devWebpackConfig.devServer.port = port
 
       // Add FriendlyErrorsPlugin
       devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${devWebpackConfig.devServer.port}`],
         },
         onErrors: config.dev.notifyOnErrors
         ? utils.createNotifierCallback()
