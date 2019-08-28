@@ -31,15 +31,13 @@
           <span v-show="errorPassWordShow"><img src=""/>&nbsp;{{ errorPassWordMessage }}</span>
         </li>
         <li class="remeberme">
-          <CheckBox :label="'选中'" :dataArr="dataArr" :all="isChecked"><a href="javascript:void(0)" class="font14">记住密码</a></CheckBox>
-
+          <!-- <CheckBox :label="'选中'" :dataArr="dataArr" :all="isChecked"><a href="javascript:void(0)" class="font14">记住密码</a></CheckBox> -->
+          <el-checkbox v-model="rememberP">记住密码</el-checkbox>
         </li>
         <li><button class="font16" @click="gotoLogin($event)">登录</button></li>
       </ul>
     </div>
-    <messageBox :visible="isVisible" :textOptions="textOptions">
-      <input slot="content" type="text" v-model="email"/>
-    </messageBox>
+    
   </div>
 </template>
 
@@ -55,16 +53,11 @@ export default {
   data() {
     return {
       //弹窗组件的配置项
-      textOptions: {
-        title: "",
-        cancel: "",
-        confirme: "",
-        content: ""
-      },
+      rememberP:false,
       isVisible: -1,
       email: "",
       userInfo: {
-        Username: "",
+        username: "",
         password: ""
       },
       numberStart: 0,
@@ -75,76 +68,62 @@ export default {
       errorPassWordShowAcive:false,
       errorUserNameMessage: "",
       errorPassWordMessage: "",
-      dataArr: [],
-      isChecked: "",
       totalTimer:''
     }
   },
   created() {
-    //初始化当前数据总量
-    // getTotalData().then(res => {
-    //   if (res.data) {
-    //     this.numberEnd = res.data.total;
-    //   }
-    // });
+    
   },
   mounted() {
-    //this.initUser();
-    //this.changeNumber(5, 1500);
-    // this.getTotalData();
+    this.initUser()
   },
   methods: {
     initUser() {
       //初始化用户名和密码,从cookie中获取。
-      let rlUserInfo = getCookie("rlUserInfo");
-
+      let rlUserInfo = getCookie("rlUserInfo")
       if (rlUserInfo.password) {
-        let len = rlUserInfo.password.length - 64;
-        rlUserInfo.password = rlUserInfo.password.substr(32, len);
-        this.isChecked = "选中";
+        Object.assign(this.userInfo, rlUserInfo)
+        this.rememberP = true
       }
-      Object.assign(this.userInfo, rlUserInfo);
     },
-
     gotoLogin(e) {
-
-
       let params = this.userInfo
-      // sessionStorage.setItem('token','1q2w3e4r')
-      // localStorage.setItem('requireAuth','admin')
-      // this.$router.push({ path: "/home" })
-
       Login( params ).then( res => {
+        console.log(res.success)
         if(res.success){
-          localStorage.setItem('RyxToken',res.result.token)
-          localStorage.setItem('userid',res.result.user.id)
           
+          // localStorage.setItem('RyxToken',res.result.token)
+          // localStorage.setItem('userid',res.result.user.id)
           this.$router.push('/home/commercialcustom')
+        }else{
+          this.$message({
+            type: "error",
+            message: res.msg
+          })
         }
       }).catch(err => {
 
       })
     },
     rememberMe() {
-      
-    },
-
-    forgotMe() {
-      
+      //记住密码
+      let userInfo = this.userInfo
+      if (userInfo.username == "" || userInfo.password == "") {
+        this.$message({
+            type: "error",
+            message: '用户名或密码不能为空'
+          })
+        return false
+      }
+      setCookie("rlUserInfo", 7, userInfo)
     },
 
     forgotPassWord() {
       //忘记密码
-
-      
-      
+      deleteCookie("rlUserInfo")
     },
 
     showMessageBox(textOptions) {
-      
-    },
-
-    changeNumber(keepTime, cycleTime) {
       
     },
 
@@ -169,15 +148,12 @@ export default {
     
   },
   watch: {
-    dataArr(val) {
-      if (val.length) {
-        this.rememberMe();
+    rememberP(val) {
+      if (val) {
+        this.rememberMe()
       } else {
-        this.forgotMe();
+        this.forgotPassWord()
       }
-    },
-    numberEnd() {
-      this.changeNumber(5, 1500);
     }
   },
   components: {

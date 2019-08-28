@@ -29,12 +29,11 @@
     </div>
     <div class="paddingcontainer pagecontainer">
       <el-pagination
-        v-if="update"
         background
         layout="prev, pager, next"
         :total="total"
         @current-change="handleGetPermissionList"
-        :current-page="currenPage"
+        :current-page.sync="nowPage"
       ></el-pagination>
     </div>
 
@@ -55,13 +54,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="24">
-            <el-form-item label="按钮权限">
-              <el-switch v-model="isButton"></el-switch>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
@@ -78,10 +70,9 @@ export default {
   data() {
     return {
       dialogTitle: "编辑",
-      currenPage:1,
+      nowPage:1,
       total:1,
       ispath:false,
-      update:true,
       userList: [
         {
           date: "2014/02/06",
@@ -126,13 +117,13 @@ export default {
       Object.assign(this.formEdit,this.resetFormEdit,{parentId:row.id,isButton})
     },
     handleGetPermissionList(currentPage) {
-      this.update = false
+      // this.currenPage = currentPage
+      console.log(this.nowPage)
       let params = {page:currentPage,rows:10}
       getPermissionList(params).then(res => {
         if(res.success){
           this.roleList = res.result.roles
           this.total = res.result.total
-          this.update = true 
         }
       }).catch(err => {
         console.log(err)
@@ -179,7 +170,7 @@ export default {
         let params = this.formEdit
         addPermission( params ).then(res => {
           if(res.success){
-            this.handleGetPermissionList(this.currentPage)
+            this.handleGetPermissionList(this.nowPage)
           }
         }).catch(err => {
           console.log(err)
@@ -187,14 +178,14 @@ export default {
       }else{
         editPermission( this.formEdit ).then( res => {
           if(res.success){
-            this.handleGetPermissionList(this.currentPage)
+            console.log( 'edit' + this.nowPage )
+            this.handleGetPermissionList(this.nowPage)
           }
         }).catch( err => {
           console.log( err )
         })
       }
       this.dialogEditVisible = false
-      this.currenPage = 1
     },
     cancelEidt() {},
     confirmEdit() {},
@@ -207,7 +198,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.handleGetPermissionList()
+    this.handleGetPermissionList(this.currenPage)
   },
   components: {
   },

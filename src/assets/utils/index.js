@@ -74,7 +74,7 @@ export const getCookie = (key) => {//获取cookie
   export const deleteCookie = (key) => {
     var date = new Date()
     date.setTime(date.getTime() - 1)
-    var delValue = this.getCookie(key)
+    var delValue = getCookie(key)
     if (!!delValue) {
       document.cookie = key + '=' + delValue + ';expires=' + date.toGMTString()
     }

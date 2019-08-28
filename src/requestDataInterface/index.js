@@ -9,7 +9,7 @@ import qs from 'qs'
 //登录
 export const Login = params => {
     let data = qs.stringify(params)
-    return axiosInstance.post("/apii/auth/vueLogin", data).then(res => res.data)
+    return axiosInstance.post("/apii/auth/login", data).then(res => res.data)
 }
 
 //登出

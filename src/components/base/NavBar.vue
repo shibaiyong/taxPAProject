@@ -33,7 +33,7 @@
           <span>{{item.name}}</span>
         </template>
         <!-- <el-menu-item v-for="(subitem,subindex) in item.childrens" :ref="(index==0&&subindex==0) && 'changeActive'" @click.native="changeActive" :index="subitem.url" :route="{path: subitem.url, query: { delete: subitem.childrens[0] == 1 ? 1 : 0, edit : subitem.childrens[1] == 1 ? 1 : 0, add : subitem.childrens[2] == 1 ? 1 : 0}}" :key="subitem.id">{{subitem.name}}</el-menu-item>  -->
-        <el-menu-item v-for="subitem in item.childrens" :index="subitem.url" :route="{path: subitem.url, query: { add: subitem.childrens[0]?(subitem.childrens[0].isButton == 1 ? 1 : 0):0, edit : subitem.childrens[1]?(subitem.childrens[1].isButton == 1 ? 1 : 0):0, delete : subitem.childrens[2]?(subitem.childrens[2].isButton == 1 ? 1 : 0):0}}" :key="subitem.id">{{subitem.name}}</el-menu-item> 
+        <el-menu-item v-for="subitem in item.childrens" :index="subitem.url" :route="{path: subitem.url, query: { add: subitem.childrens[0]?(subitem.childrens[0].isButton == 1 ? 1 : 0):0, edit : subitem.childrens[1]?(subitem.childrens[1].isButton == 1 ? 1 : 0):0, remove : subitem.childrens[2]?(subitem.childrens[2].isButton == 1 ? 1 : 0):0}}" :key="subitem.id">{{subitem.name}}</el-menu-item> 
       </el-submenu>
 
     </el-menu>
@@ -98,7 +98,7 @@ export default {
     })
     let navlist = localStorage.getItem('navlist')
 
-    if( navlist ){
+    if( false ){
       this.permissions = JSON.parse(navlist)
     }else{
       this.handleGetMenuList()
