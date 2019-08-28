@@ -8,10 +8,15 @@
     </div>
     <div class="paddingcontainer">
       <el-table :data="roleList" style="width: 100%">
-        <el-table-column type="index"></el-table-column>
+        <!-- <el-table-column type="index"></el-table-column> -->
         <el-table-column label="权限名称" prop="name"></el-table-column>
         <el-table-column label="创建时间" prop="createdTime"></el-table-column>
-        <el-table-column label="权限链接" prop="url"></el-table-column>
+        <el-table-column label="权限链接" prop="vueUrl">
+          <template slot-scope="scope">
+            {{scope.row.vueUrl?scope.row.vueUrl:'暂无链接'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="接口链接" prop="url"></el-table-column>
         <el-table-column label="操作" width="260">
           <template slot-scope="scope">
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">
@@ -49,11 +54,20 @@
 
         <el-row>
           <el-col :span="24">
+            <el-form-item label="接口链接">
+              <el-input v-model="formEdit.vueUrl"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="24">
             <el-form-item label="权限链接">
               <el-input v-model="formEdit.url" :disabled="ispath"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
@@ -89,12 +103,14 @@ export default {
       formEdit: {
         name:'',
         url:'',
-        parentId:'0'
+        parentId:'0',
+        vueUrl:''
       },
       resetFormEdit: {
         name:'',
         url:'',
-        parentId:'0'
+        parentId:'0',
+        vueUrl:''
       }
     }
   },
@@ -171,6 +187,11 @@ export default {
         addPermission( params ).then(res => {
           if(res.success){
             this.handleGetPermissionList(this.nowPage)
+          }else{
+            this.$message({
+              type:'error',
+              message:'新增失败,' + res.msg
+            })
           }
         }).catch(err => {
           console.log(err)
@@ -180,6 +201,11 @@ export default {
           if(res.success){
             console.log( 'edit' + this.nowPage )
             this.handleGetPermissionList(this.nowPage)
+          }else{
+            this.$message({
+              type:'error',
+              message:'编辑失败,'+res.msg
+            })
           }
         }).catch( err => {
           console.log( err )

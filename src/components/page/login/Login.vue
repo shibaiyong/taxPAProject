@@ -89,12 +89,12 @@ export default {
     gotoLogin(e) {
       let params = this.userInfo
       Login( params ).then( res => {
-        console.log(res.success)
+        
         if(res.success){
           
-          // localStorage.setItem('RyxToken',res.result.token)
-          // localStorage.setItem('userid',res.result.user.id)
+          localStorage.setItem('username',params.username)
           this.$router.push('/home/commercialcustom')
+          
         }else{
           this.$message({
             type: "error",

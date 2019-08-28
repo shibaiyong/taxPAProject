@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(
 // 响应拦截器
 axiosInstance.interceptors.response.use(
     response => {
-        if(!response.data.success){
+        if(response.data.code==2002){
             return router.replace('/login')
         }
         return response

@@ -14,8 +14,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="企业银行账号">
-              <el-input v-model="formSearch.bankaccount" placeholder="企业银行账号"></el-input>
+            <el-form-item label="企业账户">
+              <el-input v-model="formSearch.bankaccount" placeholder="企业账户"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -100,40 +100,41 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px"  auto-complete="off">
+      <el-form :model="formEdit" label-width="100px"  auto-complete="off" size="small">
+        <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户编号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.sn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="其他编号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+            <el-form-item label="特约商户码">
+              <el-input v-model="formEdit.otherSn"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="企业名称">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.enterpriseName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="纳税人识别号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.taxpayerIdentificationSn"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="法人姓名">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.legalPerson"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="纳税人类型">
-              <el-radio-group v-model="formEdit.taxPersonType">
+              <el-radio-group v-model="formEdit.taxpayerType">
                 <el-radio :label="1">一般纳税人</el-radio>
                 <el-radio :label="2">小规模纳税人</el-radio>
               </el-radio-group>
@@ -143,96 +144,83 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人姓名">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.contactsName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系人手机号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.contactsPhone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="联系人姓名">
-              <el-input v-model="formEdit.name" size="small"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系人手机号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人邮箱">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.contactsEmail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="状态">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+            <el-form-item label="注册地址">
+              <el-input v-model="formEdit.registrationAddress"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="注册地址">
-              <el-input v-model="formEdit.name" size="small"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="实际经营地址">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.businessAddress"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row><h4>账户信息</h4></el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行名称">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.openingBankName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业账户">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.enterpriseAccounts"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
+            <!-- 地域会从数据库里查出来，故改成下拉框选择 -->
             <el-form-item label="开户行地域">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.openingBankRegionProvince"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开户行信息">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行联行号">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.openingBankLinkNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业电子账户">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.enterpriseElectronicAccount"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row><h4>税务信息</h4></el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="资质方关联">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.qualificationId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票类型">
-              <el-radio-group v-model="formEdit.taxType">
+              <el-radio-group v-model="formEdit.invoiceType">
                 <el-radio :label="1">普通发票</el-radio>
                 <el-radio :label="2">专用发票</el-radio>
               </el-radio-group>
@@ -242,36 +230,37 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户服务费">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.merchantServiceCharge"></el-input>
             </el-form-item>
           </el-col>
-          <!-- 商户服务费有问题 -->
           <el-col :span="12">
             <el-form-item label="个人服务费">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.personalServiceCharge"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row><h4>服务信息</h4></el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="销售经理">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.salesManager"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系方式">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.salesManagerTel"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="邮箱">
-              <el-input v-model="formEdit.name" size="small"></el-input>
+              <el-input v-model="formEdit.salesManagerEmail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
           </el-col>
+          <!-- 商户状态字段新增时没有 -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -281,11 +270,11 @@
     </el-dialog>
 
     <el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-      <el-form>
+      <el-form label-width="100px"  auto-complete="off" size="small">
       <el-row>
         <el-col :span="12">
           <el-form-item label="商户名称">
-          <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
+          <el-select v-model="formEdit.region" placeholder="请选择活动区域">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
@@ -293,7 +282,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户编号">
-            <el-input v-model="formEdit.name" size="small"></el-input>
+            <el-input v-model="formEdit.name"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,7 +297,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="调账金额">
-            <el-input v-model="formEdit.name" size="small"></el-input>
+            <el-input v-model="formEdit.name"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -483,8 +472,10 @@ export default {
 .el-form {
   width: 100%;
 }
-
-.el-dialog{
+.el-row h4{
+  padding-bottom:6px;
+}
+>>>.el-dialog{
   width:58%;
 }
 </style>

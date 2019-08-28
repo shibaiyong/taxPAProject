@@ -8,7 +8,6 @@
     </div>
     <div class="paddingcontainer">
       <el-table :data="roleList" style="width: 100%">
-        <el-table-column type="index"></el-table-column>
         <el-table-column label="角色名称" prop="name"></el-table-column>
         <el-table-column label="创建时间" prop="createdTime"></el-table-column>
         <el-table-column label="角色描述" prop="description"></el-table-column>
@@ -187,6 +186,11 @@ export default {
         addRole( params ).then(res => {
           if(res.success){
             this.handleGetRoleList(this.currentPage)
+          }else{
+            this.$message({
+              type:'error',
+              message:'新增失败,'+res.msg
+            })
           }
         }).catch(err => {
           console.log(err)
@@ -196,6 +200,11 @@ export default {
         editRole( this.formEdit ).then( res => {
           if(res.success){
             this.handleGetRoleList(this.currentPage)
+          }else{
+            this.$message({
+              type:'error',
+              message:'编辑失败,'+res.msg
+            })
           }
         }).catch( err => {
           console.log( err )

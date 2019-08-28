@@ -54,22 +54,16 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px" size="small" auto-complete="off">
+      <el-form :model="formEdit" label-width="100px" size="small" auto-complete="off" :rules="rules" ref="formEdit">
+        
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户名">
-              <el-input v-model="formEdit.username"></el-input>
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="formEdit.username" :disabled="editUserName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="密码">
-              <el-input v-model="formEdit.password"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="出生日期">
+            <el-form-item label="出生日期" prop="birthday">
               <el-date-picker
                 v-model="formEdit.birthday"
                 type="date"
@@ -79,35 +73,42 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="地址">
-              <el-input v-model="formEdit.address"></el-input>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="邮箱">
+            <el-form-item label="邮箱" prop="email">
               <el-input v-model="formEdit.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="姓名">
+            <el-form-item label="姓名" prop="name">
               <el-input v-model="formEdit.name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="电话">
+            <el-form-item label="地址" prop="address">
+              <el-input v-model="formEdit.address"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电话" prop="phone">
               <el-input v-model="formEdit.phone"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="editPassword">
+          <el-col :span="12">
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="formEdit.password" auto-complete="off"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
+        <el-button @click="resetForm('formEdit')" size="small">取 消</el-button>
+        <el-button type="primary" @click="submitForm('formEdit')" size="small">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -130,12 +131,49 @@ import { addUser, getUserList, editUser, deleteUser, getALLRoleList, configRole 
 export default {
   props: {},
   data() {
+    var checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('电话不能为空'))
+      }else if(!Number.isInteger(value*1)){
+        callback(new Error('请输入数字'))
+      }else{
+        callback()
+      }
+    }
     return {
       dialogTitle: "编辑",
       total:1,
       dialogEditVisible: false,
       dialogRoleVisible: false,
       currentPage:1,
+      editPassword:true,
+      editUserName:true,
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        birthday:[
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        address:[
+          { required: true, message: '请输入地址', trigger: 'blur' }
+        ],
+        email:[
+          { required: true, message: '请输入邮箱', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输入姓名名', trigger: 'blur' }
+        ],
+        phone:[
+
+          { validator: checkPhone, trigger: 'blur' },
+          { min: 7, max: 11, message: '长度在 7 到 11 个数字', trigger: 'blur' }
+          
+        ]
+      },
       userList: [
         {
           date: "2014/02/06",
@@ -180,28 +218,51 @@ export default {
     handleAddUser() {
       this.dialogTitle = "添加用户"
       this.dialogEditVisible = true
+      this.editPassword = true
+      this.editUserName = false
+      Object.assign(this.formEdit,this.resetFormEdit)
     },
-    submitForm(){
-      if(this.dialogTitle == "添加用户"){
-        let params = this.formEdit
-        addUser( params ).then(res => {
-          if(res.success){
-            this.handleGetUserList(this.currentPage)
+    submitForm(ref){
+      this.$refs[ref].validate((valid) => {
+        if (valid) {
+          if(this.dialogTitle == "添加用户"){
+            let params = this.formEdit
+            addUser( params ).then(res => {
+              if(res.success){
+                this.handleGetUserList(this.currentPage)
+              }else{
+                this.$message({
+                  type:'error',
+                  message:'新增失败,'+res.msg
+                })
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }else{
+            editUser( this.formEdit ).then( res => {
+              if(res.success){
+                this.handleGetUserList(this.currentPage)
+              }else{
+                this.$message({
+                  type:'error',
+                  message:'编辑失败,'+res.msg
+                })
+              }
+            }).catch( err => {
+              console.log( err )
+            })
           }
-        }).catch(err => {
-          console.log(err)
-        })
-      }else{
-        
-        editUser( this.formEdit ).then( res => {
-          if(res.success){
-            this.handleGetUserList(this.currentPage)
-          }
-        }).catch( err => {
-          console.log( err )
-        })
-      }
+          this.dialogEditVisible = false
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(ref) {
       this.dialogEditVisible = false
+      this.$refs[ref].resetFields()
     },
     submitRole() {
       let params = this.roleList
@@ -244,6 +305,8 @@ export default {
     handleEdit(index, row) {
       this.dialogTitle = "编辑"
       this.dialogEditVisible = true
+      this.editPassword = false
+      this.editUserName = true
       let params = Object.assign( this.formEdit, row)
     },
 
