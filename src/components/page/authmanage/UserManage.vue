@@ -170,7 +170,7 @@ export default {
         phone:[
 
           { validator: checkPhone, trigger: 'blur' },
-          { min: 7, max: 11, message: '长度在 7 到 11 个数字', trigger: 'blur' }
+          { min: 11, max: 11, message: '请输入11位数字', trigger: 'blur' }
           
         ]
       },
