@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="企业名称">
-              <el-input v-model="formSearch.name" placeholder="企业名称"></el-input>
+              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -72,13 +72,15 @@
       </div>
     </div>
     <div class="paddingcontainer">
-      <el-table :data="userList" style="width: 100%">
-        <el-table-column label="日期" prop="date"></el-table-column>
-        <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="昵称" prop="nick"></el-table-column>
-        <el-table-column label="手机号" prop="mobile"></el-table-column>
-        <el-table-column label="邮箱" width="180" prop="email"></el-table-column>
-        <el-table-column label="注册时间" prop="registerdate"></el-table-column>
+      <el-table :data="userList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column label="商户编号" prop="sn"></el-table-column>
+        <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
+        <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
+        <el-table-column label="账户余额" prop="mobile"></el-table-column>
+        <el-table-column label="状态" width="180" prop="status"></el-table-column>
+        <el-table-column label="入网日期" prop="registerdate"></el-table-column>
+        <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
         <el-table-column label="操作" width="210">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
@@ -312,8 +314,6 @@
 
 <script>
 
-//import { getMenuList } from "@/requestDataInterface"
-
 export default {
   props: {},
   data() {
@@ -329,7 +329,7 @@ export default {
       ],
       userList: [
         {
-          date: "2014/02/06",
+          date: "2014/02/02",
           name: "赵佳浩",
           nick: "过往云烟",
           mobile: "13716420520",
@@ -337,7 +337,7 @@ export default {
           registerdate: "2011/09/09"
         },
         {
-          date: "2014/02/06",
+          date: "2014/02/03",
           name: "赵佳浩",
           nick: "过往云烟",
           mobile: "13716420520",
@@ -345,7 +345,7 @@ export default {
           registerdate: "2011/09/09"
         },
         {
-          date: "2014/02/06",
+          date: "2014/02/04",
           name: "赵佳浩",
           nick: "过往云烟",
           mobile: "13716420520",
@@ -353,46 +353,16 @@ export default {
           registerdate: "2011/09/09"
         },
         {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          date: "2014/02/06",
+          date: "2014/02/05",
           name: "赵佳浩",
           nick: "过往云烟",
           mobile: "13716420520",
           email: "1850418899@qq.com",
           registerdate: "2011/09/09"
         }
+        
       ],
+      multipleSelection:[],
       formSearch: {
         code: "",
         status: "",
@@ -412,18 +382,27 @@ export default {
       this.dialogEditVisible = true;
     },
     getUserList(currentPage) {
-      console.log(currentPage);
+      console.log(currentPage)
     },
     onSubmit() {
-      console.log("submit!");
+      console.log("submit!")
     },
-
+    handleSelectionChange(selection,row) {
+      console.log( selection )
+      //this.multipleSelection.push(row.date)
+    },
+    handleSelectAll(rows){
+      let tempArr = []
+      rows.forEach(row => {
+        
+      })
+    },
     handleRole(index, row) {
-      this.dialogRoleVisible = true;
+      this.dialogRoleVisible = true
     },
     handleEdit(index, row) {
-      this.dialogTitle = "编辑";
-      this.dialogEditVisible = true;
+      this.dialogTitle = "编辑"
+      this.dialogEditVisible = true
     },
     cancelEidt() {},
     confirmEdit() {},

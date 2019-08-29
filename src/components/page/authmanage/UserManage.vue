@@ -88,7 +88,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="地址" prop="address">
+            <el-form-item label="地址">
               <el-input v-model="formEdit.address"></el-input>
             </el-form-item>
           </el-col>
@@ -156,11 +156,11 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         birthday:[
-          { required: true, message: '请选择日期', trigger: 'change' }
+          { required: true, message: '请选择日期', trigger: 'blur' }
         ],
-        address:[
-          { required: true, message: '请输入地址', trigger: 'blur' }
-        ],
+        // address:[
+        //   { required: true, message: '请输入地址', trigger: 'blur' }
+        // ],
         email:[
           { required: true, message: '请输入邮箱', trigger: 'blur' }
         ],

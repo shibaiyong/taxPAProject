@@ -1,7 +1,7 @@
 <template>
   <div class="bread">
     <div class="navigator-tilte">
-      <div class="title-info">员工管理</div>
+      <div class="title-info">{{bread[1]}}</div>
     </div>
     <div class="breadcontent">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -24,7 +24,9 @@ export default {
     }
   },
   created() {},
-  methods: {},
+  methods: {
+    
+  },
   computed: {
     bread(){
       return this.$store.state.bread
