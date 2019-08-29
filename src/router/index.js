@@ -90,16 +90,19 @@ const instance = new Router({
       ]
     },
     {
-      path: '*',
+      path: '/*',
       name: 'NoFound',
-      component: NoFound,
+      component: Login,
       meta: {
         title: '404',
         requireAuth: false,
         roles: ['superadmin']
       }
     }
-  ]
+  ],
+    scrollBehavior (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
 })
 
 

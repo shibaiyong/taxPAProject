@@ -102,7 +102,7 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px"  auto-complete="off" size="small" ref="formEdit">
+      <el-form :model="formEdit" label-width="100px" :rules="rules"  auto-complete="off" size="small" ref="formEdit">
         <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
@@ -118,24 +118,24 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="企业名称">
+            <el-form-item label="企业名称" prop="enterpriseName">
               <el-input v-model="formEdit.enterpriseName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="纳税人识别号">
+            <el-form-item label="纳税人识别号" prop="taxpayerIdentificationSn">
               <el-input v-model="formEdit.taxpayerIdentificationSn"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="法人姓名">
+            <el-form-item label="法人姓名" prop="legalPerson">
               <el-input v-model="formEdit.legalPerson"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="纳税人类型">
+            <el-form-item label="纳税人类型" prop="taxpayerType">
               <el-radio-group v-model="formEdit.taxpayerType">
                 <el-radio :label="1">一般纳税人</el-radio>
                 <el-radio :label="2">小规模纳税人</el-radio>
@@ -145,12 +145,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="联系人姓名">
+            <el-form-item label="联系人姓名" prop="contactsName">
               <el-input v-model="formEdit.contactsName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="联系人手机号">
+            <el-form-item label="联系人手机号" prop="contactsPhone">
               <el-input v-model="formEdit.contactsPhone"></el-input>
             </el-form-item>
           </el-col>
@@ -158,19 +158,19 @@
         
         <el-row>
           <el-col :span="12">
-            <el-form-item label="联系人邮箱">
+            <el-form-item label="联系人邮箱" prop="contactsEmail">
               <el-input v-model="formEdit.contactsEmail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="注册地址">
+            <el-form-item label="注册地址" prop="registrationAddress">
               <el-input v-model="formEdit.registrationAddress"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="实际经营地址">
+            <el-form-item label="实际经营地址" prop="businessAddress">
               <el-input v-model="formEdit.businessAddress"></el-input>
             </el-form-item>
           </el-col>
@@ -178,12 +178,12 @@
         <el-row><h4>账户信息</h4></el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行名称">
+            <el-form-item label="开户行名称" prop="openingBankName">
               <el-input v-model="formEdit.openingBankName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="企业账户">
+            <el-form-item label="企业账户" prop="enterpriseAccounts">
               <el-input v-model="formEdit.enterpriseAccounts"></el-input>
             </el-form-item>
           </el-col>
@@ -191,24 +191,24 @@
         <el-row>
           <el-col :span="12">
             <!-- 地域会从数据库里查出来，故改成下拉框选择 -->
-            <el-form-item label="开户行地域">
+            <el-form-item label="开户行地域" prop="openingBankRegionProvince">
               <el-input v-model="formEdit.openingBankRegionProvince"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开户行信息">
+            <el-form-item label="开户行信息" prop="openingBankBranchInfo">
               <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行联行号">
+            <el-form-item label="开户行联行号" prop="openingBankLinkNo">
               <el-input v-model="formEdit.openingBankLinkNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="企业电子账户">
+            <el-form-item label="企业电子账户" prop="enterpriseElectronicAccount">
               <el-input v-model="formEdit.enterpriseElectronicAccount"></el-input>
             </el-form-item>
           </el-col>
@@ -216,12 +216,12 @@
         <el-row><h4>税务信息</h4></el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="资质方关联">
+            <el-form-item label="资质方关联" prop="qualificationId">
               <el-input v-model="formEdit.qualificationId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开票类型">
+            <el-form-item label="开票类型" prop="invoiceType">
               <el-radio-group v-model="formEdit.invoiceType">
                 <el-radio :label="1">普通发票</el-radio>
                 <el-radio :label="2">专用发票</el-radio>
@@ -231,12 +231,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="商户服务费">
+            <el-form-item label="商户服务费" prop="merchantServiceCharge">
               <el-input v-model="formEdit.merchantServiceCharge"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="个人服务费">
+            <el-form-item label="个人服务费" prop="personalServiceCharge">
               <el-input v-model="formEdit.personalServiceCharge"></el-input>
             </el-form-item>
           </el-col>
@@ -324,28 +324,64 @@ export default {
       dialogRoleVisible: false,
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
         birthday:[
-          { required: true, message: '请选择日期', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
-        // address:[
-        //   { required: true, message: '请输入地址', trigger: 'blur' }
-        // ],
         email:[
-          { required: true, message: '请输入邮箱', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '请输入姓名名', trigger: 'blur' }
+          { required: true, trigger: 'blur' }
         ],
-        phone:[
-
-          { validator: checkPhone, trigger: 'blur' },
-          { min: 11, max: 11, message: '请输入11位数字', trigger: 'blur' }
-          
+        username: [
+          { required: true, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, trigger: 'blur' }
+        ],
+        birthday:[
+          { required: true, trigger: 'blur' }
+        ],
+        email:[
+          { required: true, trigger: 'blur' }
+        ],
+        name: [
+          { required: true, trigger: 'blur' }
+        ],
+        username: [
+          { required: true, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, trigger: 'blur' }
+        ],
+        birthday:[
+          { required: true, trigger: 'blur' }
+        ],
+        email:[
+          { required: true, trigger: 'blur' }
+        ],
+        name: [
+          { required: true, trigger: 'blur' }
+        ],
+        username: [
+          { required: true, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, trigger: 'blur' }
+        ],
+        birthday:[
+          { required: true, trigger: 'blur' }
+        ],
+        email:[
+          { required: true, trigger: 'blur' }
+        ],
+        name: [
+          { required: true, trigger: 'blur' }
         ]
       },
       statusOptions: [
@@ -397,7 +433,9 @@ export default {
         taxpayercode: "",
         datespan: ""
       },
-      formEdit: {},
+      formEdit: {
+        
+      },
       resetFormEdit: {}
     };
   },
