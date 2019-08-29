@@ -78,7 +78,7 @@
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
-        <el-table-column label="状态" width="180" prop="status"></el-table-column>
+        <el-table-column label="状态" prop="status"></el-table-column>
         <el-table-column label="入网日期" prop="registerdate"></el-table-column>
         <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
         <el-table-column label="操作" width="210">
@@ -102,7 +102,7 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px"  auto-complete="off" size="small">
+      <el-form :model="formEdit" label-width="100px"  auto-complete="off" size="small" ref="formEdit">
         <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
@@ -267,7 +267,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="dialogEditVisible = false" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitForm('')" size="small">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -322,6 +322,32 @@ export default {
       dialogTitle: "编辑",
       dialogEditVisible: false,
       dialogRoleVisible: false,
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        birthday:[
+          { required: true, message: '请选择日期', trigger: 'blur' }
+        ],
+        // address:[
+        //   { required: true, message: '请输入地址', trigger: 'blur' }
+        // ],
+        email:[
+          { required: true, message: '请输入邮箱', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请输入姓名名', trigger: 'blur' }
+        ],
+        phone:[
+
+          { validator: checkPhone, trigger: 'blur' },
+          { min: 11, max: 11, message: '请输入11位数字', trigger: 'blur' }
+          
+        ]
+      },
       statusOptions: [
         { label: "全部", value: "0" },
         { label: "生效中", value: "1" },
@@ -377,15 +403,12 @@ export default {
   },
   created() {},
   methods: {
-    addUser() {
+    handleAdd() {
       this.dialogTitle = "添加用户";
       this.dialogEditVisible = true;
     },
     getUserList(currentPage) {
       console.log(currentPage)
-    },
-    onSubmit() {
-      console.log("submit!")
     },
     handleSelectionChange(selection,row) {
       console.log( selection )
@@ -404,13 +427,51 @@ export default {
       this.dialogTitle = "编辑"
       this.dialogEditVisible = true
     },
+    submitForm(ref){
+      this.$refs[ref].validate((valid) => {
+        if (valid) {
+          if(this.dialogTitle == "添加用户"){
+            let params = this.formEdit
+            addUser( params ).then(res => {
+              if(res.success){
+                this.handleGetUserList(this.currentPage)
+              }else{
+                this.$message({
+                  type:'error',
+                  message:'新增失败,'+res.msg
+                })
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }else{
+            editUser( this.formEdit ).then( res => {
+              if(res.success){
+                this.handleGetUserList(this.currentPage)
+              }else{
+                this.$message({
+                  type:'error',
+                  message:'编辑失败,'+res.msg
+                })
+              }
+            }).catch( err => {
+              console.log( err )
+            })
+          }
+          this.dialogEditVisible = false
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
     cancelEidt() {},
     confirmEdit() {},
     confirmRole() {
       console.log(this.roleList);
     },
     cancelRole() {
-      this.dialogRoleVisible = false;
+      this.dialogRoleVisible = false
     }
   },
   computed: {},
