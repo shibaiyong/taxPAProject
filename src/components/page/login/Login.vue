@@ -87,6 +87,10 @@ export default {
       }
     },
     gotoLogin(e) {
+      if (!this.formValidation()) {
+        //如果验证没有通过，中断登录操作
+        return false
+      }
       let params = this.userInfo
       Login( params ).then( res => {
         
@@ -128,7 +132,31 @@ export default {
     },
 
     formValidation() {
-      
+      //用户名支持数字，字母，区分大小写；密码支持数字，字母，区分大小写。
+      let userName = this.userInfo.username
+      let passWord = this.userInfo.password
+
+      let userReg = /^[a-zA-Z\d]{3,20}$/
+      let passwordReg = /^[a-zA-Z\d]{6,20}$/
+
+      if (!userReg.test(userName)) {
+        this.errorUserNameMessage = "用户名错误";
+        this.errorUserNameShow = true;
+        this.errorUserNameShowAcive = false;
+        return false;
+      }  else {
+        this.errorUserNameShow = false;
+      }
+      if (!passwordReg.test(passWord)) {
+        this.errorPassWordMessage = "密码错误";
+        this.errorPassWordShow = true;
+        this.errorPassWordShowAcive = false;
+        return false
+      } else {
+        this.errorPassWordShow = false;
+      }
+
+      return true
     },
 
     getTotalData() {
