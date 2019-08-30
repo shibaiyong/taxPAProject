@@ -5,6 +5,9 @@ const actions = {
     },
     setBread({ commit }, data){
         commit('setBread',data)
+    },
+    setLogin({ commit }, data){
+        commit('setLogin',data)
     }
 }
 

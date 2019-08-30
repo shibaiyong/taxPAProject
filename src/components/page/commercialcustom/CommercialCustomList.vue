@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="8">
         <el-form-item label="当前状态">
-          <el-select v-model="formSearch.status" placeholder="当前状态">
+          <el-select v-model="formSearch.status" placeholder="">
             <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
           </el-select>
         </el-form-item>
@@ -54,19 +54,19 @@
         <el-button type="primary" size="small">
           <i class="el-icon-search"></i>&nbsp;清空
         </el-button>
-        <el-button type="primary" size="small">
+        <el-button type="primary" size="small" @click="handleAdd">
           <i class="el-icon-search"></i>&nbsp;录入
         </el-button>
-        <el-button type="primary" size="small">
+        <el-button type="primary" size="small" @click="handleEdit">
           <i class="el-icon-search"></i>&nbsp;编辑
         </el-button>
-        <el-button type="primary" size="small">
+        <el-button type="primary" size="small" @click="handleDelet">
           <i class="el-icon-search"></i>&nbsp;删除
         </el-button>
         <el-button type="primary" size="small">
           <i class="el-icon-search"></i>&nbsp;加入黑名单
         </el-button>
-        <el-button type="primary" size="small">
+        <el-button type="primary" size="small" @click="handleAdjust">
           <i class="el-icon-search"></i>&nbsp;调账
         </el-button>
       </div>
@@ -81,16 +81,6 @@
         <el-table-column label="状态" prop="status"></el-table-column>
         <el-table-column label="入网日期" prop="registerdate"></el-table-column>
         <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
-        <el-table-column label="操作" width="210">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleRole(scope.$index, scope.row)">
-              <i class="el-icon-setting"></i>&nbsp;设置管理
-            </el-button>
-            <el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">
-              <i class="el-icon-edit"></i>&nbsp;编辑
-            </el-button>
-          </template>
-        </el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -102,7 +92,7 @@
       ></el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogEditVisible">
-      <el-form :model="formEdit" label-width="100px" :rules="rules"  auto-complete="off" size="small" ref="formEdit">
+      <el-form :model="formEdit" label-width="120px" :rules="rules" auto-complete="off" size="small" ref="formEdit">
         <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
@@ -169,9 +159,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="实际经营地址" prop="businessAddress">
               <el-input v-model="formEdit.businessAddress"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-radio-group v-model="formEdit.status" :disabled="isEidt">
+                <el-radio label="1">生效</el-radio>
+                <el-radio label="2">停用</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -192,7 +190,9 @@
           <el-col :span="12">
             <!-- 地域会从数据库里查出来，故改成下拉框选择 -->
             <el-form-item label="开户行地域" prop="openingBankRegionProvince">
-              <el-input v-model="formEdit.openingBankRegionProvince"></el-input>
+              <el-select v-model="formEdit.openingBankRegionProvince" placeholder="">
+                <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -217,7 +217,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资质方关联" prop="qualificationId">
-              <el-input v-model="formEdit.qualificationId"></el-input>
+              <el-select v-model="formEdit.qualificationId" placeholder="">
+                <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -262,126 +264,105 @@
           </el-col>
           <el-col :span="12">
           </el-col>
-          <!-- 商户状态字段新增时没有 -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="submitForm('')" size="small">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="设置角色" :visible.sync="dialogRoleVisible">
-      <el-form label-width="100px"  auto-complete="off" size="small">
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="商户名称">
-          <el-select v-model="formEdit.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="商户编号">
-            <el-input v-model="formEdit.name"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="调账类型">
-          <el-select v-model="formEdit.region" placeholder="请选择活动区域" size="small">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="调账金额">
-            <el-input v-model="formEdit.name"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelRole" size="small">取 消</el-button>
-        <el-button type="primary" @click="confirmRole" size="small">确 定</el-button>
+        <el-button type="primary" @click="submitForm('formEdit')" size="small">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-
+import { addUser, getUserList, editUser, deleteUser, getALLRoleList, configRole } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
+    let checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('电话不能为空'))
+      }else if(!Number.isInteger(value*1)){
+        callback(new Error('请输入数字'))
+      }else{
+        callback()
+      }
+    }
+    let checkEmail = (rule, value, callback) => {
+      let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (!reg.test(value)) {
+        return callback(new Error('邮箱格式不正确'))
+      }else{
+        callback()
+      }
+    }
     return {
       value6: "",
       dialogTitle: "编辑",
       dialogEditVisible: false,
-      dialogRoleVisible: false,
+      isEidt:false,
       rules: {
-        username: [
-          { required: true, trigger: 'blur' }
+        enterpriseName: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        password: [
-          { required: true, trigger: 'blur' }
+        taxpayerIdentificationSn: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        birthday:[
-          { required: true, trigger: 'blur' }
+        legalPerson:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        email:[
-          { required: true, trigger: 'blur' }
+        taxpayerType:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        name: [
-          { required: true, trigger: 'blur' }
+        contactsName: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        username: [
-          { required: true, trigger: 'blur' }
+        contactsPhone: [
+          { validator: checkPhone, trigger: 'blur' },
+          { required: true, min: 11, max: 11, message: '请输入11位数字', trigger: 'blur' }
         ],
-        password: [
-          { required: true, trigger: 'blur' }
+        contactsEmail: [
+          { validator: checkEmail, trigger: 'blur' },
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        birthday:[
-          { required: true, trigger: 'blur' }
+        registrationAddress:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        email:[
-          { required: true, trigger: 'blur' }
+        businessAddress:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        name: [
-          { required: true, trigger: 'blur' }
+        status: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        username: [
-          { required: true, trigger: 'blur' }
+        openingBankName: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        password: [
-          { required: true, trigger: 'blur' }
+        enterpriseAccounts: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        birthday:[
-          { required: true, trigger: 'blur' }
+        openingBankRegionProvince:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        email:[
-          { required: true, trigger: 'blur' }
+        openingBankBranchInfo:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        name: [
-          { required: true, trigger: 'blur' }
+        openingBankLinkNo: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        username: [
-          { required: true, trigger: 'blur' }
+        enterpriseElectronicAccount: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        password: [
-          { required: true, trigger: 'blur' }
+        qualificationId: [
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        birthday:[
-          { required: true, trigger: 'blur' }
+        invoiceType:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        email:[
-          { required: true, trigger: 'blur' }
+        merchantServiceCharge:[
+          { required: true, message:'必填', trigger: 'blur' }
         ],
-        name: [
-          { required: true, trigger: 'blur' }
+        personalServiceCharge: [
+          { required: true, message:'必填', trigger: 'blur' }
         ]
       },
       statusOptions: [
@@ -391,6 +372,7 @@ export default {
       ],
       userList: [
         {
+          id:1,
           date: "2014/02/02",
           name: "赵佳浩",
           nick: "过往云烟",
@@ -399,6 +381,7 @@ export default {
           registerdate: "2011/09/09"
         },
         {
+          id:2,
           date: "2014/02/03",
           name: "赵佳浩",
           nick: "过往云烟",
@@ -407,6 +390,7 @@ export default {
           registerdate: "2011/09/09"
         },
         {
+          id:3,
           date: "2014/02/04",
           name: "赵佳浩",
           nick: "过往云烟",
@@ -415,6 +399,7 @@ export default {
           registerdate: "2011/09/09"
         },
         {
+          id:4,
           date: "2014/02/05",
           name: "赵佳浩",
           nick: "过往云烟",
@@ -434,41 +419,83 @@ export default {
         datespan: ""
       },
       formEdit: {
-        
+        status:''
       },
-      resetFormEdit: {}
+      resetFormEdit: {
+        status:'1'
+      }
     };
   },
   created() {},
   methods: {
     handleAdd() {
-      this.dialogTitle = "添加用户";
-      this.dialogEditVisible = true;
+      this.dialogTitle = "录入商户"
+      this.dialogEditVisible = true
+      this.isEidt = true
+      Object.assign(this.formEdit, this.resetFormEdit)
+    },
+    handleAdjust(){
+
+      let multipleSelection = this.multipleSelection
+
+      if(!this.judgeRight( multipleSelection )){
+        return false
+      }
+
+    },
+    handleEdit(index, row) {
+      let multipleSelection = this.multipleSelection
+      if(!this.judgeRight( multipleSelection )){
+        return false
+      }
+      this.dialogTitle = "编辑商户"
+      this.dialogEditVisible = true
+    },
+    handleDelet(){
+      let multipleSelection = this.multipleSelection
+      if(!this.judgeRight( multipleSelection )){
+        return false
+      }
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          deleteUser( { id } ).then(res => {
+          if(res.success){
+              this.handleGetUserList(this.currentPage)
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
+            }
+          }).catch( err => {
+          })
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })         
+        })
     },
     getUserList(currentPage) {
       console.log(currentPage)
     },
     handleSelectionChange(selection,row) {
-      console.log( selection )
-      //this.multipleSelection.push(row.date)
+      this.multipleSelection = selection
     },
-    handleSelectAll(rows){
-      let tempArr = []
-      rows.forEach(row => {
-        
-      })
+    handleSelectAll(selection){
+      this.multipleSelection = selection
     },
     handleRole(index, row) {
       this.dialogRoleVisible = true
     },
-    handleEdit(index, row) {
-      this.dialogTitle = "编辑"
-      this.dialogEditVisible = true
-    },
     submitForm(ref){
       this.$refs[ref].validate((valid) => {
         if (valid) {
-          if(this.dialogTitle == "添加用户"){
+          if(this.dialogTitle == "录入商户"){
             let params = this.formEdit
             addUser( params ).then(res => {
               if(res.success){
@@ -480,7 +507,9 @@ export default {
                 })
               }
             }).catch(err => {
+
               console.log(err)
+
             })
           }else{
             editUser( this.formEdit ).then( res => {
@@ -503,14 +532,24 @@ export default {
         }
       })
     },
-    cancelEidt() {},
-    confirmEdit() {},
-    confirmRole() {
-      console.log(this.roleList);
+    judgeRight( multipleSelection ){
+      if( !multipleSelection.length ){
+        this.$message({
+          type:'error',
+          message:'请从列表中选择需要操作的行'
+        })
+        return false
+      }else if( multipleSelection.length > 1 ){
+        this.$message({
+          type:'error',
+          message:'只能选择一行进行操作'
+        })
+        return false
+      }
+      return true
     },
-    cancelRole() {
-      this.dialogRoleVisible = false
-    }
+    cancelEidt() {},
+    confirmEdit() {}
   },
   computed: {},
   mounted() {
@@ -554,6 +593,6 @@ export default {
   padding-bottom:6px;
 }
 >>>.el-dialog{
-  width:58%;
+  width:62%;
 }
 </style>

@@ -7,7 +7,8 @@ const state = {
     PerInfoAnswer:'',
     bread:[],
     navbarList:[],
-    userid:''
+    userid:'',
+    isLogin:0
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
     },
     setBread(state,data){
         state.bread = data
+    },
+    setLogin(state,data){
+        state.isLogin = data
     }
 }
 

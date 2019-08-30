@@ -74,6 +74,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-row>
+          
+          <el-col :span="12">
+            <el-form-item label="创建日期">
+              <el-date-picker
+                v-model="formEdit.createdTime"
+                type="date"
+                format="yyyy - MM - dd"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        
         <el-row>
           <el-col :span="12">
             <el-form-item label="邮箱" prop="email">
@@ -131,11 +147,19 @@ import { addUser, getUserList, editUser, deleteUser, getALLRoleList, configRole 
 export default {
   props: {},
   data() {
-    var checkPhone = (rule, value, callback) => {
+    let checkPhone = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('电话不能为空'))
       }else if(!Number.isInteger(value*1)){
         callback(new Error('请输入数字'))
+      }else{
+        callback()
+      }
+    }
+    let checkEmail = (rule, value, callback) => {
+      let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (!reg.test(value)) {
+        return callback(new Error('邮箱格式不正确'))
       }else{
         callback()
       }
@@ -162,7 +186,8 @@ export default {
         //   { required: true, message: '请输入地址', trigger: 'blur' }
         // ],
         email:[
-          { required: true, message: '请输入邮箱', trigger: 'blur' }
+          { validator: checkEmail, trigger: 'blur' },
+          { required: true, trigger: 'blur' }
         ],
         name: [
           { required: true, message: '请输入姓名名', trigger: 'blur' }
@@ -200,7 +225,8 @@ export default {
         address: "",
         email: "",
         name: "",
-        phone: ""
+        phone: "",
+        createdTime:new Date(1000000000000)
       },
       resetFormEdit: {
         username: "",

@@ -113,6 +113,13 @@ instance.beforeEach((to, from, next) => {
   let auth = localStorage.getItem('requireAuth')
   let token = sessionStorage.getItem('token')
   store.dispatch('setBread',bread)
+  // if(to.path=="/login"||to.path=="/auth/index"){
+  //   next()
+  // }else if(!store.state.isLogin){
+  //   next({path:'/login'})
+  // }else{
+  //   next()
+  // }
   if (!to.meta.requireAuth) {
     next()
   }else{

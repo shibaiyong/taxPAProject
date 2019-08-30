@@ -95,10 +95,9 @@ export default {
       Login( params ).then( res => {
         
         if(res.success){
-          
           localStorage.setItem('username',params.username)
           this.$router.push('/home/commercialcustom')
-          
+          this.$store.dispatch('setLogin',1)
         }else{
           this.$message({
             type: "error",
