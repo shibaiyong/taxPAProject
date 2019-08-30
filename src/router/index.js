@@ -17,7 +17,7 @@ const NoFound = r => require.ensure([], () => r(require('@/components/page/noFou
 const instance = new Router({
   mode: 'history',
   routes: [
-    { path: '/', redirect: '/login' },
+    { path: '/auth/index', redirect: '/login' },
     {
       path: '/login',
       name: 'Login',
@@ -92,7 +92,7 @@ const instance = new Router({
     {
       path: '/*',
       name: 'NoFound',
-      component: Login,
+      component: NoFound,
       meta: {
         title: '404',
         requireAuth: false,
