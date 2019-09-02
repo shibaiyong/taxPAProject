@@ -86,7 +86,7 @@
     </div>
     
     <div class="paddingcontainer">
-      <el-table :data="merchantList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll">
+      <el-table :data="merchantList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll" @row-click="handleShowDetail">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="商户编号" prop="sn"></el-table-column>
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
@@ -141,7 +141,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="纳税人类型" prop="taxpayerType">
-              <el-radio-group v-model="formEdit.taxpayerType">
+              <el-radio-group v-model="formEdit.taxpayerType" :disabled="isDetail">
                 <el-radio :label="0">一般纳税人</el-radio>
                 <el-radio :label="1">小规模纳税人</el-radio>
               </el-radio-group>
@@ -151,12 +151,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人姓名" prop="contactsName">
-              <el-input v-model="formEdit.contactsName"></el-input>
+              <el-input v-model="formEdit.contactsName" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系人手机号" prop="contactsPhone">
-              <el-input v-model="formEdit.contactsPhone"></el-input>
+              <el-input v-model="formEdit.contactsPhone" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -164,7 +164,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="联系人邮箱" prop="contactsEmail">
-              <el-input v-model="formEdit.contactsEmail"></el-input>
+              <el-input v-model="formEdit.contactsEmail" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -241,14 +241,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资质方关联" prop="qualificationId">
-              <el-select v-model="formEdit.qualificationId" placeholder="">
+              <el-select v-model="formEdit.qualificationId" placeholder="" :disabled="isDetail">
                 <el-option v-for="option in qualificationId" :key="option.value" :label="option.label" :value="option.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票类型" prop="invoiceType">
-              <el-radio-group v-model="formEdit.invoiceType">
+              <el-radio-group v-model="formEdit.invoiceType" :disabled="isDetail">
                 <el-radio :label="0">普通发票</el-radio>
                 <el-radio :label="1">专用发票</el-radio>
               </el-radio-group>
@@ -258,12 +258,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户服务费" prop="merchantServiceCharge">
-              <el-input v-model.number="formEdit.merchantServiceCharge" style="width:210px;"></el-input>%
+              <el-input v-model.number="formEdit.merchantServiceCharge" style="width:210px;" :disabled="isDetail"></el-input>%
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="个人服务费" prop="personalServiceCharge">
-              <el-input v-model.number="formEdit.personalServiceCharge" style="width:210px;"></el-input>%
+              <el-input v-model.number="formEdit.personalServiceCharge" style="width:210px;" :disabled="isDetail"></el-input>%
             </el-form-item>
           </el-col>
         </el-row>
@@ -271,19 +271,67 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="销售经理">
-              <el-input v-model="formEdit.salesManager"></el-input>
+              <el-input v-model="formEdit.salesManager" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="联系方式">
-              <el-input v-model="formEdit.salesManagerTel"></el-input>
+              <el-input v-model="formEdit.salesManagerTel" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="邮箱">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="单月可用额度" v-if="whileAdd">
               <el-input v-model="formEdit.salesManagerEmail"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当月可用额度" v-if="whileAdd">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="次月可用额度" v-if="whileAdd">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="全年可用额度" v-if="whileDetail">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="全年已用额度" v-if="whileDetail">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当月总额度" v-if="whileDetail">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="当月可用额度" v-if="whileDetail">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当月已用额度" v-if="whileDetail">
+              <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -341,6 +389,9 @@ export default {
       dialogEditVisible: false,
       isEidt:false,
       editable:false,
+      isDetail:false,
+      whileAdd:false,
+      whileDetail:false,
       currentPage:1,
       total:1,
       rules: {
@@ -422,7 +473,9 @@ export default {
       ],
       provinceList:[],
       cityList:[],
-      merchantList: [],
+      merchantList: [
+        {contactsName:'hahahhahahah',contactsPhone:'', contactsEmail:''}
+      ],
       multipleSelection:[],
       formSearch: {
         sn:'',
@@ -510,6 +563,9 @@ export default {
       this.dialogEditVisible = true
       this.isEidt = true
       this.editable = false
+      this.isDetail = false
+      this.whileAdd = true
+      this.whileDetail = false
       Object.assign(this.formEdit, this.resetFormEdit)
     },
     handleAdjust(){
@@ -532,8 +588,22 @@ export default {
       this.dialogTitle = "编辑商户"
       this.isEidt = false
       this.editable = true
+      this.isDetail = false
+      this.whileAdd = true
+      this.whileDetail = false
       this.dialogEditVisible = true
-
+    },
+    handleShowDetail(row){
+      this.handleGetAllCityList().then(res => {
+        Object.assign( this.formEdit, row)
+      }).catch(err=>{console.log(err)})
+      this.dialogTitle = "详情"
+      this.isEidt = true
+      this.editable = true
+      this.isDetail = true
+      this.whileAdd = false
+      this.whileDetail = true
+      this.dialogEditVisible = true
     },
     handleDelet(){
       let multipleSelection = this.multipleSelection
@@ -545,7 +615,6 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
           deleteUser( { id } ).then(res => {
           if(res.success){
               this.getMerchantList(this.currentPage)
