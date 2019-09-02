@@ -72,7 +72,7 @@
               <el-button type="primary" size="small" @click="handleDelet">
                 <i class="el-icon-search"></i>&nbsp;删除
               </el-button>
-              <el-button type="primary" size="small">
+              <el-button type="primary" size="small" @click="handleBlackList">
                 <i class="el-icon-search"></i>&nbsp;加入黑名单
               </el-button>
               <el-button type="primary" size="small" @click="handleAdjust">
@@ -234,8 +234,7 @@
             <el-form-item label="开户行联行号" prop="openingBankLinkSn">
               <el-input v-model="formEdit.openingBankLinkSn" :disabled="editable"></el-input>
             </el-form-item>
-          </el-col>
-          
+          </el-col> 
         </el-row>
         <el-row><h4>税务信息</h4></el-row>
         <el-row>
@@ -291,8 +290,6 @@
               <el-input v-model="formEdit.salesManagerEmail"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="当月可用额度" v-if="whileAdd">
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
@@ -303,8 +300,6 @@
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="全年可用额度" v-if="whileDetail">
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
@@ -315,8 +310,6 @@
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="当月总额度" v-if="whileDetail">
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
@@ -327,8 +320,6 @@
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="当月已用额度" v-if="whileDetail">
               <el-input v-model="formEdit.salesManagerEmail" :disabled="isDetail"></el-input>
@@ -343,12 +334,65 @@
         <el-button type="primary" @click="submitForm('formEdit')" size="small">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="设置角色">
+    <el-dialog title="调账" :visible.sync="dialogChangeAccount">
+      <el-form :model="formSearch" size="small" label-width="100px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当前状态">
+            <el-select v-model="formSearch.status" placeholder="">
+              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="企业名称">
+              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当前状态">
+            <el-select v-model="formSearch.status" placeholder="">
+              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="企业名称">
+              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="当前状态">
+            <el-select v-model="formSearch.status" placeholder="">
+              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="企业名称">
+              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small">取 消</el-button>
+        <el-button size="small" @click="dialogChangeAccount = false">取 消</el-button>
         <el-button type="primary" size="small">确 定</el-button>
       </div>
     </el-dialog>
+    <div class="dialogblack">
+    <el-dialog title="调账" :visible.sync="dialogBlackList" ref="aaa">
+      <p>确定要将该商户加入黑名单吗？</p>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
+        <el-button type="primary" size="small">确 定</el-button>
+      </div>
+    </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -387,6 +431,8 @@ export default {
       value6: "",
       dialogTitle: "编辑",
       dialogEditVisible: false,
+      dialogChangeAccount: false,
+      dialogBlackList: false,
       isEidt:false,
       editable:false,
       isDetail:false,
@@ -569,13 +615,18 @@ export default {
       Object.assign(this.formEdit, this.resetFormEdit)
     },
     handleAdjust(){
-
       let multipleSelection = this.multipleSelection
-
       if(!this.judgeRight( multipleSelection )){
         return false
       }
-
+      this.dialogChangeAccount = true
+    },
+    handleBlackList(){
+      let multipleSelection = this.multipleSelection
+      if(!this.judgeRight( multipleSelection )){
+        return false
+      }
+      this.dialogBlackList = true
     },
     handleEdit(index, row) {
       let multipleSelection = this.multipleSelection
@@ -786,6 +837,8 @@ export default {
 >>>.el-dialog{
   width:62%;
 }
-
+.dialogblack >>>.el-dialog{
+  width:40%;
+}
 
 </style>
