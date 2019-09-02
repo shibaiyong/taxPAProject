@@ -149,12 +149,16 @@ export const editMerchant = params => {
 export const getProvinceList = params => {
     return axiosInstance.post("/apii/merchant/getProvinceList").then(res => res.data)
 }
-//查询市
-export const getCityList = params => {
+//查询根据省查询市
+export const getCityListByProvinceId = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/getCityListByProvinceId",data).then(res => res.data)
 }
+//查询所有的市
+export const getCityList = params => {
 
+    return axiosInstance.post("/apii/merchant/getCityList").then(res => res.data)
+}
 
 
 

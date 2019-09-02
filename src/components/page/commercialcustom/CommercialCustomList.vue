@@ -46,42 +46,45 @@
         <el-col :span="8">
           <el-form-item label="入网结束日期">
             <el-date-picker
-                v-model="formEdit.endDate"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="结束日期">
-              </el-date-picker>
-        </el-form-item>
+              v-model="formSearch.endDate"
+              type="date"
+              format="yyyy - MM - dd"
+              value-format="yyyy-MM-dd"
+              placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16">
+          <div class="operate">
+            <div class="operateBtn">
+              <el-button type="primary" size="small" @click="handleSearch">
+                <i class="el-icon-search"></i>&nbsp;查询
+              </el-button>
+              <el-button type="primary" size="small" @click="handleResetSearchForm">
+                <i class="el-icon-search"></i>&nbsp;清空
+              </el-button>
+              <el-button type="primary" size="small" @click="handleAdd">
+                <i class="el-icon-search"></i>&nbsp;录入
+              </el-button>
+              <el-button type="primary" size="small" @click="handleEdit">
+                <i class="el-icon-search"></i>&nbsp;编辑
+              </el-button>
+              <el-button type="primary" size="small" @click="handleDelet">
+                <i class="el-icon-search"></i>&nbsp;删除
+              </el-button>
+              <el-button type="primary" size="small">
+                <i class="el-icon-search"></i>&nbsp;加入黑名单
+              </el-button>
+              <el-button type="primary" size="small" @click="handleAdjust">
+                <i class="el-icon-search"></i>&nbsp;调账
+              </el-button>
+            </div>
+          </div>
         </el-col>
         </el-row>
       </el-form>
     </div>
-    <div class="operate">
-      <div class="operateBtn">
-        <el-button type="primary" size="small" @click="handleSearch">
-          <i class="el-icon-search"></i>&nbsp;查询
-        </el-button>
-        <el-button type="primary" size="small">
-          <i class="el-icon-search"></i>&nbsp;清空
-        </el-button>
-        <el-button type="primary" size="small" @click="handleAdd">
-          <i class="el-icon-search"></i>&nbsp;录入
-        </el-button>
-        <el-button type="primary" size="small" @click="handleEdit">
-          <i class="el-icon-search"></i>&nbsp;编辑
-        </el-button>
-        <el-button type="primary" size="small" @click="handleDelet">
-          <i class="el-icon-search"></i>&nbsp;删除
-        </el-button>
-        <el-button type="primary" size="small">
-          <i class="el-icon-search"></i>&nbsp;加入黑名单
-        </el-button>
-        <el-button type="primary" size="small" @click="handleAdjust">
-          <i class="el-icon-search"></i>&nbsp;调账
-        </el-button>
-      </div>
-    </div>
+    
     <div class="paddingcontainer">
       <el-table :data="merchantList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -201,14 +204,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行（省）" prop="openingBankRegionProvince">
-              <el-select v-model="formEdit.openingBankRegionProvince" placeholder="请选择省" @change="handleGetCityList" :disabled="editable">
+              <el-select v-model="formEdit.openingBankRegionProvince" placeholder="请选择开户行地域（省）" @change="handleGetCityList" :disabled="editable">
                 <el-option v-for="option in provinceList" :key="option.id" :label="option.name" :value="option.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开户行（市）" prop="openingBankRegionCity">
-              <el-select v-model="formEdit.openingBankRegionCity" placeholder="请选择市" :disabled="editable">
+              <el-select v-model="formEdit.openingBankRegionCity" placeholder="请选择开户行地域（市）" :disabled="editable">
                 <el-option v-for="option in cityList" :key="option.id" :label="option.name" :value="option.id"></el-option>
               </el-select>
             </el-form-item>
@@ -292,11 +295,17 @@
         <el-button type="primary" @click="submitForm('formEdit')" size="small">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="设置角色">
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small">取 消</el-button>
+        <el-button type="primary" size="small">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { addMerchant, getProvinceList, getCityList, editMerchant, getMerchantList } from "@/requestDataInterface"
+import { addMerchant, getProvinceList, getCityListByProvinceId, editMerchant, getMerchantList, getCityList } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -405,7 +414,6 @@ export default {
         ]
       },
       statusOptions: [
-        { label: "全部", value: "" },
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
@@ -414,47 +422,18 @@ export default {
       ],
       provinceList:[],
       cityList:[],
-      merchantList: [
-        {
-          id:1,
-          date: "2014/02/02",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          id:2,
-          date: "2014/02/03",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          id:3,
-          date: "2014/02/04",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        },
-        {
-          id:4,
-          date: "2014/02/05",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        }
-        
-      ],
+      merchantList: [],
       multipleSelection:[],
       formSearch: {
+        sn:'',
+        enterpriseName:'',
+        enterpriseAccounts:'',
+        taxpayerIdentificationSn:'',
+        status:'',
+        beginDate:'',
+        endDate:''
+      },
+      resetFormSearch: {
         sn:'',
         enterpriseName:'',
         enterpriseAccounts:'',
@@ -547,7 +526,9 @@ export default {
       if(!this.judgeRight( multipleSelection )){
         return false
       }
-      Object.assign( this.formEdit, multipleSelection[0])
+      this.handleGetAllCityList().then(res => {
+        Object.assign( this.formEdit, multipleSelection[0])
+      }).catch(err=>{})
       this.dialogTitle = "编辑商户"
       this.isEidt = false
       this.editable = true
@@ -605,12 +586,18 @@ export default {
     handleGetCityList(id){
       this.formEdit.openingBankRegionCity = ''
       let provinceId = id
-      getCityList({ provinceId }).then(res => {
-        console.log(res)
+      getCityListByProvinceId({ provinceId }).then(res => {
         if(res.success){
           this.cityList = res.result
         }
       }).catch(err=>{})
+    },
+    handleGetAllCityList(){
+      return getCityList().then(res => {
+        if(res.success){
+          this.cityList = res.result
+        }
+      }).catch( err => {})
     },
     handleSelectionChange(selection,row) {
       this.multipleSelection = selection
@@ -618,8 +605,8 @@ export default {
     handleSelectAll(selection){
       this.multipleSelection = selection
     },
-    handleRole(index, row) {
-      this.dialogRoleVisible = true
+    handleResetSearchForm() {
+      Object.assign(this.formSearch,this.resetFormSearch)
     },
     submitForm(ref){
       this.$refs[ref].validate((valid) => {
@@ -699,9 +686,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
 }
-
+.operate .el-button--small{
+  padding:9px 12px;
+}
 .pagecontainer {
   text-align: right;
   margin-top: 20px;
@@ -729,4 +717,6 @@ export default {
 >>>.el-dialog{
   width:62%;
 }
+
+
 </style>
