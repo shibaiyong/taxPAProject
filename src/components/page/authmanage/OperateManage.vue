@@ -54,7 +54,7 @@
 
         <el-row>
           <el-col :span="24">
-            <el-form-item label="接口链接">
+            <el-form-item label="权限链接">
               <el-input v-model="formEdit.vueUrl"></el-input>
             </el-form-item>
           </el-col>
@@ -62,7 +62,7 @@
 
         <el-row>
           <el-col :span="24">
-            <el-form-item label="权限链接">
+            <el-form-item label="接口链接">
               <el-input v-model="formEdit.url" :disabled="ispath"></el-input>
             </el-form-item>
           </el-col>
@@ -133,8 +133,7 @@ export default {
       Object.assign(this.formEdit,this.resetFormEdit,{parentId:row.id,isButton})
     },
     handleGetPermissionList(currentPage) {
-      // this.currenPage = currentPage
-      console.log(this.nowPage)
+
       let params = {page:currentPage,rows:10}
       getPermissionList(params).then(res => {
         if(res.success){

@@ -25,7 +25,8 @@ const instance = new Router({
       meta: {
         title: 'Login',
         requireAuth: false,
-        roles: ['user','admin','superadmin']
+        roles: ['user','admin','superadmin'],
+        bread:['主页','登录']
       }
     },
     {
@@ -36,7 +37,7 @@ const instance = new Router({
         title: '主页',
         requireAuth: false,
         roles: ['admin','superadmin'],
-        bread:['主页']
+        bread:['主页','登录']
       },
       children:[
 
