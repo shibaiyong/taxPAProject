@@ -161,5 +161,15 @@ export const getCityList = params => {
 }
 
 
+//资质方新增
+export const addQualificationParty = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/addQualificationParty",data).then(res => res.data)
+}
 
+//编辑资质方
+export const editQualificationParty = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/editQualificationParty",data).then(res => res.data)
+}
 

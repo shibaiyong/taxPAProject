@@ -6,6 +6,7 @@ const Login = r => require.ensure([], () => r(require('@/components/page/login/L
 
 
 const CommercialCustomList = r => require.ensure([], () => r(require('@/components/page/commercialcustom/CommercialCustomList')), 'CommercialCustomList')
+const Qualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/Qualifypart')), 'Qualifypart')
 
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
@@ -54,6 +55,18 @@ const instance = new Router({
         },
 
         {
+          path: '/home/qualifypart',
+          name: 'Qualifypart',
+          component: Qualifypart,
+          meta: {
+            title: '资质方列表',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','资质方管理','资质方列表']
+          }
+        },
+
+        {
           path: '/home/usermanage',
           name: 'UserManage',
           component: UserManage,
@@ -86,8 +99,7 @@ const instance = new Router({
             roles: ['admin','superadmin'],
             bread:['主页','权限管理','权限列表']
           }
-        },
-
+        }
       ]
     },
     {
