@@ -1,5 +1,5 @@
 <template>
-  <div class="commercialList">
+  <div class="rolelist">
     <div class="operate">
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
@@ -53,6 +53,7 @@
         background
         layout="prev, pager, next"
         :total="total"
+        :page-size="20"
         @current-change="handlegetQualificationPartyList"
         :current-page.sync="currentPage"
       ></el-pagination>
@@ -74,7 +75,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" prop="enterpriseName">
-            <el-form-item label="企业名称">
+            <el-form-item label="企业名称" prop="enterpriseName">
               <el-input v-model="formEdit.enterpriseName" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
@@ -112,6 +113,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="单月可用额度">
+              <el-input v-model="formEdit.singleMonthPayment" :disabled="isEdit"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="当月可用额度" prop="thisMonthPayment">
               <el-input v-model="formEdit.thisMonthPayment" :disabled="isEdit"></el-input>
             </el-form-item>
@@ -121,11 +127,7 @@
               <el-input v-model="formEdit.nextMonthPayment"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="单月可用额度" prop="singleMonthPayment">
-              <el-input v-model="formEdit.singleMonthPayment" :disabled="isEdit"></el-input>
-            </el-form-item>
-          </el-col>
+          
           <el-col :span="12" v-if="isEdit">
             <el-form-item label="全年可用额度" prop="singleMonthPayment">
               <el-input v-model="formEdit.singleMonthPayment" :disabled="isEdit"></el-input>
@@ -187,7 +189,6 @@ import {
   addQualificationParty,
   editQualificationParty,
   getQualificationPartyList,
-
 } from "@/requestDataInterface";
 export default {
   props: {},
@@ -404,6 +405,10 @@ export default {
                 if (res.success) {
                   this.handlegetQualificationPartyList(this.currentPage);
                   this.dialogEditVisible = false;
+                  this.$message({
+                    type: "error",
+                    message: "资质方录入成功"
+                  });
                 } else {
                   this.$message({
                     type: "error",
@@ -420,6 +425,10 @@ export default {
                 if (res.success) {
                   this.handlegetQualificationPartyList(this.currentPage);
                   this.dialogEditVisible = false;
+                  this.$message({
+                    type: "error",
+                    message: "资质方编辑成功"
+                  });
                 } else {
                   this.$message({
                     type: "error",
