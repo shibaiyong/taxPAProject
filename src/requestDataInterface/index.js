@@ -160,7 +160,6 @@ export const getCityList = params => {
     return axiosInstance.post("/apii/merchant/getCityList").then(res => res.data)
 }
 
-
 //资质方新增
 export const addQualificationParty = params => {
     let data = qs.stringify(params)
@@ -179,4 +178,9 @@ export const getQualificationPartyList = params => {
     return axiosInstance.post("/apii/qualificationParty/getQualificationPartyList",data).then(res => res.data)
 }
 
+//获取单月可用额度
+export const getSingleMonthPayment = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/getSingleMonthPayment",data).then(res => res.data)
+}
 

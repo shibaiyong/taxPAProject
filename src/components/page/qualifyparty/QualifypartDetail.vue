@@ -1,6 +1,59 @@
 <template>
-  <div class="qualifypart">
-    
+  <div class="addqualifypart">
+    <h4>企业信息</h4>
+    <el-row>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+    </el-row>
+    <h4>账户信息</h4>
+    <el-row>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label>资质方编号</label></el-col>
+            <el-col :span="18">23242dsfdgfdgdgdsgdg</el-col>
+        </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -22,44 +75,7 @@ export default {
 }
 </script>
 <style scoped>
-.operate {
-  padding: 0 3%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.operate .el-button--small {
-  padding: 9px 12px;
-}
-.pagecontainer {
-  text-align: right;
-  margin-top: 20px;
-}
-.el-pagination {
-  display: inline-block;
-}
-
-.el-form-item__content > .el-input {
-  width: 230px;
-}
-
-.el-form-item__content > .el-select {
-  width: 230px;
-}
-.el-form-item__content > .el-date-editor {
-  width: 230px;
-}
-.el-form {
-  width: 100%;
-}
 .el-row h4 {
   padding-bottom: 6px;
-}
->>> .el-dialog {
-  width: 62%;
-}
-.dialogblack >>> .el-dialog {
-  width: 40%;
 }
 </style>

@@ -7,6 +7,8 @@ const Login = r => require.ensure([], () => r(require('@/components/page/login/L
 
 const CommercialCustomList = r => require.ensure([], () => r(require('@/components/page/commercialcustom/CommercialCustomList')), 'CommercialCustomList')
 const Qualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/Qualifypart')), 'Qualifypart')
+const AddQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/AddQualifypart')), 'AddQualifypart')
+const EditQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/EditQualifypart')), 'EditQualifypart')
 
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
@@ -63,6 +65,29 @@ const instance = new Router({
             requireAuth: false,
             roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方列表']
+          }
+        },
+        {
+          path: '/home/addqualifypart',
+          name: 'AddQualifypart',
+          component: AddQualifypart,
+          meta: {
+            title: '资质方录入',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','资质方管理','资质方录入']
+          }
+        },
+
+        {
+          path: '/home/editqualifypart',
+          name: 'EditQualifypart',
+          component: EditQualifypart,
+          meta: {
+            title: '资质方编辑',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','资质方管理','资质方编辑']
           }
         },
 
