@@ -1,24 +1,11 @@
 <template>
   <div id="login">
-
-
     <div class="loginleft">
-
-      <div class="shownumber font28"><p class="font58">{{toThousands(numberStart)}}</p>今日数据总量</div>
-      <ul class="companyInfo">
-        <li>
-          <span class="font14">北京荣之联科技股份有限公司</span>
-          <span class="font14">技术咨询: 座机 010-62602000-2032</span>
-          <span class="font14">地址: 北京市朝阳区酒仙桥北路甲10号院106号楼荣之联大厦</span>
-        </li>
-        <li class="font14">Copyright©1692018.UEC Group Co.,Ltd.京ICP备14049550号-7</li>
-      </ul>
+      <img src="@/assets/img/loginbanner.png" class="loginbanner"/>
+      <img src="@/assets/img/loginlogo.png" class="loginlogo"/>
     </div>
     <div class="loginright">
-      <div class="logo">
-        <img src=""/>
-      </div>
-      <h3 class="font44">欢迎登录</h3>
+      <h3 class="font44">登录</h3>
       <ul>
         <li class="bottom16" :class="{ 'verify': errorUserNameShow }">用户名</li>
         <li class="input bottom46" :class="{ 'verify': errorUserNameShow }">
@@ -31,7 +18,6 @@
           <span v-show="errorPassWordShow"><img src=""/>&nbsp;{{ errorPassWordMessage }}</span>
         </li>
         <li class="remeberme">
-          <!-- <CheckBox :label="'选中'" :dataArr="dataArr" :all="isChecked"><a href="javascript:void(0)" class="font14">记住密码</a></CheckBox> -->
           <el-checkbox v-model="rememberP">记住密码</el-checkbox>
         </li>
         <li><button class="font16" @click="gotoLogin($event)">登录</button></li>
@@ -42,9 +28,6 @@
 </template>
 
 <script>
-
-import messageBox from "@/components/base/MessageBox"
-import CheckBox from "@/components/base/CheckBox"
 import { Login } from "@/requestDataInterface"
 import { setCookie, getCookie, deleteCookie} from "@/assets/utils"
 
@@ -54,21 +37,16 @@ export default {
     return {
       //弹窗组件的配置项
       rememberP:false,
-      isVisible: -1,
-      email: "",
       userInfo: {
         username: "",
         password: ""
       },
-      numberStart: 0,
-      numberEnd: 0,
       errorUserNameShow: false,
       errorPassWordShow: false,
       errorUserNameShowAcive:false,
       errorPassWordShowAcive:false,
       errorUserNameMessage: "",
       errorPassWordMessage: "",
-      totalTimer:''
     }
   },
   created() {
@@ -126,10 +104,6 @@ export default {
       deleteCookie("rlUserInfo")
     },
 
-    showMessageBox(textOptions) {
-      
-    },
-
     formValidation() {
       //用户名支持数字，字母，区分大小写；密码支持数字，字母，区分大小写。
       let userName = this.userInfo.username
@@ -139,7 +113,7 @@ export default {
       let passwordReg = /^[a-zA-Z\d]{6,20}$/
 
       if (!userReg.test(userName)) {
-        this.errorUserNameMessage = "用户名错误";
+        this.errorUserNameMessage = "用户名格式不正确";
         this.errorUserNameShow = true;
         this.errorUserNameShowAcive = false;
         return false;
@@ -147,7 +121,7 @@ export default {
         this.errorUserNameShow = false;
       }
       if (!passwordReg.test(passWord)) {
-        this.errorPassWordMessage = "密码错误";
+        this.errorPassWordMessage = "密码格式不正确";
         this.errorPassWordShow = true;
         this.errorPassWordShowAcive = false;
         return false
@@ -156,19 +130,6 @@ export default {
       }
 
       return true
-    },
-
-    getTotalData() {
-      
-    },
-
-    changeStatusActive( data ){
-      
-    },
-    changeStatusBlur(data){
-      
-    },
-    toThousands(num){
     }
   },
   beforeDestroy(){
@@ -183,10 +144,7 @@ export default {
       }
     }
   },
-  components: {
-    messageBox,
-    CheckBox
-  }
+  components: {}
 };
 </script>
 
@@ -198,63 +156,40 @@ export default {
   overflow:hidden;
 }
 .loginleft{
-  width:62%;
+  width:50%;
   height:100%;
-  /* background: url("../../assets/login_bg.jpg") no-repeat center center; */
   float:left;
-  background-size:100% 100%;
   position: relative;
 }
-.loginleft .shownumber{
-  width:100%;
+.loginleft .loginlogo{
   position:absolute;
-  bottom:10%;
-  left:0;
-  color:white;
-  line-height: 40px;
-  padding-left:6%;
-  font-weight: bold;
+  left:50%;
+  margin-left:-195px;
+  top:50%;
+  margin-top:-53px;
+  z-index:222;
 }
-.loginleft .shownumber p{
-
-  line-height: 67px;
-  font-weight: bold;
-}
-.loginleft .companyInfo{
+.loginleft .loginbanner{
   width:100%;
-  position:absolute;
-  bottom:3%;
-  left:0;
-  color:white;
-  line-height: 21px;
-  padding-left:6%;
-}
-.loginleft .companyInfo span+span{
-  display:inline-block;
-  margin-left:3%;
+  height:100%;
 }
 .loginright{
-  width:38%;
+  width:50%;
   height:100%;
   float:left;
   background:white;
 }
-.loginright .logo{
-  width:60%;
-  margin:20% auto 17% auto;
-}
-.loginright .logo img{
-  width:73%;
-}
+
 .loginright h3{
   width:60%;
   height:62px;
   font-family:'PingFangSC-Medium';
   font-weight:500;
-  color:rgba(68,68,68,1);
-  line-height:62px;
+  color:#333;
   margin:0 auto;
   margin-bottom:7%;
+  font-size:40px;
+  margin-top:18%;
 }
 .loginright ul{
   width:60%;
@@ -262,48 +197,36 @@ export default {
 }
 
 .loginright li.input{
-  border:1px solid rgba(204,204,204,1);
+  border:1px solid #e7e7e7;
   border-radius:4px;
   overflow: hidden;
+}
+
+.loginright li.input::placeholder{
+  color:#c2c2c2;
 }
 
 .loginright li.input span{
   height: auto;
 }
-
-
 .loginright li input {
   width: 54%;
   outline: none;
-  padding-left: 40px;
-  height:56px;
+  padding-left: 10px;
+  height:50px;
   border:none;
   box-sizing: border-box;
 }
-/* .loginright li.bottom46 input{
-  background:rgba(255,255,255,1) url(../../assets/username-ico.png) no-repeat 12px center;
-}
-.loginright li.bottom24 input{
-  background:rgba(255,255,255,1) url(../../assets/password-ico.png) no-repeat 12px center;
-} */
 .loginright li.verify {
   border-color: red;
   color:red;
 }
 .loginright li.bottom46 input.verify {
   color:red;
-  /* background:rgba(255,255,255,1) url(../../assets/username-error.png) no-repeat 12px center; */
 }
 .loginright li.bottom24 input.verify {
   color:red;
-  /* background:rgba(255,255,255,1) url(../../assets/password-error.png) no-repeat 12px center; */
 }
-/* .loginright li.bottom46 input.verifylan {
-  background:rgba(255,255,255,1) url(../../assets/username-active.png) no-repeat 12px center;
-} */
-/*.loginright li.bottom24 input.verifylan {
-   background:rgba(255,255,255,1) url(../../assets/password-active.png) no-repeat 12px center; 
-}*/
 .loginright li span{
   display: inline-block;
   width:42%;
@@ -322,8 +245,8 @@ export default {
   border: none;
   color: white;
   cursor: pointer;
-  height:56px;
-  background:rgba(29,32,136,1);
+  height:50px;
+  background:#5e8ddb;
   border-radius:4px;
   font-size:16px;
   font-family:'PingFangSC-Medium';

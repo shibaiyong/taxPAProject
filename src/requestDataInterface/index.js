@@ -173,3 +173,10 @@ export const editQualificationParty = params => {
     return axiosInstance.post("/apii/qualificationParty/editQualificationParty",data).then(res => res.data)
 }
 
+//查询资质方列表
+export const getQualificationPartyList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/getQualificationPartyList",data).then(res => res.data)
+}
+
+
