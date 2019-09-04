@@ -51,7 +51,7 @@
         </el-col>
           <el-col :span="12">
             <el-form-item label="全年缴税额度" prop="yearPayment">
-              <el-input v-model="formEdit.yearPayment" :disabled="isEdit" @blur="handleGetSingleMonthPayment"></el-input>
+              <el-input v-model="formEdit.yearPayment" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -155,7 +155,7 @@ export default {
     let checkNum = (rule, value, callback) => {
       let reg = /^\d+(\.\d{1,4})?$/
       if (!reg.test(value)) {
-        return callback(new Error("请输入数字"))
+        return callback(new Error("输入的额度格式不正确"))
       } else {
         this.handleGetSingleMonthPayment(value)
         callback()
