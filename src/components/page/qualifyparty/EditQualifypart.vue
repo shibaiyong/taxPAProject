@@ -68,13 +68,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="次月可用额度" prop="nextMonthPayment">
-              <el-input v-model="formEdit.nextMonthPayment"  :disabled="isEdit"></el-input>
-            </el-form-item>
-          </el-col>
-          
-          <el-col :span="12">
-            <el-form-item label="全年可用额度" prop="allYearPayment">
-              <el-input v-model="formEdit.allYearPayment" @blur="handleGetSingleMonthPayment"></el-input>
+              <el-input v-model="formEdit.nextMonthPayment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -128,7 +122,7 @@
 </template>
 
 <script>
-import {editQualificationParty, getSingleMonthPayment} from "@/requestDataInterface"
+import {editQualificationParty} from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -151,14 +145,6 @@ export default {
         callback();
       }
     }
-    let checkNum = (rule, value, callback) => {
-      let reg = /^\d+(\.\d{1,4})?$/
-      if (!reg.test(value)) {
-        return callback(new Error("请输入数字"))
-      } else {
-        callback()
-      }
-    }
     return {
       isEdit:true,
       rules: {
@@ -171,10 +157,6 @@ export default {
         unEnableTime: [{required: true, message: "必填", trigger: "blur" }],
         yearPayment: [
           {required: true, message: "必填", trigger: "blur"}
-        ],
-
-        allYearPayment:[{ validator: checkNum, trigger: "blur" },
-          { required: true, message: "必填", trigger: "blur" }
         ],
 
         singleMonthPayment: [
@@ -251,16 +233,6 @@ export default {
     handleEdit() {
       let row = this.$route.params
       Object.assign(this.formEdit,row)
-    },
-
-    handleGetSingleMonthPayment(){
-      let yearPayment = this.formEdit.allYearPayment
-      if(!yearPayment){
-        return false
-      }
-      getSingleMonthPayment({yearPayment}).then( res => {
-        this.formEdit.singleMonthPayment = res.result
-      }).catch(err=>{})
     },
     submitForm(ref) {
       this.$refs[ref].validate(valid => {

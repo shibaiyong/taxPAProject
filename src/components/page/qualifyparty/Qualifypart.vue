@@ -98,7 +98,7 @@ export default {
       this.$router.push("/home/addqualifypart")
     },
     
-    handleEdit(index, row) {
+    handleEdit() {
       let multipleSelection = this.multipleSelection
       if (!this.judgeRight(multipleSelection)) {
         return false
@@ -106,7 +106,7 @@ export default {
       this.$router.push({name:'EditQualifypart',params:multipleSelection[0]})
     },
     handleShowDetail(row) {
-      
+      this.$router.push({ name: 'QualifypartDetail', params: row })
     },
     handleDelet() {
       let multipleSelection = this.multipleSelection

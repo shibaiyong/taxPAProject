@@ -12,11 +12,6 @@ export const Login = params => {
     return axiosInstance.post("/apii/auth/login", data).then(res => res.data)
 }
 
-//登出
-export const Logout = params => {
-    return axiosInstance.get("/user/logout").then(res => res.data)
-}
-
 //获取权限侧边栏菜单
 
 export const getMenuList = params => {

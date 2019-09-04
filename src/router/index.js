@@ -9,6 +9,7 @@ const CommercialCustomList = r => require.ensure([], () => r(require('@/componen
 const Qualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/Qualifypart')), 'Qualifypart')
 const AddQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/AddQualifypart')), 'AddQualifypart')
 const EditQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/EditQualifypart')), 'EditQualifypart')
+const QualifypartDetail = r => require.ensure([], () => r(require('@/components/page/qualifyparty/QualifypartDetail')), 'QualifypartDetail')
 
 const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
@@ -88,6 +89,18 @@ const instance = new Router({
             requireAuth: false,
             roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方编辑']
+          }
+        },
+
+        {
+          path: '/home/qualifypartdetail',
+          name: 'QualifypartDetail',
+          component: QualifypartDetail,
+          meta: {
+            title: '资质方详情',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','资质方管理','资质方详情']
           }
         },
 

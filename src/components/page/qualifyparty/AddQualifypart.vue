@@ -51,7 +51,7 @@
         </el-col>
           <el-col :span="12">
             <el-form-item label="全年缴税额度" prop="yearPayment">
-              <el-input v-model="formEdit.yearPayment" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.yearPayment" :disabled="isEdit" @blur="handleGetSingleMonthPayment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -127,7 +127,7 @@
 
 <script>
 import {
-  addQualificationParty,
+  addQualificationParty,getSingleMonthPayment
 } from "@/requestDataInterface";
 export default {
   props: {},
@@ -151,6 +151,16 @@ export default {
         callback();
       }
     }
+
+    let checkNum = (rule, value, callback) => {
+      let reg = /^\d+(\.\d{1,4})?$/
+      if (!reg.test(value)) {
+        return callback(new Error("请输入数字"))
+      } else {
+        this.handleGetSingleMonthPayment(value)
+        callback()
+      }
+    }
     return {
       isEdit:false,
       rules: {
@@ -162,6 +172,7 @@ export default {
         enableTime: [{required: true, message: "必填", trigger: "blur" }],
         unEnableTime: [{required: true, message: "必填", trigger: "blur" }],
         yearPayment: [
+          { validator: checkNum, trigger: "blur" },
           {required: true, message: "必填", trigger: "blur"}
         ],
         singleMonthPayment: [
@@ -234,6 +245,13 @@ export default {
   },
   created() {},
   methods: {
+    handleGetSingleMonthPayment( val ){
+      let yearPayment = val
+      console.log(val)
+      getSingleMonthPayment({yearPayment}).then( res => {
+        this.formEdit.singleMonthPayment = res.result
+      }).catch(err=>{})
+    },
     submitForm(ref) {
       this.$refs[ref].validate(valid => {
         if (valid) {
