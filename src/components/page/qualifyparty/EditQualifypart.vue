@@ -58,7 +58,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="单月可用额度">
-              <el-input v-model="formEdit.singleMonthPayment"></el-input>
+              <el-input v-model="formEdit.singleMonthPayment" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">

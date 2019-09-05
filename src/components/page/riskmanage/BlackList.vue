@@ -20,19 +20,14 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="纳税人识别号">
-          <el-input v-model="formSearch.taxpayerIdentificationSn" placeholder="纳税人识别号"></el-input>
-        </el-form-item>
-          </el-col>
-          <el-col :span="8">
-        <el-form-item label="当前状态">
-          <el-select v-model="formSearch.status" placeholder="">
-            <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-          </el-select>
-        </el-form-item>
-          </el-col>
-          <el-col :span="8">
+        <el-col :span="8">
+            <el-form-item label="当前状态">
+            <el-select v-model="formSearch.status" placeholder="">
+                <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
+            </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="入网开始日期">
             <el-date-picker
               v-model="formSearch.beginDate"
@@ -41,7 +36,7 @@
               value-format="yyyy-MM-dd"
               placeholder="开始日期"
             ></el-date-picker>
-        </el-form-item>
+          </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="入网结束日期">
@@ -60,21 +55,12 @@
               <el-button type="primary" size="small" @click="handleSearch">
                 <i class="el-icon-search"></i>&nbsp;查询
               </el-button>
-              <el-button type="primary" size="small" @click="handleResetSearchForm">
-                <i class="el-icon-search"></i>&nbsp;清空
+              <el-button type="primary" size="small" @click="handleRemoveBlackList">
+                <i class="el-icon-search"></i>&nbsp;解除黑名单
               </el-button>
-              <el-button type="primary" size="small" @click="handleAdd">
-                <i class="el-icon-search"></i>&nbsp;录入
-              </el-button>
-              <el-button type="primary" size="small" @click="handleEdit">
-                <i class="el-icon-search"></i>&nbsp;编辑
-              </el-button>
-              <el-button type="primary" size="small" @click="handleBlackList">
-                <i class="el-icon-search"></i>&nbsp;加入黑名单
-              </el-button>
-              <el-button type="primary" size="small" @click="handleAdjust">
-                <i class="el-icon-search"></i>&nbsp;调账
-              </el-button>
+              <el-button type="primary" size="small">
+                <i class="el-icon-search"></i>&nbsp;导出
+              </el-button>  
             </div>
           </div>
         </el-col>
@@ -83,7 +69,7 @@
     </div>
     
     <div class="paddingcontainer">
-      <el-table :data="merchantList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll" @row-click="handleShowDetail">
+      <el-table :data="blackList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="商户编号" prop="sn"></el-table-column>
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
@@ -91,11 +77,11 @@
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
         <el-table-column label="入网日期" prop="createdTime"></el-table-column>
         <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
-        <el-table-column label="状态" prop="status">
+        <!-- <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -104,66 +90,17 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handleGetMerchantList"
+        @current-change="handleGetBlacklist"
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
-    <el-dialog title="调账" :visible.sync="dialogChangeAccount">
-      <el-form :model="formSearch" size="small" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogChangeAccount = false">取 消</el-button>
-        <el-button type="primary" size="small">确 定</el-button>
-      </div>
-    </el-dialog>
+    
     <div class="dialogblack">
-    <el-dialog title="调账" :visible.sync="dialogBlackList" ref="aaa">
-      <p>确定要将该商户加入黑名单吗？</p>
+    <el-dialog title="解除黑名单" :visible.sync="dialogBlackList">
+      <p>确定要将该用户解除黑名单吗？</p>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-        <el-button type="primary" size="small" @click="handleInsertBlanklist">确 定</el-button>
+        <el-button type="primary" size="small" @click="removeBlanklist">确 定</el-button>
       </div>
     </el-dialog>
     </div>
@@ -171,13 +108,14 @@
 </template>
 
 <script>
-import {  changeStatus, insertBlanklist, getMerchantList } from "@/requestDataInterface"
+import { getBlacklist, removeBlacklist } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
     
     return {
-      dialogChangeAccount: false,
+      a:true,
+      isEffect:true,
       dialogBlackList: false,
       currentPage:1,
       total:1,
@@ -185,7 +123,7 @@ export default {
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
-      merchantList: [
+      blackList: [
         
       ],
       multipleSelection:[],
@@ -193,7 +131,6 @@ export default {
         sn:'',
         enterpriseName:'',
         enterpriseAccounts:'',
-        taxpayerIdentificationSn:'',
         status:'',
         beginDate:'',
         endDate:''
@@ -202,7 +139,6 @@ export default {
         sn:'',
         enterpriseName:'',
         enterpriseAccounts:'',
-        taxpayerIdentificationSn:'',
         status:'',
         beginDate:'',
         endDate:''
@@ -214,7 +150,7 @@ export default {
     handleEffect(id,status){
       return changeStatus({id:id,status:status}).then(res=>{
         if(res.success){
-          this.handleGetMerchantList(this.currentPage)
+          this.handleGetBlacklist(this.currentPage)
         }else{
           this.$message({
             type: 'error',
@@ -224,11 +160,9 @@ export default {
       })
     },
     handleSearch(){
-      this.handleGetMerchantList(this.currentPage)
+      this.handleGetBlacklist(this.currentPage)
     },
-    handleAdd() {
-      this.$router.push('/home/addcommercialcustom')
-    },
+    
     handleAdjust(){
       let multipleSelection = this.multipleSelection
       if(!this.judgeRight( multipleSelection )){
@@ -236,69 +170,32 @@ export default {
       }
       this.dialogChangeAccount = true
     },
-    handleBlackList(){
+    handleRemoveBlackList(){
       let multipleSelection = this.multipleSelection
       if(!this.judgeRight( multipleSelection )){
         return false
       }
       this.dialogBlackList = true
     },
-    handleInsertBlanklist(){
+    removeBlanklist(){
       let id = this.multipleSelection[0].id
-      insertBlanklist({id}).then(res=>{
+      removeBlacklist({id}).then(res=>{
         if(res.success){
           this.$message({
             type:'success',
             message:res.msg
           })
-          this.handleGetMerchantList(this.currentPage)
+          this.handleGetBlacklist(this.currentPage)
           this.dialogBlackList = false
         }
       }).catch(err => {console.log(err)})
     },
-    handleEdit(index, row) {
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
-      }
-      this.$router.push({name:'EditCommercialCustom',params:multipleSelection[0]})
-    },
-    handleShowDetail(row){
+    handleGetBlacklist(currentPage) {
       
-    },
-    handleDelet(){
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
-      }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteUser( { id } ).then(res => {
-          if(res.success){
-              this.getMerchantList(this.currentPage)
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              })
-            }
-          }).catch( err => {
-          })
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })         
-        })
-    },
-    handleGetMerchantList(currentPage) {
       let params = Object.assign({}, this.formSearch, {page:currentPage, rows:20})
-      getMerchantList(params).then(res => {
+      getBlacklist(params).then(res => {
         if(res.success){
-          this.merchantList = res.result.merchants
+          this.blackList = res.result.merchants
           this.total = res.result.total
         }
       }).catch(err => {
@@ -337,7 +234,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.handleGetMerchantList(this.currentPage)
+    this.handleGetBlacklist(this.currentPage)
   },
   components: {},
   directives:{

@@ -140,6 +140,22 @@ export const editMerchant = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/editMerchant",data).then(res => res.data)
 }
+//修改商户状态
+
+export const changeStatus = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/changeStatus",data).then(res => res.data)
+}
+
+//加入黑名单
+export const insertBlanklist = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/insertBlanklist",data).then(res => res.data)
+}
+
+
+//资质方管理
+
 //查询省
 export const getProvinceList = params => {
     return axiosInstance.post("/apii/merchant/getProvinceList").then(res => res.data)
@@ -178,4 +194,21 @@ export const getSingleMonthPayment = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/qualificationParty/getSingleMonthPayment",data).then(res => res.data)
 }
+
+
+//风险管理
+
+//获取黑名单列表
+export const getBlacklist = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/getBlacklist",data).then(res => res.data)
+}
+
+//解除黑名单
+export const removeBlacklist = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/removeBlacklist",data).then(res => res.data)
+}
+
+
 

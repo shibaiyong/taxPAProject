@@ -3,15 +3,19 @@ import Router from 'vue-router'
 import store from '../vuex/store'
 Vue.use(Router)
 const Login = r => require.ensure([], () => r(require('@/components/page/login/Login')), 'Login')
-
+const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
 
 const CommercialCustomList = r => require.ensure([], () => r(require('@/components/page/commercialcustom/CommercialCustomList')), 'CommercialCustomList')
+const AddCommercialCustom = r => require.ensure([], () => r(require('@/components/page/commercialcustom/AddCommercialCustom')), 'AddCommercialCustom')
+const EditCommercialCustom = r => require.ensure([], () => r(require('@/components/page/commercialcustom/EditCommercialCustom')), 'EditCommercialCustom')
+
 const Qualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/Qualifypart')), 'Qualifypart')
 const AddQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/AddQualifypart')), 'AddQualifypart')
 const EditQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/EditQualifypart')), 'EditQualifypart')
 const QualifypartDetail = r => require.ensure([], () => r(require('@/components/page/qualifyparty/QualifypartDetail')), 'QualifypartDetail')
 
-const Home = r => require.ensure([], () => r(require('@/components/page/home/Home')), 'Home')
+const BlackList = r => require.ensure([], () => r(require('@/components/page/riskmanage/BlackList')), 'BlackList')
+
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
 const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
@@ -58,6 +62,30 @@ const instance = new Router({
         },
 
         {
+          path: '/home/addcommercialcustom',
+          name: 'AddCommercialCustom',
+          component: AddCommercialCustom,
+          meta: {
+            title: '商户管理',
+            requireAuth: false,
+            roles: ['user','admin','superadmin'],
+            bread:['主页','商户管理','商户录入']
+          }
+        },
+
+        {
+          path: '/home/editcommercialcustom',
+          name: 'EditCommercialCustom',
+          component: EditCommercialCustom,
+          meta: {
+            title: '商户管理',
+            requireAuth: false,
+            roles: ['user','admin','superadmin'],
+            bread:['主页','商户管理','商户编辑']
+          }
+        },
+        
+        {
           path: '/home/qualifypart',
           name: 'Qualifypart',
           component: Qualifypart,
@@ -101,6 +129,18 @@ const instance = new Router({
             requireAuth: false,
             roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方详情']
+          }
+        },
+
+        {
+          path: '/home/blacklist',
+          name: 'BlackList',
+          component: BlackList,
+          meta: {
+            title: '黑名单',
+            requireAuth: false,
+            roles: ['admin','superadmin'],
+            bread:['主页','风险管理','黑名单']
           }
         },
 

@@ -13,18 +13,18 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="编码" prop="sn">
-              <el-input v-model="formEdit.sn" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.sn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" prop="enterpriseName">
             <el-form-item label="企业名称" prop="enterpriseName">
-              <el-input v-model="formEdit.enterpriseName" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.enterpriseName"></el-input>
             </el-form-item>
           </el-col>
         
           <el-col :span="12">
             <el-form-item label="税号" prop="enterpriseTaxSn">
-              <el-input v-model="formEdit.enterpriseTaxSn" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.enterpriseTaxSn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -35,6 +35,7 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="启用日期"
+              :picker-options="pickerOptions"
             ></el-date-picker>
         </el-form-item>
         </el-col>
@@ -51,7 +52,7 @@
         </el-col>
           <el-col :span="12">
             <el-form-item label="全年缴税额度" prop="yearPayment">
-              <el-input v-model="formEdit.yearPayment" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.yearPayment"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -66,18 +67,18 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="次月可用额度" prop="nextMonthPayment">
-              <el-input v-model="formEdit.nextMonthPayment"></el-input>
+              <el-input v-model="formEdit.nextMonthPayment" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="单位地址">
-              <el-input v-model="formEdit.address" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.address"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="电话号码">
-              <el-input v-model="formEdit.tel" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.tel"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -85,17 +86,17 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户银行名称" prop="openingBankName">
-              <el-input v-model="formEdit.openingBankName" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.openingBankName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开户行支行信息" prop="openingBankBranchInfo">
-              <el-input v-model="formEdit.openingBankBranchInfo" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业银行账号" prop="enterpriseBankAccount">
-              <el-input v-model="formEdit.enterpriseBankAccount" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.enterpriseBankAccount"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -128,15 +129,15 @@
 <script>
 import {
   addQualificationParty,getSingleMonthPayment
-} from "@/requestDataInterface";
+} from "@/requestDataInterface"
 export default {
   props: {},
   data() {
     let checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("电话不能为空"));
+        return callback(new Error("电话不能为空"))
       } else if (!Number.isInteger(value * 1)) {
-        callback(new Error("请输入11位数字"));
+        callback(new Error("请输入11位数字"))
       } else {
         callback();
       }
@@ -144,9 +145,9 @@ export default {
     
     let checkServiceCharge = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("服务费不能为空"));
+        return callback(new Error("服务费不能为空"))
       } else if (value >= 100) {
-        callback(new Error("服务费不能超过100%"));
+        callback(new Error("服务费不能超过100%"))
       } else {
         callback();
       }
@@ -162,7 +163,7 @@ export default {
       }
     }
     return {
-      isEdit:false,
+      isEdit:true,
       rules: {
         sn: [{ required: true, message: "必填", trigger: "blur" }],
         enterpriseName: [
@@ -240,16 +241,23 @@ export default {
         enterpriseBankAccount:'',
         contacts:'',
         contactsTel:''
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now()-24*60*60*1000
+        }
       }
-    };
+    }
   },
-  created() {},
+  created() {
+  },
   methods: {
     handleGetSingleMonthPayment( val ){
       let yearPayment = val
-      console.log(val)
       getSingleMonthPayment({yearPayment}).then( res => {
         this.formEdit.singleMonthPayment = res.result
+        this.formEdit.thisMonthPayment = res.result
+        this.formEdit.nextMonthPayment = res.result
       }).catch(err=>{})
     },
     submitForm(ref) {
@@ -258,12 +266,12 @@ export default {
             let params = this.formEdit;
             addQualificationParty(params).then(res => {
             if (res.success) {
-                this.handlegetQualificationPartyList(this.currentPage);
-                this.dialogEditVisible = false;
+                
                 this.$message({
-                type: "error",
+                type: "success",
                 message: "资质方录入成功"
                 });
+                this.$router.push('/home/qualifypart')
             } else {
                 this.$message({
                 type: "error",
