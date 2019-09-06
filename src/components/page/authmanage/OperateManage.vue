@@ -67,6 +67,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="图标">
+              <el-input v-model="formEdit.icon"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,13 +111,15 @@ export default {
         name:'',
         url:'',
         parentId:'0',
-        vueUrl:''
+        vueUrl:'',
+        icon:''
       },
       resetFormEdit: {
         name:'',
         url:'',
         parentId:'0',
-        vueUrl:''
+        vueUrl:'',
+        icon:''
       }
     }
   },

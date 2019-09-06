@@ -131,7 +131,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开票类型" prop="invoiceType">
+            <el-form-item label="开票信息" prop="invoiceType">
               <el-radio-group v-model="formEdit.invoiceType" :disabled="editable">
                 <el-radio :label="0">普通发票</el-radio>
                 <el-radio :label="1">专用发票</el-radio>

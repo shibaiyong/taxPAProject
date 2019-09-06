@@ -22,68 +22,79 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="纳税人识别号">
-          <el-input v-model="formSearch.taxpayerIdentificationSn" placeholder="纳税人识别号"></el-input>
-        </el-form-item>
+              <el-input v-model="formSearch.taxpayerIdentificationSn" placeholder="纳税人识别号"></el-input>
+            </el-form-item>
           </el-col>
           <el-col :span="8">
-        <el-form-item label="当前状态">
-          <el-select v-model="formSearch.status" placeholder="">
-            <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-          </el-select>
-        </el-form-item>
+            <el-form-item label="当前状态">
+              <el-select v-model="formSearch.status" placeholder>
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
           <el-col :span="8">
-          <el-form-item label="入网开始日期">
-            <el-date-picker
-              v-model="formSearch.beginDate"
-              type="date"
-              format="yyyy - MM - dd"
-              value-format="yyyy-MM-dd"
-              placeholder="开始日期"
-            ></el-date-picker>
-        </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="入网结束日期">
-            <el-date-picker
-              v-model="formSearch.endDate"
-              type="date"
-              format="yyyy - MM - dd"
-              value-format="yyyy-MM-dd"
-              placeholder="结束日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16">
-          <div class="operate">
-            <div class="operateBtn">
-              <el-button type="primary" size="small" @click="handleSearch">
-                <i class="el-icon-search"></i>&nbsp;查询
-              </el-button>
-              <el-button type="primary" size="small" @click="handleResetSearchForm">
-                <i class="el-icon-search"></i>&nbsp;清空
-              </el-button>
-              <el-button type="primary" size="small" @click="handleAdd">
-                <i class="el-icon-search"></i>&nbsp;录入
-              </el-button>
-              <el-button type="primary" size="small" @click="handleEdit">
-                <i class="el-icon-search"></i>&nbsp;编辑
-              </el-button>
-              <el-button type="primary" size="small" @click="handleBlackList">
-                <i class="el-icon-search"></i>&nbsp;加入黑名单
-              </el-button>
-              <el-button type="primary" size="small" @click="handleAdjust">
-                <i class="el-icon-search"></i>&nbsp;调账
-              </el-button>
+            <el-form-item label="入网开始日期">
+              <el-date-picker
+                v-model="formSearch.beginDate"
+                type="date"
+                format="yyyy - MM - dd"
+                value-format="yyyy-MM-dd"
+                placeholder="开始日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="入网结束日期">
+              <el-date-picker
+                v-model="formSearch.endDate"
+                type="date"
+                format="yyyy - MM - dd"
+                value-format="yyyy-MM-dd"
+                placeholder="结束日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <div class="operate">
+              <div class="operateBtn">
+                <el-button type="primary" size="small" @click="handleSearch">
+                  <i class="el-icon-search"></i>&nbsp;查询
+                </el-button>
+                <el-button type="primary" size="small" @click="handleResetSearchForm">
+                  <i class="el-icon-search"></i>&nbsp;清空
+                </el-button>
+                <el-button type="primary" size="small" @click="handleAdd">
+                  <i class="el-icon-search"></i>&nbsp;录入
+                </el-button>
+                <el-button type="primary" size="small" @click="handleEdit">
+                  <i class="el-icon-search"></i>&nbsp;编辑
+                </el-button>
+                <el-button type="primary" size="small" @click="handleBlackList">
+                  <i class="el-icon-search"></i>&nbsp;加入黑名单
+                </el-button>
+                <el-button type="primary" size="small" @click="handleAdjust">
+                  <i class="el-icon-search"></i>&nbsp;调账
+                </el-button>
+              </div>
             </div>
-          </div>
-        </el-col>
+          </el-col>
         </el-row>
       </el-form>
     </div>
-    
+
     <div class="paddingcontainer">
-      <el-table :data="merchantList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll" @row-click="handleShowDetail">
+      <el-table
+        :data="merchantList"
+        style="width: 100%"
+        @select="handleSelectionChange"
+        @select-all="handleSelectAll"
+        @row-click="handleShowDetail"
+      >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="商户编号" prop="sn"></el-table-column>
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
@@ -113,9 +124,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
+              <el-select v-model="formSearch.status" placeholder>
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -127,9 +143,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
+              <el-select v-model="formSearch.status" placeholder>
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -141,9 +162,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="当前状态">
-            <el-select v-model="formSearch.status" placeholder="">
-              <el-option v-for="option in statusOptions" :key="option.value" :label="option.label" :value="option.value"></el-option>
-            </el-select>
+              <el-select v-model="formSearch.status" placeholder>
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -159,216 +185,231 @@
       </div>
     </el-dialog>
     <div class="dialogblack">
-    <el-dialog title="调账" :visible.sync="dialogBlackList" ref="aaa">
-      <p>确定要将该商户加入黑名单吗？</p>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-        <el-button type="primary" size="small" @click="handleInsertBlanklist">确 定</el-button>
-      </div>
-    </el-dialog>
+      <el-dialog title="调账" :visible.sync="dialogBlackList" ref="aaa">
+        <p>确定要将该商户加入黑名单吗？</p>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
+          <el-button type="primary" size="small" @click="handleInsertBlanklist">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import {  changeMerchantStatus, insertBlanklist, getMerchantList } from "@/requestDataInterface"
+import {
+  changeMerchantStatus,
+  insertBlanklist,
+  getMerchantList
+} from "@/requestDataInterface";
 export default {
   props: {},
   data() {
-    
     return {
       dialogChangeAccount: false,
       dialogBlackList: false,
-      currentPage:1,
-      total:1,
+      currentPage: 1,
+      total: 1,
       statusOptions: [
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
-      merchantList: [
-      ],
-      multipleSelection:[],
+      merchantList: [],
+      multipleSelection: [],
       formSearch: {
-        sn:'',
-        enterpriseName:'',
-        enterpriseAccounts:'',
-        taxpayerIdentificationSn:'',
-        status:'',
-        beginDate:'',
-        endDate:''
+        sn: "",
+        enterpriseName: "",
+        enterpriseAccounts: "",
+        taxpayerIdentificationSn: "",
+        status: "",
+        beginDate: "",
+        endDate: ""
       },
       resetFormSearch: {
-        sn:'',
-        enterpriseName:'',
-        enterpriseAccounts:'',
-        taxpayerIdentificationSn:'',
-        status:'',
-        beginDate:'',
-        endDate:''
-      } 
-    }
+        sn: "",
+        enterpriseName: "",
+        enterpriseAccounts: "",
+        taxpayerIdentificationSn: "",
+        status: "",
+        beginDate: "",
+        endDate: ""
+      }
+    };
   },
   created() {},
   methods: {
-    handleEffect(id,status){
-      return changeMerchantStatus({id:id,status:status}).then(res=>{
-        if(res.success){
-          this.handleGetMerchantList(this.currentPage)
-        }else{
+    handleEffect(id, status) {
+      return changeMerchantStatus({ id: id, status: status }).then(res => {
+        if (res.success) {
+          this.handleGetMerchantList(this.currentPage);
+        } else {
           this.$message({
-            type: 'error',
+            type: "error",
             message: res.msg
-          })
+          });
         }
-      })
+      });
     },
-    handleSearch(){
-      this.handleGetMerchantList(this.currentPage)
+    handleSearch() {
+      this.handleGetMerchantList(this.currentPage);
     },
     handleAdd() {
-      this.$router.push('/home/addcommercialcustom')
+      this.$router.push("/home/addcommercialcustom");
     },
-    handleAdjust(){
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
+    handleAdjust() {
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
       }
-      this.dialogChangeAccount = true
+      this.dialogChangeAccount = true;
     },
-    handleBlackList(){
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
+    handleBlackList() {
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
       }
-      this.dialogBlackList = true
+      this.dialogBlackList = true;
     },
-    handleInsertBlanklist(){
-      let id = this.multipleSelection[0].id
-      insertBlanklist({id}).then(res=>{
-        if(res.success){
-          this.$message({
-            type:'success',
-            message:res.msg
-          })
-          this.handleGetMerchantList(this.currentPage)
-          this.dialogBlackList = false
-        }
-      }).catch(err => {console.log(err)})
+    handleInsertBlanklist() {
+      let id = this.multipleSelection[0].id;
+      insertBlanklist({ id })
+        .then(res => {
+          if (res.success) {
+            this.$message({
+              type: "success",
+              message: res.msg
+            });
+            this.handleGetMerchantList(this.currentPage);
+            this.dialogBlackList = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     handleEdit(index, row) {
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
       }
-      this.$router.push({name:'EditCommercialCustom',params:multipleSelection[0]})
+      this.$router.push({
+        name: "EditCommercialCustom",
+        params: multipleSelection[0]
+      });
     },
-    handleShowDetail(row){
-      
-    },
-    handleDelet(){
-      let multipleSelection = this.multipleSelection
-      if(!this.judgeRight( multipleSelection )){
-        return false
+    handleShowDetail(row) {
+      if(event.target.nodeName != 'BUTTON'){
+        this.$router.push({ name: 'DetailCommercialCustom', params: row })
       }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteUser( { id } ).then(res => {
-          if(res.success){
-              this.getMerchantList(this.currentPage)
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              })
-            }
-          }).catch( err => {
-          })
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })         
+    },
+    handleDelet() {
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
+      }
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteUser({ id })
+            .then(res => {
+              if (res.success) {
+                this.getMerchantList(this.currentPage);
+                this.$message({
+                  type: "success",
+                  message: "删除成功"
+                });
+              }
+            })
+            .catch(err => {});
         })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     handleGetMerchantList(currentPage) {
-      let params = Object.assign({}, this.formSearch, {page:currentPage, rows:20})
-      getMerchantList(params).then(res => {
-        if(res.success){
-          this.merchantList = res.result.merchants
-          this.total = res.result.total
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      let params = Object.assign({}, this.formSearch, {
+        page: currentPage,
+        rows: 20
+      });
+      getMerchantList(params)
+        .then(res => {
+          if (res.success) {
+            this.merchantList = res.result.merchants;
+            this.total = res.result.total;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    
-    handleSelectionChange(selection,row) {
-      this.multipleSelection = selection
+
+    handleSelectionChange(selection, row) {
+      this.multipleSelection = selection;
     },
-    handleSelectAll(selection){
-      this.multipleSelection = selection
+    handleSelectAll(selection) {
+      this.multipleSelection = selection;
     },
     handleResetSearchForm() {
-      Object.assign(this.formSearch,this.resetFormSearch)
+      Object.assign(this.formSearch, this.resetFormSearch);
     },
-    
-    judgeRight( multipleSelection ){
-      if( !multipleSelection.length ){
+
+    judgeRight(multipleSelection) {
+      if (!multipleSelection.length) {
         this.$message({
-          type:'error',
-          message:'请从列表中选择需要操作的行'
-        })
-        return false
-      }else if( multipleSelection.length > 1 ){
+          type: "error",
+          message: "请从列表中选择需要操作的行"
+        });
+        return false;
+      } else if (multipleSelection.length > 1) {
         this.$message({
-          type:'error',
-          message:'只能选择一行进行操作'
-        })
-        return false
+          type: "error",
+          message: "只能选择一行进行操作"
+        });
+        return false;
       }
-      return true
+      return true;
     },
     cancelEidt() {},
     confirmEdit() {}
   },
   computed: {},
   mounted() {
-    this.handleGetMerchantList(this.currentPage)
+    this.handleGetMerchantList(this.currentPage);
   },
   components: {},
-  directives:{
-    status:{
-
-      bind(el,binding,vonode){
-        if(binding.value.status == 1){
-          el.innerHTML = '启用'
-        }else{
-          el.innerHTML = '停用'
+  directives: {
+    status: {
+      bind(el, binding, vonode) {
+        if (binding.value.status == 1) {
+          el.innerHTML = "启用";
+        } else {
+          el.innerHTML = "停用";
         }
       },
-      inserted(el,binding,vonode){
-        
-        el.onclick=function(){
-          if(el.innerHTML == '启用'){
-            vonode.context.handleEffect(binding.value.id,0).then(res => {
-              el.innerHTML = '停用'
-            })
-          }else{
-            vonode.context.handleEffect(binding.value.id,1).then(res=>{
-              console.log(res)
-              el.innerHTML = '启用'
-            })
+      inserted(el, binding, vonode) {
+        el.onclick = function() {
+          if (el.innerHTML == "启用") {
+            vonode.context.handleEffect(binding.value.id, 0).then(res => {
+              el.innerHTML = "停用";
+            });
+          } else {
+            vonode.context.handleEffect(binding.value.id, 1).then(res => {
+              console.log(res);
+              el.innerHTML = "启用";
+            });
           }
-        }
+        };
       }
-
     }
   },
   beforeDestroy() {}
-}
+};
 </script>
 <style scoped>
 .operate {
@@ -378,8 +419,8 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.operate .el-button--small{
-  padding:9px 12px;
+.operate .el-button--small {
+  padding: 9px 12px;
 }
 .pagecontainer {
   text-align: right;
@@ -402,14 +443,13 @@ export default {
 .el-form {
   width: 100%;
 }
-.el-row h4{
-  padding-bottom:6px;
+.el-row h4 {
+  padding-bottom: 6px;
 }
->>>.el-dialog{
-  width:62%;
+>>> .el-dialog {
+  width: 62%;
 }
-.dialogblack >>>.el-dialog{
-  width:40%;
+.dialogblack >>> .el-dialog {
+  width: 40%;
 }
-
 </style>

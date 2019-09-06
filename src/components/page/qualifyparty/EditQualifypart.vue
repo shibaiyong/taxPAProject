@@ -268,9 +268,10 @@ export default {
       });
     },
     resetForm( formEdit ){
-      let form = formEdit || 'formEdit'
-      Object.assign(this.formEdit, this.resetFormEdit)
-      this.$refs[form].resetFields()
+      // let form = formEdit || 'formEdit'
+      // Object.assign(this.formEdit, this.resetFormEdit)
+      // this.$refs[form].resetFields()
+      this.$router.go(-1)
     }
   },
   computed: {},

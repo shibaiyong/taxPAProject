@@ -29,7 +29,7 @@
       </el-submenu> -->
       <el-submenu :index="item.id" v-for="item in permissions" :key="item.id">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i :class="[item.icon?item.icon:'el-icon-user']"></i>
           <span>{{item.name}}</span>
         </template>
         <!-- <el-menu-item v-for="(subitem,subindex) in item.childrens" :ref="(index==0&&subindex==0) && 'changeActive'" @click.native="changeActive" :index="subitem.url" :route="{path: subitem.url, query: { delete: subitem.childrens[0] == 1 ? 1 : 0, edit : subitem.childrens[1] == 1 ? 1 : 0, add : subitem.childrens[2] == 1 ? 1 : 0}}" :key="subitem.id">{{subitem.name}}</el-menu-item>  -->

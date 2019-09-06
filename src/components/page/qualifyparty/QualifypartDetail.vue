@@ -88,6 +88,9 @@
             <el-col :span="18"><label>{{formEdit.contactsTel}}</label></el-col>
         </el-col>
     </el-row>
+    <P>
+        <el-button type="primary" size="small" @click="goback">返回</el-button>
+    </P>
   </div>
 </template>
 
@@ -124,6 +127,9 @@ export default {
       let row = this.$route.params
       Object.assign(this.formEdit,row)
     },
+    goback(){
+        this.$router.go(-1)
+    }
   },
   computed: {},
   mounted() {
@@ -155,5 +161,8 @@ label.descr{
     text-align: right;
     padding-right: 20px;
     box-sizing: border-box;
+}
+p{
+    text-align: center;
 }
 </style>

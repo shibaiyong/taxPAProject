@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="商户编号">
-              <el-input v-model="formEdit.sn"></el-input>
+              <el-input v-model="formEdit.sn" placeholder="保存时自动生成" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">

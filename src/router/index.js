@@ -8,6 +8,7 @@ const Home = r => require.ensure([], () => r(require('@/components/page/home/Hom
 const CommercialCustomList = r => require.ensure([], () => r(require('@/components/page/commercialcustom/CommercialCustomList')), 'CommercialCustomList')
 const AddCommercialCustom = r => require.ensure([], () => r(require('@/components/page/commercialcustom/AddCommercialCustom')), 'AddCommercialCustom')
 const EditCommercialCustom = r => require.ensure([], () => r(require('@/components/page/commercialcustom/EditCommercialCustom')), 'EditCommercialCustom')
+const DetailCommercialCustom = r => require.ensure([], () => r(require('@/components/page/commercialcustom/DetailCommercialCustom')), 'DetailCommercialCustom')
 
 const Qualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/Qualifypart')), 'Qualifypart')
 const AddQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/AddQualifypart')), 'AddQualifypart')
@@ -25,7 +26,7 @@ const NoFound = r => require.ensure([], () => r(require('@/components/page/noFou
 const instance = new Router({
   mode: 'history',
   routes: [
-    { path: '/auth/index', redirect: '/login' },
+    { path: '/', redirect: '/login' },
     {
       path: '/login',
       name: 'Login',
@@ -82,6 +83,18 @@ const instance = new Router({
             requireAuth: false,
             roles: ['user','admin','superadmin'],
             bread:['主页','商户管理','商户编辑']
+          }
+        },
+
+        {
+          path: '/home/detailcommercialcustom',
+          name: 'DetailCommercialCustom',
+          component: DetailCommercialCustom,
+          meta: {
+            title: '商户管理',
+            requireAuth: false,
+            roles: ['user','admin','superadmin'],
+            bread:['主页','商户管理','商户详情']
           }
         },
         
