@@ -142,7 +142,7 @@ export const editMerchant = params => {
 }
 //修改商户状态
 
-export const changeStatus = params => {
+export const changeMerchantStatus = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/changeStatus",data).then(res => res.data)
 }
@@ -194,7 +194,11 @@ export const getSingleMonthPayment = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/qualificationParty/getSingleMonthPayment",data).then(res => res.data)
 }
-
+//修改资质方状态
+export const changeQualificationStatus = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/changeStatus",data).then(res => res.data)
+}
 
 //风险管理
 

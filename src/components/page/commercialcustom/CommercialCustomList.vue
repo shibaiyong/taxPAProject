@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import {  changeStatus, insertBlanklist, getMerchantList } from "@/requestDataInterface"
+import {  changeMerchantStatus, insertBlanklist, getMerchantList } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -186,7 +186,7 @@ export default {
         { label: "停用中", value: 0 }
       ],
       merchantList: [
-        
+        {sn:'111'}
       ],
       multipleSelection:[],
       formSearch: {
@@ -212,7 +212,7 @@ export default {
   created() {},
   methods: {
     handleEffect(id,status){
-      return changeStatus({id:id,status:status}).then(res=>{
+      return changeMerchantStatus({id:id,status:status}).then(res=>{
         if(res.success){
           this.handleGetMerchantList(this.currentPage)
         }else{
@@ -411,19 +411,6 @@ export default {
 }
 .dialogblack >>>.el-dialog{
   width:40%;
-}
-
-.statusbtn{
-  display:inline-block;
-  width:50px;
-  height:25px;
-  font-size: 12px;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  background:#409eff;
-  border:none;
-  color:white;
 }
 
 </style>

@@ -45,12 +45,28 @@ a:active{
   border-right:none;
 }
 
+/* 统一的内边距 */
+
 .paddingcontainer{
   padding:0 3%;
   box-sizing: border-box;
   margin-top:10px;
 }
-
 .rolelist{
   margin-top:15px;
+}
+
+/* 启用、停用按钮的样式 - 商户管理列表，资质方管理列表 */
+
+.statusbtn{
+  display:inline-block;
+  width:50px;
+  height:25px;
+  font-size: 12px;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  background:#409eff;
+  border:none;
+  color:white;
 }

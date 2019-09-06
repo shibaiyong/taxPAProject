@@ -16,25 +16,25 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="企业名称" prop="enterpriseName">
+            <el-form-item label="企业名称">
               <el-input v-model="formEdit.enterpriseName" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="纳税人识别号" prop="taxpayerIdentificationSn">
+            <el-form-item label="纳税人识别号">
               <el-input v-model="formEdit.taxpayerIdentificationSn" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="法人姓名" prop="legalPerson">
+            <el-form-item label="法人姓名">
               <el-input v-model="formEdit.legalPerson" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="纳税人类型" prop="taxpayerType">
-              <el-radio-group v-model="formEdit.taxpayerType">
+            <el-form-item label="纳税人类型">
+              <el-radio-group v-model="formEdit.taxpayerType" :disabled="editable">
                 <el-radio :label="0">一般纳税人</el-radio>
                 <el-radio :label="1">小规模纳税人</el-radio>
               </el-radio-group>
@@ -61,49 +61,41 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="注册地址" prop="registrationAddress">
+            <el-form-item label="注册地址">
               <el-input v-model="formEdit.registrationAddress" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="实际经营地址" prop="businessAddress">
+            <el-form-item label="实际经营地址">
               <el-input v-model="formEdit.businessAddress" :disabled="editable"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态" prop="status">
-              <el-radio-group v-model="formEdit.status" :disabled="isEidt">
-                <el-radio :label="1">生效</el-radio>
-                <el-radio :label="0">停用</el-radio>
-              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row><h4>账户信息</h4></el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行名称" prop="openingBankName">
+            <el-form-item label="开户行名称">
               <el-input v-model="formEdit.openingBankName"  :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="企业账户" prop="enterpriseAccounts">
+            <el-form-item label="企业账户">
               <el-input v-model="formEdit.enterpriseAccounts" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行（省）" prop="openingBankRegionProvince">
+            <el-form-item label="开户行（省）">
               <el-select v-model="formEdit.openingBankRegionProvince" placeholder="请选择开户行地域（省）" @change="handleGetCityList" :disabled="editable">
                 <el-option v-for="option in provinceList" :key="option.id" :label="option.name" :value="option.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="开户行（市）" prop="openingBankRegionCity">
+            <el-form-item label="开户行（市）">
               <el-select v-model="formEdit.openingBankRegionCity" placeholder="请选择开户行地域（市）" :disabled="editable">
                 <el-option v-for="option in cityList" :key="option.id" :label="option.name" :value="option.id"></el-option>
               </el-select>
@@ -112,19 +104,19 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行信息" prop="openingBankBranchInfo">
+            <el-form-item label="开户行信息">
               <el-input v-model="formEdit.openingBankBranchInfo" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="企业电子账户" prop="enterpriseElectronicAccount">
+            <el-form-item label="企业电子账户">
               <el-input v-model="formEdit.enterpriseElectronicAccount" :disabled="editable"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开户行联行号" prop="openingBankLinkSn">
+            <el-form-item label="开户行联行号">
               <el-input v-model="formEdit.openingBankLinkSn" :disabled="editable"></el-input>
             </el-form-item>
           </el-col> 
@@ -133,14 +125,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资质方关联" prop="qualificationId">
-              <el-select v-model="formEdit.qualificationId" placeholder="">
+              <el-select v-model="formEdit.qualificationId" placeholder="" :disabled="editable">
                 <el-option v-for="option in qualificationId" :key="option.value" :label="option.label" :value="option.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票类型" prop="invoiceType">
-              <el-radio-group v-model="formEdit.invoiceType">
+              <el-radio-group v-model="formEdit.invoiceType" :disabled="editable">
                 <el-radio :label="0">普通发票</el-radio>
                 <el-radio :label="1">专用发票</el-radio>
               </el-radio-group>
@@ -361,9 +353,9 @@ export default {
   created() {},
   methods: {
     resetForm( formEdit ){
-      let form = formEdit || 'formEdit'
-      Object.assign(this.formEdit, this.resetFormEdit)
-      this.$refs[form].resetFields()
+      //let form = formEdit || 'formEdit'
+      //Object.assign(this.formEdit, this.resetFormEdit)
+      this.$router.go(-1)
     },
     handleEdit() {
       let row = this.$route.params

@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="资质方名称">
-              <el-input v-model="formSearch.sn" placeholder="资质方名称"></el-input>
+              <el-input v-model="formSearch.enterpriseName" placeholder="资质方名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
@@ -39,10 +39,14 @@
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人" prop="contacts"></el-table-column>
         <el-table-column label="手机号" prop="contactsTel"></el-table-column>
-        <el-table-column label="状态" prop="status"></el-table-column>
         <el-table-column label="当月全部额度" prop="yearPayment"></el-table-column>
         <el-table-column label="当月可用额度" prop="thisMonthPayment"></el-table-column>
         <el-table-column label="当月已用额度" prop="nextMonthPayment"></el-table-column>
+        <el-table-column label="状态" prop="status">
+          <template slot-scope="scope">
+            <button class="statusbtn" v-status="scope.row">启用</button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -60,7 +64,7 @@
 
 <script>
 import {
-  getQualificationPartyList
+  getQualificationPartyList,changeQualificationStatus
 } from "@/requestDataInterface";
 export default {
   props: {},
@@ -73,21 +77,30 @@ export default {
       isEdit:false,
       currentPage: 1,
       total: 1,
-      
-      qualificationPartiesList: [
-        {sn:1234,unEnableTime:'2018-09-09',enableTime:'2019-08-08',thisMonthPayment:'1000', nextMonthPayment:'1000'}
-      ],
+      qualificationPartiesList:[],
       multipleSelection: [],
       formSearch: {
-        
+        enterpriseName:''
       },
       resetFormSearch: {
-        
+        enterpriseName:''
       }
     }
   },
   created() {},
   methods: {
+    handleEffect(id,status){
+      return changeQualificationStatus({id:id,status:status}).then(res=>{
+        if(res.success){
+          this.handlegetQualificationPartyList(this.currentPage)
+        }else{
+          this.$message({
+            type: 'error',
+            message: res.msg
+          })
+        }
+      })
+    },
     handleSearch() {
       this.handlegetQualificationPartyList(this.currentPage);
     },
@@ -102,8 +115,10 @@ export default {
       }
       this.$router.push({name:'EditQualifypart',params:multipleSelection[0]})
     },
-    handleShowDetail(row) {
-      this.$router.push({ name: 'QualifypartDetail', params: row })
+    handleShowDetail(row, column, event) {
+      if(event.target.nodeName != 'BUTTON'){
+        this.$router.push({ name: 'QualifypartDetail', params: row })
+      }
     },
     handleDelet() {
       let multipleSelection = this.multipleSelection
@@ -182,6 +197,33 @@ export default {
     this.handlegetQualificationPartyList(this.currentPage);
   },
   components: {},
+  directives:{
+    status:{
+      bind(el,binding,vonode){
+        
+        if(binding.value.status == 1){
+          el.innerHTML = '启用'
+        }else{
+          el.innerHTML = '停用'
+        }
+      },
+      inserted(el,binding,vonode){
+        
+        el.onclick=function(){
+          if(el.innerHTML == '启用'){
+            vonode.context.handleEffect(binding.value.id,0).then(res => {
+              el.innerHTML = '停用'
+            })
+          }else{
+            vonode.context.handleEffect(binding.value.id,1).then(res=>{
+              el.innerHTML = '启用'
+            })
+          }
+        }
+      }
+
+    }
+  },
   beforeDestroy() {}
 };
 </script>

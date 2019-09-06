@@ -360,9 +360,10 @@ export default {
   created() {},
   methods: {
     resetForm( formEdit ){
-      let form = formEdit || 'formEdit'
-      Object.assign(this.formEdit, this.resetFormEdit)
-      this.$refs[form].resetFields()
+      // let form = formEdit || 'formEdit'
+      // Object.assign(this.formEdit, this.resetFormEdit)
+      // this.$refs[form].resetFields()
+      this.$router.go(-1)
     },
     handleGetProvinceList(){
       getProvinceList().then(res => {
