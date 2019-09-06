@@ -186,7 +186,6 @@ export default {
         { label: "停用中", value: 0 }
       ],
       merchantList: [
-        {sn:'111'}
       ],
       multipleSelection:[],
       formSearch: {

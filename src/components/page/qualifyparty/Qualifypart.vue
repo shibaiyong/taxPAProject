@@ -153,7 +153,7 @@ export default {
     handlegetQualificationPartyList(currentPage) {
       let params =Object.assign({}, this.formSearch, {
         page: currentPage,
-        rows: 10
+        rows: 20
       })
       getQualificationPartyList(params)
         .then(res => {

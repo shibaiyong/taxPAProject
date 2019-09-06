@@ -160,7 +160,7 @@ export default {
           res => {
             console.log(res)
             if(res.success){
-              this.handleGetPermissionList(this.currentPage)
+              this.handleGetPermissionList(this.nowPage)
               this.$message({
                 type: "success",
                 message: "删除成功!"
@@ -198,7 +198,6 @@ export default {
       }else{
         editPermission( this.formEdit ).then( res => {
           if(res.success){
-            console.log( 'edit' + this.nowPage )
             this.handleGetPermissionList(this.nowPage)
           }else{
             this.$message({
