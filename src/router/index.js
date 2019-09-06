@@ -27,6 +27,7 @@ const instance = new Router({
   mode: 'history',
   routes: [
     { path: '/', redirect: '/login' },
+    { path: '/auth/index', redirect: '/login' },
     {
       path: '/login',
       name: 'Login',

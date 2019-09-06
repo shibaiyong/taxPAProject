@@ -30,7 +30,7 @@
         <el-col :span="8">
           <el-form-item label="入网开始日期">
             <el-date-picker
-              v-model="formSearch.beginDate"
+              v-model="formSearch.createdTime"
               type="date"
               format="yyyy - MM - dd"
               value-format="yyyy-MM-dd"
@@ -41,7 +41,7 @@
         <el-col :span="8">
           <el-form-item label="入网结束日期">
             <el-date-picker
-              v-model="formSearch.endDate"
+              v-model="formSearch.closedTime"
               type="date"
               format="yyyy - MM - dd"
               value-format="yyyy-MM-dd"
@@ -76,7 +76,7 @@
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
         <el-table-column label="入网日期" prop="createdTime"></el-table-column>
-        <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
+        <el-table-column label="关闭日期" prop="closedTime"></el-table-column>
         <!-- <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>

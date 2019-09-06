@@ -30,6 +30,7 @@
                 <el-radio :label="0">一般纳税人</el-radio>
                 <el-radio :label="1">小规模纳税人</el-radio>
               </el-radio-group>
+              </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">联系人姓名</label></el-col>
@@ -97,6 +98,7 @@
                 <el-radio :label="0">普通发票</el-radio>
                 <el-radio :label="1">专用发票</el-radio>
               </el-radio-group>
+              </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">商户服务费</label></el-col>

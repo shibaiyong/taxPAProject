@@ -115,8 +115,8 @@ export default {
       }
       this.$router.push({name:'EditQualifypart',params:multipleSelection[0]})
     },
-    handleShowDetail(row, column, event) {
-      if(event.target.nodeName != 'BUTTON'){
+    handleShowDetail(row, column, cell, event) {
+      if( column.label == '企业名称'){
         this.$router.push({ name: 'QualifypartDetail', params: row })
       }
     },

@@ -93,7 +93,7 @@
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
-        @row-click="handleShowDetail"
+        @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="商户编号" prop="sn"></el-table-column>
@@ -101,7 +101,7 @@
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
         <el-table-column label="入网日期" prop="createdTime"></el-table-column>
-        <el-table-column label="关闭日期" prop="registerdate"></el-table-column>
+        <el-table-column label="关闭日期" prop="closedTime"></el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>
@@ -185,8 +185,13 @@
       </div>
     </el-dialog>
     <div class="dialogblack">
-      <el-dialog title="调账" :visible.sync="dialogBlackList" ref="aaa">
+      <el-dialog title="调账" :visible.sync="dialogBlackList">
         <p>确定要将该商户加入黑名单吗？</p>
+        <el-form size="small" :model="formSearch">
+          <el-form-item label="备注：">
+            <el-input v-model="remark" placeholder=""></el-input>
+          </el-form-item>
+        </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
           <el-button type="primary" size="small" @click="handleInsertBlanklist">确 定</el-button>
@@ -210,6 +215,7 @@ export default {
       dialogBlackList: false,
       currentPage: 1,
       total: 1,
+      remark:'',
       statusOptions: [
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
@@ -272,7 +278,8 @@ export default {
     },
     handleInsertBlanklist() {
       let id = this.multipleSelection[0].id;
-      insertBlanklist({ id })
+      let remark = this.remark;
+      insertBlanklist({ id, remark })
         .then(res => {
           if (res.success) {
             this.$message({
@@ -297,8 +304,8 @@ export default {
         params: multipleSelection[0]
       });
     },
-    handleShowDetail(row) {
-      if(event.target.nodeName != 'BUTTON'){
+    handleShowDetail(row, column, cell, event) {
+      if(column.label == '企业名称'){
         this.$router.push({ name: 'DetailCommercialCustom', params: row })
       }
     },
@@ -448,6 +455,9 @@ export default {
 }
 >>> .el-dialog {
   width: 62%;
+}
+.dialogblack >>> .el-dialog {
+  width: 40%;
 }
 .dialogblack >>> .el-dialog {
   width: 40%;

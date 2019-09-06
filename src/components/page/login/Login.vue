@@ -9,12 +9,12 @@
       <ul>
         <li class="bottom16" :class="{ 'verify': errorUserNameShow }">用户名</li>
         <li class="input bottom46" :class="{ 'verify': errorUserNameShow }">
-          <input :class="{ 'verify': errorUserNameShow,'verifylan': errorUserNameShowAcive }" type="text" v-model="userInfo.username" placeholder="请输入用户名" @focus="changeStatusActive('username')" @blur="changeStatusBlur('username')"/>
+          <input :class="{ 'verify': errorUserNameShow,'verifylan': errorUserNameShowAcive }" type="text" v-model="userInfo.username" placeholder="请输入用户名"/>
           <span v-show="errorUserNameShow"><img src=""/>&nbsp;{{ errorUserNameMessage }}</span>
         </li>
         <li class="bottom16" :class="{ 'verify': errorPassWordShow }">密码</li>
         <li class="input bottom24" :class="{ 'verify': errorPassWordShow }">
-          <input :class="{ 'verify': errorPassWordShow, 'verifylan': errorPassWordShowAcive }" type="password" autocomplete="off" v-model="userInfo.password" @keyup.enter="gotoLogin" placeholder="请输入密码" @focus="changeStatusActive('password')" @blur="changeStatusBlur('password')"/>
+          <input :class="{ 'verify': errorPassWordShow, 'verifylan': errorPassWordShowAcive }" type="password" autocomplete="off" v-model="userInfo.password" @keyup.enter="gotoLogin" placeholder="请输入密码"/>
           <span v-show="errorPassWordShow"><img src=""/>&nbsp;{{ errorPassWordMessage }}</span>
         </li>
         <li class="remeberme">
