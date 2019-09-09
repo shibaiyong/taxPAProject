@@ -12,7 +12,7 @@
         <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="编码" prop="sn">
+            <el-form-item label="企业编码" prop="sn">
               <el-input v-model="formEdit.sn"></el-input>
             </el-form-item>
           </el-col>
