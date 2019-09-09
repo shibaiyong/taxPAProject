@@ -65,20 +65,20 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small" @click="handleResetSearchForm">
-                  <i class="el-icon-search"></i>&nbsp;清空
-                </el-button>
                 <el-button type="primary" size="small" @click="handleAdd">
                   <i class="el-icon-search"></i>&nbsp;录入
                 </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
                   <i class="el-icon-search"></i>&nbsp;编辑
                 </el-button>
+                <el-button type="primary" size="small">
+                  <i class="el-icon-search"></i>&nbsp;删除
+                </el-button>
                 <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button>
-                <el-button type="primary" size="small" @click="handleAdjust">
-                  <i class="el-icon-search"></i>&nbsp;调账
+                <el-button type="primary" size="small">
+                  <i class="el-icon-search"></i>&nbsp;导出
                 </el-button>
               </div>
             </div>
@@ -119,71 +119,7 @@
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
-    <el-dialog title="调账" :visible.sync="dialogChangeAccount">
-      <el-form :model="formSearch" size="small" label-width="100px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogChangeAccount = false">取 消</el-button>
-        <el-button type="primary" size="small">确 定</el-button>
-      </div>
-    </el-dialog>
+    
     <div class="dialogblack">
       <el-dialog title="黑名单" :visible.sync="dialogBlackList">
         <p>确定要将该商户加入黑名单吗？</p>
@@ -211,7 +147,6 @@ export default {
   props: {},
   data() {
     return {
-      dialogChangeAccount: false,
       dialogBlackList: false,
       currentPage: 1,
       total: 1,
@@ -262,13 +197,7 @@ export default {
     handleAdd() {
       this.$router.push("/home/addcommercialcustom");
     },
-    handleAdjust() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.dialogChangeAccount = true;
-    },
+    
     handleBlackList() {
       let multipleSelection = this.multipleSelection;
       if (!this.judgeRight(multipleSelection)) {
@@ -370,13 +299,13 @@ export default {
       if (!multipleSelection.length) {
         this.$message({
           type: "error",
-          message: "请选择商户"
+          message: "请选择用户"
         });
         return false;
       } else if (multipleSelection.length > 1) {
         this.$message({
           type: "error",
-          message: "请选择一个商户"
+          message: "请选择一个用户"
         });
         return false;
       }

@@ -120,36 +120,6 @@ export default {
         this.$router.push({ name: 'QualifypartDetail', params: row })
       }
     },
-    handleDelet() {
-      let multipleSelection = this.multipleSelection
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          deleteUser({ id })
-            .then(res => {
-              if (res.success) {
-                this.getQualificationPartyList(this.currentPage);
-                this.$message({
-                  type: "success",
-                  message: "删除成功"
-                });
-              }
-            })
-            .catch(err => {});
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
     handlegetQualificationPartyList(currentPage) {
       let params =Object.assign({}, this.formSearch, {
         page: currentPage,
@@ -179,13 +149,13 @@ export default {
       if (!multipleSelection.length) {
         this.$message({
           type: "error",
-          message: "请从列表中选择需要操作的行"
+          message: "请选择资质方"
         });
         return false;
       } else if (multipleSelection.length > 1) {
         this.$message({
           type: "error",
-          message: "只能选择一行进行操作"
+          message: "请选择一个资质方"
         });
         return false;
       }
