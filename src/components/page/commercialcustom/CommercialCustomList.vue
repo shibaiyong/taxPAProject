@@ -96,12 +96,12 @@
         @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="商户编号" prop="sn"></el-table-column>
+        <el-table-column label="商户编号" prop="sn" width="160"></el-table-column>
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
-        <el-table-column label="入网日期" prop="createdTime"></el-table-column>
-        <el-table-column label="关闭日期" prop="closedTime"></el-table-column>
+        <el-table-column label="入网日期" prop="createdTime" width="160"></el-table-column>
+        <el-table-column label="关闭日期" prop="closedTime" width="160"></el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>

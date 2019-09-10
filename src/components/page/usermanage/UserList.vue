@@ -55,7 +55,7 @@
                 <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button>
-                <el-button type="primary" size="small">
+                <el-button type="primary" size="small" @click="handleExportUser">
                   <i class="el-icon-search"></i>&nbsp;导出
                 </el-button>
               </div>
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo } from "@/requestDataInterface";
+import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -148,6 +148,16 @@ export default {
     },
     handleAdd() {
       this.$router.push("/home/addcommercialcustom");
+    },
+
+    handleExportUser(){
+      let idsStr = ''
+      let ids = []
+      if(this.multipleSelection.length){
+        ids = this.multipleSelection.map((item,index)=>item.id)
+      }
+      idsStr = ids.join(',')
+      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
     },
     
     handleBlackList() {
