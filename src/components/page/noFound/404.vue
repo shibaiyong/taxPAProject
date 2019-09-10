@@ -1,6 +1,6 @@
 <template>
   <div class="protocoldetail">
-    没用找到
+    没有找到
   </div>
 </template>
 
