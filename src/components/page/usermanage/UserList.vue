@@ -4,41 +4,24 @@
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="商户编号">
-              <el-input v-model="formSearch.sn" placeholder="商户编号"></el-input>
+            <el-form-item label="资质方名称">
+              <el-input v-model="formSearch.enterpriseName" placeholder="资质方名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+            <el-form-item label="身份证号">
+              <el-input v-model="formSearch.idcard" placeholder="身份证号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="企业账户">
-              <el-input v-model="formSearch.enterpriseAccounts" placeholder="企业账户"></el-input>
+            <el-form-item label="联系方式">
+              <el-input v-model="formSearch.phone" placeholder="联系方式"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <el-form-item label="纳税人识别号">
-              <el-input v-model="formSearch.taxpayerIdentificationSn" placeholder="纳税人识别号"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="入网开始日期">
+          <el-col :span="12">
+            <el-form-item label="导入日期">
               <el-date-picker
                 v-model="formSearch.beginDate"
                 type="date"
@@ -46,10 +29,7 @@
                 value-format="yyyy-MM-dd"
                 placeholder="开始日期"
               ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="入网结束日期">
+              -
               <el-date-picker
                 v-model="formSearch.endDate"
                 type="date"
@@ -59,7 +39,8 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="16">
+          
+          <el-col :span="12">
             <div class="operate">
               <div class="operateBtn">
                 <el-button type="primary" size="small" @click="handleSearch">
@@ -69,7 +50,7 @@
                   <i class="el-icon-search"></i>&nbsp;录入
                 </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
-                  <i class="el-icon-search"></i>&nbsp;编辑
+                  <i class="el-icon-search"></i>&nbsp;修改
                 </el-button>
                 <el-button type="primary" size="small">
                   <i class="el-icon-search"></i>&nbsp;删除
@@ -95,18 +76,18 @@
         @select-all="handleSelectAll"
         @cell-click="handleShowDetail"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="商户编号" prop="sn"></el-table-column>
-        <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
-        <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
-        <el-table-column label="账户余额" prop="mobile"></el-table-column>
-        <el-table-column label="入网日期" prop="createdTime"></el-table-column>
-        <el-table-column label="关闭日期" prop="closedTime"></el-table-column>
-        <el-table-column label="状态" prop="status">
-          <template slot-scope="scope">
-            <button class="statusbtn" v-status="scope.row">启用</button>
-          </template>
-        </el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column label="姓名" prop="name" width="90"></el-table-column>
+        <el-table-column label="身份证号码" prop="idCard" width="90"></el-table-column>
+        <el-table-column label="手机号" prop="phone" width="90"></el-table-column>
+        <el-table-column label="对应资质方" prop="enterpriseName" width="90"></el-table-column>
+        <el-table-column label="银行名称" prop="bankName"></el-table-column>
+        <el-table-column label="银行账号" prop="bankAccount"></el-table-column>
+        <el-table-column label="支行名称" prop="bankBranchName"></el-table-column>
+        <el-table-column label="导入时间" prop="createdTime" width="90"></el-table-column>
+        <el-table-column label="可报税额度" prop="usablePayment" width="90"></el-table-column>
+        <el-table-column label="已报税额度" prop="usedPayment" width="90"></el-table-column>
+        <el-table-column label="当前占用额度" prop="usingPayment" width="100"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -115,7 +96,7 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handleGetMerchantList"
+        @current-change="handlegetUserInfoList"
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
@@ -130,7 +111,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleInsertBlanklist">确 定</el-button>
+          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -138,11 +119,7 @@
 </template>
 
 <script>
-import {
-  changeMerchantStatus,
-  insertBlanklist,
-  getMerchantList
-} from "@/requestDataInterface";
+import { addBlackList, getUserInfoList, editUserInfo } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -155,44 +132,22 @@ export default {
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
+      qualificationList:[],
       merchantList: [],
       multipleSelection: [],
       formSearch: {
-        sn: "",
         enterpriseName: "",
-        enterpriseAccounts: "",
-        taxpayerIdentificationSn: "",
-        status: "",
+        idCard: "",
         beginDate: "",
-        endDate: ""
-      },
-      resetFormSearch: {
-        sn: "",
-        enterpriseName: "",
-        enterpriseAccounts: "",
-        taxpayerIdentificationSn: "",
-        status: "",
-        beginDate: "",
-        endDate: ""
+        endDate: "",
+        phone:""
       }
     };
   },
   created() {},
   methods: {
-    handleEffect(id, status) {
-      return changeMerchantStatus({ id: id, status: status }).then(res => {
-        if (res.success) {
-          this.handleGetMerchantList(this.currentPage);
-        } else {
-          this.$message({
-            type: "error",
-            message: res.msg
-          });
-        }
-      });
-    },
     handleSearch() {
-      this.handleGetMerchantList(this.currentPage);
+      this.handlegetUserInfoList(this.currentPage);
     },
     handleAdd() {
       this.$router.push("/home/addcommercialcustom");
@@ -205,17 +160,17 @@ export default {
       }
       this.dialogBlackList = true;
     },
-    handleInsertBlanklist() {
+    handleaddBlackList() {
       let id = this.multipleSelection[0].id;
       let remark = this.remark;
-      insertBlanklist({ id, remark })
+      addBlackList({ id, remark })
         .then(res => {
           if (res.success) {
             this.$message({
               type: "success",
               message: res.msg
             });
-            this.handleGetMerchantList(this.currentPage);
+            this.handlegetUserInfoList(this.currentPage);
             this.dialogBlackList = false;
           }
         })
@@ -229,7 +184,7 @@ export default {
         return false;
       }
       this.$router.push({
-        name: "EditCommercialCustom",
+        name: "UserEdit",
         params: multipleSelection[0]
       });
     },
@@ -252,7 +207,7 @@ export default {
           deleteUser({ id })
             .then(res => {
               if (res.success) {
-                this.getMerchantList(this.currentPage);
+                this.getUserInfoList(this.currentPage);
                 this.$message({
                   type: "success",
                   message: "删除成功"
@@ -268,15 +223,15 @@ export default {
           });
         });
     },
-    handleGetMerchantList(currentPage) {
+    handlegetUserInfoList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20
       });
-      getMerchantList(params)
+      getUserInfoList(params)
         .then(res => {
           if (res.success) {
-            this.merchantList = res.result.merchants;
+            this.merchantList = res.result.userInfos;
             this.total = res.result.total;
           }
         })
@@ -291,10 +246,18 @@ export default {
     handleSelectAll(selection) {
       this.multipleSelection = selection;
     },
-    handleResetSearchForm() {
-      Object.assign(this.formSearch, this.resetFormSearch);
+    handlegetQualificationPartyList(currentPage) {
+      let params =Object.assign({}, { page: 1, rows: 20 })
+      getQualificationPartyList(params)
+        .then(res => {
+          if (res.success) {
+            this.qualificationList = res.result.qualificationParties
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-
     judgeRight(multipleSelection) {
       if (!multipleSelection.length) {
         this.$message({
@@ -316,7 +279,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.handleGetMerchantList(this.currentPage);
+    this.handlegetUserInfoList(this.currentPage);
   },
   components: {},
   directives: {
@@ -349,7 +312,7 @@ export default {
 </script>
 <style scoped>
 .operate {
-  padding: 0 3%;
+  padding: 0 0;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -357,6 +320,7 @@ export default {
 }
 .operate .el-button--small {
   padding: 9px 12px;
+  margin-left:4px;
 }
 .pagecontainer {
   text-align: right;
@@ -374,7 +338,7 @@ export default {
   width: 230px;
 }
 .el-form-item__content > .el-date-editor {
-  width: 230px;
+  width: 180px;
 }
 .el-form {
   width: 100%;

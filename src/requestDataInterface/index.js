@@ -19,6 +19,8 @@ export const getMenuList = params => {
     return axiosInstance.post("/apii/auth/getMenuList",data).then(res => res.data)
 }
 
+/*-----------------------系统管理---------------------*/
+
 //获取用户列表
 export const getUserList = params => {
     let data = qs.stringify(params)
@@ -123,6 +125,8 @@ export const configRole = params => {
     return axiosInstance.post("/apii/user/allocationRoleToUser",data).then(res => res.data)
 }
 
+/*---------------商户管理--------------------*/
+
 
 //添加商户
 export const addMerchant = params => {
@@ -154,7 +158,7 @@ export const insertBlanklist = params => {
 }
 
 
-//资质方管理
+/*---------------资质方管理---------------*/
 
 //查询省
 export const getProvinceList = params => {
@@ -200,7 +204,7 @@ export const changeQualificationStatus = params => {
     return axiosInstance.post("/apii/qualificationParty/changeStatus",data).then(res => res.data)
 }
 
-//风险管理
+/*---------风险管理------------*/
 
 //获取黑名单列表
 export const getBlacklist = params => {
@@ -213,6 +217,28 @@ export const removeBlacklist = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/removeBlacklist",data).then(res => res.data)
 }
+
+/*-------------------用户管理---------------------*/
+
+// 获取用户列表
+export const getUserInfoList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/getUserInfoList",data).then(res => res.data)
+}
+
+//用户修改
+export const editUserInfo = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/editUserInfo",data).then(res => res.data)
+}
+
+//加入黑名单
+
+export const addBlackList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/insertBlanklist",data).then(res => res.data)
+}
+
 
 
 

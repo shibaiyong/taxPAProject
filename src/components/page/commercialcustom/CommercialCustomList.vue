@@ -72,7 +72,7 @@
                   <i class="el-icon-search"></i>&nbsp;录入
                 </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
-                  <i class="el-icon-search"></i>&nbsp;编辑
+                  <i class="el-icon-search"></i>&nbsp;修改
                 </el-button>
                 <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
@@ -308,36 +308,6 @@ export default {
       if(column.label == '企业名称'){
         this.$router.push({ name: 'DetailCommercialCustom', params: row })
       }
-    },
-    handleDelet() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          deleteUser({ id })
-            .then(res => {
-              if (res.success) {
-                this.getMerchantList(this.currentPage);
-                this.$message({
-                  type: "success",
-                  message: "删除成功"
-                });
-              }
-            })
-            .catch(err => {});
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     handleGetMerchantList(currentPage) {
       let params = Object.assign({}, this.formSearch, {

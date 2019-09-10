@@ -15,7 +15,12 @@ const AddQualifypart = r => require.ensure([], () => r(require('@/components/pag
 const EditQualifypart = r => require.ensure([], () => r(require('@/components/page/qualifyparty/EditQualifypart')), 'EditQualifypart')
 const QualifypartDetail = r => require.ensure([], () => r(require('@/components/page/qualifyparty/QualifypartDetail')), 'QualifypartDetail')
 
+const UserList = r => require.ensure([], () => r(require('@/components/page/usermanage/UserList')), 'UserList')
+const UserEdit = r => require.ensure([], () => r(require('@/components/page/usermanage/UserEdit')), 'UserEdit')
+
 const BlackList = r => require.ensure([], () => r(require('@/components/page/riskmanage/BlackList')), 'BlackList')
+const MarchantBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/MarchantBlack')), 'MarchantBlack')
+const UserBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/UserBlack')), 'UserBlack')
 
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
@@ -35,7 +40,6 @@ const instance = new Router({
       meta: {
         title: 'Login',
         requireAuth: false,
-        roles: ['user','admin','superadmin'],
         bread:['主页','登录']
       }
     },
@@ -46,7 +50,6 @@ const instance = new Router({
       meta: {
         title: '主页',
         requireAuth: false,
-        roles: ['admin','superadmin'],
         bread:['主页','登录']
       },
       children:[
@@ -58,7 +61,6 @@ const instance = new Router({
           meta: {
             title: '商户管理',
             requireAuth: false,
-            roles: ['user','admin','superadmin'],
             bread:['主页','商户管理','商户列表']
           }
         },
@@ -70,7 +72,6 @@ const instance = new Router({
           meta: {
             title: '商户管理',
             requireAuth: false,
-            roles: ['user','admin','superadmin'],
             bread:['主页','商户管理','商户录入']
           }
         },
@@ -82,8 +83,7 @@ const instance = new Router({
           meta: {
             title: '商户管理',
             requireAuth: false,
-            roles: ['user','admin','superadmin'],
-            bread:['主页','商户管理','商户编辑']
+            bread:['主页','商户管理','商户修改']
           }
         },
 
@@ -94,7 +94,6 @@ const instance = new Router({
           meta: {
             title: '商户管理',
             requireAuth: false,
-            roles: ['user','admin','superadmin'],
             bread:['主页','商户管理','商户详情']
           }
         },
@@ -106,7 +105,6 @@ const instance = new Router({
           meta: {
             title: '资质方列表',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方列表']
           }
         },
@@ -117,7 +115,6 @@ const instance = new Router({
           meta: {
             title: '资质方录入',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方录入']
           }
         },
@@ -129,8 +126,7 @@ const instance = new Router({
           meta: {
             title: '资质方编辑',
             requireAuth: false,
-            roles: ['admin','superadmin'],
-            bread:['主页','资质方管理','资质方编辑']
+            bread:['主页','资质方管理','资质方修改']
           }
         },
 
@@ -141,8 +137,29 @@ const instance = new Router({
           meta: {
             title: '资质方详情',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','资质方管理','资质方详情']
+          }
+        },
+
+        {
+          path: '/home/userlist',
+          name: 'UserList',
+          component: UserList,
+          meta: {
+            title: '用户管理',
+            requireAuth: false,
+            bread:['主页','用户管理','用户列表']
+          }
+        },
+
+        {
+          path: '/home/useredit',
+          name: 'UserEdit',
+          component: UserEdit,
+          meta: {
+            title: '用户管理',
+            requireAuth: false,
+            bread:['主页','用户管理','用户修改']
           }
         },
 
@@ -153,20 +170,40 @@ const instance = new Router({
           meta: {
             title: '黑名单',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','风险管理','黑名单']
-          }
+          },
+          children:[
+            { path: '/home/blacklist', redirect: '/home/blacklist/marchantblack' },
+            {
+              path: '/home/blacklist/marchantblack',
+              name: 'MarchantBlack',
+              component: MarchantBlack,
+              meta: {
+                title: '商户黑名单',
+                requireAuth: false,
+                bread:['主页','风险管理','商户黑名单']
+              }
+            },
+            {
+              path: '/home/blacklist/userblack',
+              name: 'UserBlack',
+              component: UserBlack,
+              meta: {
+                title: '用户黑名单',
+                requireAuth: false,
+                bread:['主页','风险管理','用户黑名单']
+              }
+            }
+          ]
         },
-
         {
           path: '/home/usermanage',
           name: 'UserManage',
           component: UserManage,
           meta: {
-            title: '用户管理',
+            title: '后台用户管理',
             requireAuth: false,
-            roles: ['admin','superadmin'],
-            bread:['主页','权限管理','用户管理']
+            bread:['主页','权限管理','后台用户管理']
           }
         },
 
@@ -177,7 +214,6 @@ const instance = new Router({
           meta: {
             title: '角色管理',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','权限管理','角色管理']
           }
         },
@@ -188,7 +224,6 @@ const instance = new Router({
           meta: {
             title: '权限列表',
             requireAuth: false,
-            roles: ['admin','superadmin'],
             bread:['主页','权限管理','权限列表']
           }
         }
@@ -201,7 +236,6 @@ const instance = new Router({
       meta: {
         title: '404',
         requireAuth: false,
-        roles: ['superadmin']
       }
     }
   ],

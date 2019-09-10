@@ -15,8 +15,5 @@ export default{
           }
         }
     })
-    Vue.filter('',function (value) {
-        
-    })
   }
 }  
