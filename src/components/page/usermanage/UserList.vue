@@ -46,14 +46,11 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small" @click="handleAdd">
-                  <i class="el-icon-search"></i>&nbsp;录入
-                </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
                   <i class="el-icon-search"></i>&nbsp;修改
                 </el-button>
                 <el-button type="primary" size="small">
-                  <i class="el-icon-search"></i>&nbsp;删除
+                  <i class="el-icon-search"></i>&nbsp;详情
                 </el-button>
                 <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
@@ -78,16 +75,16 @@
       >
         <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="姓名" prop="name" width="90"></el-table-column>
-        <el-table-column label="身份证号码" prop="idCard" width="90"></el-table-column>
-        <el-table-column label="手机号" prop="phone" width="90"></el-table-column>
-        <el-table-column label="对应资质方" prop="enterpriseName" width="90"></el-table-column>
-        <el-table-column label="银行名称" prop="bankName"></el-table-column>
-        <el-table-column label="银行账号" prop="bankAccount"></el-table-column>
-        <el-table-column label="支行名称" prop="bankBranchName"></el-table-column>
-        <el-table-column label="导入时间" prop="createdTime" width="90"></el-table-column>
+        <el-table-column label="身份证号码" prop="idCard" width="180"></el-table-column>
+        <el-table-column label="手机号" prop="phone" width="100"></el-table-column>
+        <el-table-column label="对应资质方" prop="enterpriseName" width="140"></el-table-column>
+        <el-table-column label="银行名称" prop="bankName" width="140"></el-table-column>
+        <el-table-column label="银行账号" prop="bankAccount" width="140"></el-table-column>
+        <el-table-column label="支行名称" prop="bankBranchName" width="140"></el-table-column>
+        <el-table-column label="导入时间" prop="createdTime" width="160"></el-table-column>
         <el-table-column label="可报税额度" prop="usablePayment" width="90"></el-table-column>
         <el-table-column label="已报税额度" prop="usedPayment" width="90"></el-table-column>
-        <el-table-column label="当前占用额度" prop="usingPayment" width="100"></el-table-column>
+        <el-table-column label="当前占用额度" prop="usingPayment" width="120"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -103,7 +100,7 @@
     
     <div class="dialogblack">
       <el-dialog title="黑名单" :visible.sync="dialogBlackList">
-        <p>确定要将该商户加入黑名单吗？</p>
+        <p>确定要将该用户加入黑名单吗？</p>
         <el-form size="small" :model="formSearch">
           <el-form-item label="备注：">
             <el-input v-model="remark" placeholder=""></el-input>
@@ -350,9 +347,19 @@ export default {
   width: 62%;
 }
 .dialogblack >>> .el-dialog {
-  width: 40%;
+  width: 30%;
 }
-.dialogblack >>> .el-dialog {
-  width: 40%;
+
+.dialogblack >>> .el-button--small{
+  width:40%;
+}
+.dialogblack >>> .el-dialog__body{
+  padding-top:15px;
+  padding-bottom: 15px;
+}
+.dialog-footer{
+  
+  display:flex;
+  justify-content: space-between;
 }
 </style>

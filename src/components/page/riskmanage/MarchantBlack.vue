@@ -97,7 +97,7 @@
     
     <div class="dialogblack">
     <el-dialog title="解除黑名单" :visible.sync="dialogBlackList">
-      <p>确定要将该用户解除黑名单吗？</p>
+      <p>确定要将该商户解除黑名单吗？</p>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
         <el-button type="primary" size="small" @click="removeBlanklist">确 定</el-button>
@@ -196,13 +196,13 @@ export default {
       if( !multipleSelection.length ){
         this.$message({
           type:'error',
-          message:'请从列表中选择需要操作的行'
+          message:'请选择商户'
         })
         return false
       }else if( multipleSelection.length > 1 ){
         this.$message({
           type:'error',
-          message:'只能选择一行进行操作'
+          message:'请选择一个商户'
         })
         return false
       }
@@ -261,21 +261,22 @@ export default {
 >>>.el-dialog{
   width:62%;
 }
-.dialogblack >>>.el-dialog{
-  width:40%;
+.dialogblack >>> .el-dialog {
+  width: 30%;
 }
 
-.statusbtn{
-  display:inline-block;
-  width:50px;
-  height:25px;
-  font-size: 12px;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  background:#409eff;
-  border:none;
-  color:white;
+.dialogblack >>> .el-button--small{
+  width:40%;
 }
+.dialogblack >>> .el-dialog__body{
+  padding-top:15px;
+  padding-bottom: 15px;
+}
+.dialog-footer{
+  
+  display:flex;
+  justify-content: space-between;
+}
+
 
 </style>

@@ -67,7 +67,13 @@
     <el-row>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">开户行地域</label></el-col>
-            <el-col :span="18"><label class="labelname">{{formEdit.openingBankRegionProvince}}-{{formEdit.openingBankRegionCity}}</label></el-col>
+            <el-col :span="18">
+                <el-select v-model="formEdit.openingBankRegionProvince" size="small" :disabled="true">
+                    <el-option v-for="option in provinceList" :key="option.id" :label="option.name" :value="option.id"></el-option>
+                </el-select>&nbsp;-&nbsp;<el-select v-model="formEdit.openingBankRegionCity" size="small" :disabled="true">
+                    <el-option v-for="option in cityList" :key="option.id" :label="option.name" :value="option.id"></el-option>
+                </el-select>
+            </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="7"><label class="descr">开户行支行信息</label></el-col>
@@ -89,7 +95,11 @@
         
         <el-col :span="12">
             <el-col :span="6"><label class="descr">资质方关联</label></el-col>
-            <el-col :span="18"><label class="labelname">{{formEdit.qualificationId}}</label></el-col>
+            <el-col :span="18">
+                <el-select v-model="formEdit.qualificationId" placeholder="" :disabled="true">
+                    <el-option v-for="option in qualificationList" :key="option.id" :label="option.enterpriseName" :value="option.id"></el-option>
+                </el-select>
+            </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">开票信息</label></el-col>
@@ -132,6 +142,7 @@
 </template>
 
 <script>
+import { getProvinceList, getCityListByProvinceId, getCityList, getQualificationPartyList } from "@/requestDataInterface"
 
 export default {
   props: {},
@@ -164,7 +175,10 @@ export default {
             salesManagerTel:'',
             salesManagerEmail:'',
             status:''
-      },
+       },
+       provinceList:[],
+       cityList:[],
+       qualificationList:[]
     }
   },
   created() {},
@@ -175,11 +189,40 @@ export default {
     },
     goback(){
         this.$router.go(-1)
-    }
+    },
+    handleGetProvinceList(){
+      getProvinceList().then(res => {
+        if(res.success){
+          this.provinceList = res.result
+        }
+      }).catch(err=>{})
+    },
+    handleGetAllCityList(){
+      return getCityList().then(res => {
+        if(res.success){
+          this.cityList = res.result
+        }
+      }).catch( err => {})
+    },
+    handlegetQualificationPartyList(currentPage) {
+      let params =Object.assign({}, { page: 1, rows: 20 })
+      getQualificationPartyList(params)
+        .then(res => {
+          if (res.success) {
+            this.qualificationList = res.result.qualificationParties
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
   },
   computed: {},
   mounted() {
       this.handleDetail()
+      this.handleGetProvinceList();
+      this.handleGetAllCityList();
+      this.handlegetQualificationPartyList()
   },
   components: {},
   beforeDestroy() {}
@@ -210,5 +253,8 @@ label.descr{
 }
 p{
     text-align: center;
+}
+>>>.el-select {
+  width: 150px;
 }
 </style>

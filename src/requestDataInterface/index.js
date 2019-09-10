@@ -206,18 +206,29 @@ export const changeQualificationStatus = params => {
 
 /*---------风险管理------------*/
 
-//获取黑名单列表
+//获取商户黑名单列表
 export const getBlacklist = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/getBlacklist",data).then(res => res.data)
 }
 
-//解除黑名单
+//解除商户黑名单
 export const removeBlacklist = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/removeBlacklist",data).then(res => res.data)
 }
 
+//获取用户黑名单列表
+export const getUserBlacklist = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/getBlacklist",data).then(res => res.data)
+}
+
+//解除用户黑名单
+export const removeUserBlacklist = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/removeBlacklist",data).then(res => res.data)
+}
 /*-------------------用户管理---------------------*/
 
 // 获取用户列表

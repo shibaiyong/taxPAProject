@@ -417,6 +417,7 @@ export default {
   computed: {},
   mounted() {
     this.handleGetProvinceList()
+    this.handlegetQualificationPartyList()
   },
   components: {},
   beforeDestroy() {}

@@ -126,7 +126,7 @@
           <el-col :span="12">
             <el-form-item label="资质方关联" prop="qualificationId">
               <el-select v-model="formEdit.qualificationId" placeholder="" :disabled="editable">
-                <el-option v-for="option in qualificationId" :key="option.value" :label="option.label" :value="option.value"></el-option>
+                <el-option v-for="option in qualificationList" :key="option.id" :label="option.enterpriseName" :value="option.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { getProvinceList, getCityListByProvinceId, editMerchant, getCityList } from "@/requestDataInterface"
+import { getProvinceList, getCityListByProvinceId, editMerchant, getCityList, getQualificationPartyList } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -287,8 +287,8 @@ export default {
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
-      qualificationId:[
-        { label: "资质方关联暂时写死", value: "1234567889" },
+      qualificationList:[
+        
       ],
       provinceList:[],
       cityList:[],
@@ -384,6 +384,18 @@ export default {
         }
       }).catch( err => {})
     },
+    handlegetQualificationPartyList(currentPage) {
+      let params =Object.assign({}, { page: 1, rows: 20 })
+      getQualificationPartyList(params)
+        .then(res => {
+          if (res.success) {
+            this.qualificationList = res.result.qualificationParties
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     submitForm(ref){
       this.$refs[ref].validate((valid) => {
         if (valid) {
@@ -415,6 +427,7 @@ export default {
     this.handleGetProvinceList();
     this.handleGetAllCityList();
     this.handleEdit();
+    this.handlegetQualificationPartyList()
   },
   components: {},
   beforeDestroy() {}
