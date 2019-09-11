@@ -4,7 +4,7 @@
       <img src="@/assets/img/logoandword.png" />
     </div>
 
-    <div class="dropdown">
+    <div class="dropdown" v-if="errorpage">
       <el-dropdown trigger="click" @command="handleCommand">
         <span class="el-dropdown-link">
           欢迎&nbsp;{{username}}
@@ -20,7 +20,12 @@
 
 <script>
 export default {
-  props: {},
+  props: {
+    errorpage:{
+      type:Boolean,
+      default:true
+    }
+  },
   data() {
     return {
       username:''
