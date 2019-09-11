@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { editUserInfo } from "@/requestDataInterface"
+import { editUserInfo, getUserInfoById } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -203,8 +203,12 @@ export default {
       this.$router.go(-1)
     },
     handleEdit() {
-      let row = this.$route.params
-      Object.assign(this.formEdit,row)
+      let id = this.$route.params.id
+      getUserInfoById({id}).then( res => {
+        if(res.success){
+          Object.assign(this.formEdit,res.result)
+        }
+      }).catch(err=>{})
     },
     submitForm(ref){
       this.$refs[ref].validate((valid) => {

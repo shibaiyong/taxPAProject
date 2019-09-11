@@ -17,6 +17,7 @@ const QualifypartDetail = r => require.ensure([], () => r(require('@/components/
 
 const UserList = r => require.ensure([], () => r(require('@/components/page/usermanage/UserList')), 'UserList')
 const UserEdit = r => require.ensure([], () => r(require('@/components/page/usermanage/UserEdit')), 'UserEdit')
+const UserDetail = r => require.ensure([], () => r(require('@/components/page/usermanage/UserDetail')), 'UserDetail')
 
 const BlackList = r => require.ensure([], () => r(require('@/components/page/riskmanage/BlackList')), 'BlackList')
 const MarchantBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/MarchantBlack')), 'MarchantBlack')
@@ -26,7 +27,7 @@ const UserManage = r => require.ensure([], () => r(require('@/components/page/au
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
 const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
 const NoFound = r => require.ensure([], () => r(require('@/components/page/noFound/404.vue')), 'NoFound')
-
+const ErrorPage = r => require.ensure([], () => r(require('@/components/page/noFound/500.vue')), 'ErrorPage')
 
 const instance = new Router({
   mode: 'history',
@@ -157,9 +158,20 @@ const instance = new Router({
           name: 'UserEdit',
           component: UserEdit,
           meta: {
-            title: '用户管理',
+            title: '用户修改',
             requireAuth: false,
             bread:['主页','用户管理','用户修改']
+          }
+        },
+
+        {
+          path: '/home/userdetail',
+          name: 'UserDetail',
+          component: UserDetail,
+          meta: {
+            title: '用户详情',
+            requireAuth: false,
+            bread:['主页','用户管理','用户详情']
           }
         },
 
@@ -228,6 +240,15 @@ const instance = new Router({
           }
         }
       ]
+    },
+    {
+      path: '/error',
+      name: 'Error',
+      component: ErrorPage,
+      meta: {
+        title: '500',
+        requireAuth: false,
+      }
     },
     {
       path: '/*',

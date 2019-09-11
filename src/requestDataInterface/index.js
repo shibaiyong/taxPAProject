@@ -237,6 +237,13 @@ export const getUserInfoList = params => {
     return axiosInstance.post("/apii/userInfo/getUserInfoList",data).then(res => res.data)
 }
 
+//获取详情用户
+
+export const getUserInfoById = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/getUserInfoById",data).then(res => res.data)
+}
+
 //用户修改
 export const editUserInfo = params => {
     let data = qs.stringify(params)

@@ -49,7 +49,7 @@
                 <el-button type="primary" size="small" @click="handleEdit">
                   <i class="el-icon-search"></i>&nbsp;修改
                 </el-button>
-                <el-button type="primary" size="small">
+                <el-button type="primary" size="small" @click="handleShowDetail">
                   <i class="el-icon-search"></i>&nbsp;详情
                 </el-button>
                 <el-button type="primary" size="small" @click="handleBlackList">
@@ -185,7 +185,7 @@ export default {
           console.log(err);
         });
     },
-    handleEdit(index, row) {
+    handleEdit() {
       let multipleSelection = this.multipleSelection;
       if (!this.judgeRight(multipleSelection)) {
         return false;
@@ -195,10 +195,15 @@ export default {
         params: multipleSelection[0]
       });
     },
-    handleShowDetail(row, column, cell, event) {
-      if(column.label == '企业名称'){
-        this.$router.push({ name: 'DetailCommercialCustom', params: row })
+    handleShowDetail() {
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
       }
+      this.$router.push({
+        name: "UserDetail",
+        params: multipleSelection[0]
+      })
     },
     handleDelet() {
       let multipleSelection = this.multipleSelection;
