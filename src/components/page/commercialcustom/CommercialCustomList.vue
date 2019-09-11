@@ -77,9 +77,9 @@
                 <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button>
-                <el-button type="primary" size="small" @click="handleAdjust">
+                <!-- <el-button type="primary" size="small" @click="handleAdjust">
                   <i class="el-icon-search"></i>&nbsp;调账
-                </el-button>
+                </el-button> -->
               </div>
             </div>
           </el-col>
