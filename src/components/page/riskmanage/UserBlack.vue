@@ -67,10 +67,10 @@
         <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="姓名" prop="name" width="90"></el-table-column>
         <el-table-column label="身份证号码" prop="idCard" width="180"></el-table-column>
-        <el-table-column label="手机号" prop="phone" width="100"></el-table-column>
+        <el-table-column label="手机号" prop="phone" width="120"></el-table-column>
         <el-table-column label="对应资质方" prop="enterpriseName" width="140"></el-table-column>
         <el-table-column label="银行名称" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="银行账号" prop="bankAccount" width="140"></el-table-column>
+        <el-table-column label="银行账号" prop="bankAccount" width="160"></el-table-column>
         <el-table-column label="支行名称" prop="bankBranchName" width="140"></el-table-column>
         <el-table-column label="导入时间" prop="createdTime" width="160"></el-table-column>
         <el-table-column label="可报税额度" prop="usablePayment" width="90"></el-table-column>

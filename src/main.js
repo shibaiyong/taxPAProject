@@ -10,7 +10,7 @@ import '@/assets/css/common.css'
 import ElementUI from 'element-ui'
 import Api from '@/assets/utils/api.js'
 import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
+Vue.use(ElementUI,{size:'small'})
 Vue.use(Api)
 Vue.config.productionTip = false
 /* eslint-disable no-new */
