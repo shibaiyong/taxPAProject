@@ -8,7 +8,7 @@ import router from '@/router'
 // http://12.3.16.12:8088/
 //baseURL:'http://192.168.129.108:8088',
 let axiosInstance = axios.create({
-    // baseURL:'http://localhost:8088',
+    //baseURL:'http://localhost:8088',
     timeout:60000
 })
 

@@ -30,7 +30,6 @@ const NoFound = r => require.ensure([], () => r(require('@/components/page/noFou
 const ErrorPage = r => require.ensure([], () => r(require('@/components/page/noFound/500.vue')), 'ErrorPage')
 
 const instance = new Router({
-  mode: 'history',
   routes: [
     { path: '/', redirect: '/login' },
     { path: '/auth/index', redirect: '/login' },
