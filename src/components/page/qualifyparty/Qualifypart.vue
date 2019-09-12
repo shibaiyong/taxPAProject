@@ -39,9 +39,21 @@
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人" prop="contacts"></el-table-column>
         <el-table-column label="手机号" prop="contactsTel"></el-table-column>
-        <el-table-column label="当月全部额度" prop="yearPayment"></el-table-column>
-        <el-table-column label="当月可用额度" prop="thisMonthPayment"></el-table-column>
-        <el-table-column label="当月已用额度" prop="nextMonthPayment"></el-table-column>
+        <el-table-column label="当月全部额度" prop="singleMonthPayment">
+          <template slot-scope="scope">
+            {{scope.row.singleMonthPayment | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="当月可用额度" prop="thisMonthPayment">
+          <template slot-scope="scope">
+            {{scope.row.thisMonthPayment | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="当月已用额度" prop="nextMonthPayment">
+          <template slot-scope="scope">
+            {{scope.row.nextMonthPayment | fMoney}}
+          </template>
+        </el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>

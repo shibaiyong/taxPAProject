@@ -1,3 +1,4 @@
+import { filters } from "./index"
 
 export default{  
   install (Vue, options) {  
@@ -14,6 +15,9 @@ export default{
             el.parentNode.removeChild(el)
           }
         }
+    })
+    Object.keys( filters ).forEach(key => {
+      Vue.filter(key, filters[key])
     })
   }
 }  

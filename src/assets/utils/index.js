@@ -26,6 +26,23 @@ function padLeftZero(str) {
     return ('00' + str).substr(str.length)
 }
 
+//数据千分位格式化
+
+export const filters = {
+    fMoney(num) {
+        num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num)) num = "0";
+        var sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        var cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if(cents < 10) cents = "0" + cents;
+        for (var i = 0; i < Math.floor( (num.length - (1+i))/3 ); i++)
+            num = num.substring( 0, num.length - (4*i+3) ) + ',' + num.substring( num.length - (4*i+3) );
+        return (((sign)?'':'-') + num + '.' + cents);
+    }
+}
+
 //数组对象按某个键排序
 
 export const sortArr = (arr, prop) => {
