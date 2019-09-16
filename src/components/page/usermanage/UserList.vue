@@ -52,9 +52,9 @@
                 <el-button type="primary" size="small" @click="handleShowDetail">
                   <i class="el-icon-search"></i>&nbsp;详情
                 </el-button>
-                <el-button type="primary" size="small" @click="handleBlackList">
+                <!-- <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
-                </el-button>
+                </el-button> -->
                 <el-button type="primary" size="small" @click="handleExportUser">
                   <i class="el-icon-search"></i>&nbsp;导出
                 </el-button>
@@ -79,8 +79,8 @@
         <el-table-column label="手机号" prop="phone" width="100"></el-table-column>
         <el-table-column label="对应资质方" prop="enterpriseName" width="140"></el-table-column>
         <el-table-column label="银行名称" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="银行账号" prop="bankAccount" width="140"></el-table-column>
-        <el-table-column label="支行名称" prop="bankBranchName" width="140"></el-table-column>
+        <!-- <el-table-column label="银行账号" prop="bankAccount" width="140"></el-table-column> -->
+        <!-- <el-table-column label="支行名称" prop="bankBranchName" width="140"></el-table-column> -->
         <el-table-column label="导入时间" prop="createdTime" width="160"></el-table-column>
         <el-table-column label="可报税额度" prop="usablePayment" width="90"></el-table-column>
         <el-table-column label="已报税额度" prop="usedPayment" width="90"></el-table-column>

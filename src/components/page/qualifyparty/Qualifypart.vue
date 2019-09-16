@@ -49,9 +49,14 @@
             {{scope.row.thisMonthPayment | fMoney}}
           </template>
         </el-table-column>
-        <el-table-column label="当月已用额度" prop="nextMonthPayment">
+        <el-table-column label="当月已用额度" prop="monthUsablePayment">
           <template slot-scope="scope">
-            {{scope.row.nextMonthPayment | fMoney}}
+            {{scope.row.monthUsablePayment | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="当前占用额度" prop="monthOccupyPayment">
+          <template slot-scope="scope">
+            {{scope.row.monthOccupyPayment | fMoney}}
           </template>
         </el-table-column>
         <el-table-column label="状态" prop="status">
