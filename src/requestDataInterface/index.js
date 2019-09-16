@@ -13,7 +13,7 @@ export const Login = params => {
 }
 
 //登出
-export const loginOut = params => {
+export const logOut = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/auth/logout", data).then(res => res.data)
 }

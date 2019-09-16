@@ -11,7 +11,7 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="loginout">退出</el-dropdown-item>
+          <el-dropdown-item command="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { loginOut } from '@/requestDataInterface'
+import { logOut } from '@/requestDataInterface'
 export default {
   props: {
     errorpage:{
@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     handleCommand(command) {
-      if(command == 'loginout'){
-        loginOut().then(res => {
+      if(command == 'logout'){
+        logOut().then(res => {
           if(res.code==2000){
             this.$router.push('/login')
           }
