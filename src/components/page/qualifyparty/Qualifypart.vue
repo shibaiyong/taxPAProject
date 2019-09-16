@@ -39,9 +39,9 @@
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人" prop="contacts"></el-table-column>
         <el-table-column label="手机号" prop="contactsTel"></el-table-column>
-        <el-table-column label="当月全部额度" prop="singleMonthPayment">
+        <el-table-column label="当月全部额度" prop="thisMonthAllPayment">
           <template slot-scope="scope">
-            {{scope.row.singleMonthPayment | fMoney}}
+            {{scope.row.thisMonthAllPayment | fMoney}}
           </template>
         </el-table-column>
         <el-table-column label="当月可用额度" prop="thisMonthPayment">
