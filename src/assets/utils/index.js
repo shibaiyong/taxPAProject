@@ -30,7 +30,9 @@ function padLeftZero(str) {
 
 export const filters = {
     fMoney(num) {
-        num = num.toString().replace(/\$|\,/g,'');
+        //处理一些特殊情况
+        if(!num && num != 0) return '';
+        var num = num.toString().replace(/\$|\,/g,'');
         if(isNaN(num)) num = "0";
         var sign = (num == (num = Math.abs(num)));
         num = Math.floor(num * 100 + 0.50000000001);
