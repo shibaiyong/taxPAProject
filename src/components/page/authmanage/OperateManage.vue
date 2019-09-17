@@ -95,14 +95,7 @@ export default {
       total:1,
       ispath:false,
       userList: [
-        {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        }
+        
       ],
       roleList: [],
       dialogEditVisible: false,
