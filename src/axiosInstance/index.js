@@ -15,7 +15,7 @@ let axiosInstance = axios.create({
 // 请求拦截器
 axiosInstance.interceptors.request.use(
     config => {
-        //config.headers.Authorization = localStorage.getItem('RyxToken')
+        config.headers.Authorization = localStorage.getItem('RyxToken')
         return config
     },
     err => {

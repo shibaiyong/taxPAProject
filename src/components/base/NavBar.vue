@@ -2,6 +2,7 @@
   <div class="navbar" ref="navbar">
     <!-- :default-active="checkedItem" -->
     <el-menu
+      :default-active="checkedItem"
       class="el-menu-vertical-demo"
       @select="handleSelect"
       router
@@ -54,7 +55,7 @@ export default {
     };
   },
   created() {
-    //this.checkedItem = sessionStorage.getItem("path")
+    this.checkedItem = sessionStorage.getItem("path")
   },
   methods: {
     changeActive(){
