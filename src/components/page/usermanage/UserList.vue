@@ -47,16 +47,16 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
-                  <i class="el-icon-search"></i>&nbsp;修改
+                  <i class="el-icon-edit-outline"></i>&nbsp;修改
                 </el-button>
                 <el-button type="primary" size="small" @click="handleShowDetail">
-                  <i class="el-icon-search"></i>&nbsp;详情
+                  <i class="el-icon-info"></i>&nbsp;详情
                 </el-button>
                 <!-- <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button> -->
                 <el-button type="primary" size="small" @click="handleExportUser">
-                  <i class="el-icon-search"></i>&nbsp;导出
+                  <i class="el-icon-download"></i>&nbsp;导出
                 </el-button>
               </div>
             </div>

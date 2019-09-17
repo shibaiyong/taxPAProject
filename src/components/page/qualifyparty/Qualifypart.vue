@@ -15,10 +15,10 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleAdd">
-                  <i class="el-icon-search"></i>&nbsp;录入
+                  <i class="el-icon-circle-plus-outline"></i>&nbsp;录入
                 </el-button>
                 <el-button type="primary" size="small" @click="handleEdit">
-                  <i class="el-icon-search"></i>&nbsp;修改
+                  <i class="el-icon-edit-outline"></i>&nbsp;修改
                 </el-button>
               </div>
             </div>
