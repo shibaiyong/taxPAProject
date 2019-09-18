@@ -71,7 +71,6 @@
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
-        @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="姓名" prop="name" width="90"></el-table-column>

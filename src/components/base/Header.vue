@@ -43,7 +43,7 @@ export default {
             sessionStorage.removeItem('RyxToken')
             this.$router.push('/login')
           }
-        }).catch()
+        }).catch(err => {console.log(err)})
       }
     }
   },
