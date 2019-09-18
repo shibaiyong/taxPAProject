@@ -23,6 +23,8 @@ const BlackList = r => require.ensure([], () => r(require('@/components/page/ris
 const MarchantBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/MarchantBlack')), 'MarchantBlack')
 const UserBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/UserBlack')), 'UserBlack')
 
+const SubstituteRequest = r => require.ensure([], () => r(require('@/components/page/substitutepay/SubstituteRequest')), 'SubstituteRequest')
+
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
 const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
@@ -206,6 +208,16 @@ const instance = new Router({
               }
             }
           ]
+        },
+        {
+          path: '/home/substituterequest',
+          name: 'SubstituteRequest',
+          component: SubstituteRequest,
+          meta: {
+            title: '代付请求',
+            requireAuth: false,
+            bread:['主页','代付管理','代付请求']
+          }
         },
         {
           path: '/home/usermanage',

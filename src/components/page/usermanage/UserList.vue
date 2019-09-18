@@ -204,36 +204,6 @@ export default {
         params: multipleSelection[0]
       })
     },
-    handleDelet() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          deleteUser({ id })
-            .then(res => {
-              if (res.success) {
-                this.getUserInfoList(this.currentPage);
-                this.$message({
-                  type: "success",
-                  message: "删除成功"
-                });
-              }
-            })
-            .catch(err => {});
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
     handlegetUserInfoList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
@@ -256,18 +226,6 @@ export default {
     },
     handleSelectAll(selection) {
       this.multipleSelection = selection;
-    },
-    handlegetQualificationPartyList(currentPage) {
-      let params =Object.assign({}, { page: 1, rows: 20 })
-      getQualificationPartyList(params)
-        .then(res => {
-          if (res.success) {
-            this.qualificationList = res.result.qualificationParties
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
     },
     judgeRight(multipleSelection) {
       if (!multipleSelection.length) {
