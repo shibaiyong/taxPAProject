@@ -70,3 +70,8 @@ a:active{
   border:none;
   color:white;
 }
+
+.myblue{
+  color:#409EFF;
+  cursor: pointer;
+}
