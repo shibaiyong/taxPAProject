@@ -74,6 +74,7 @@ export default {
         
         if(res.success){
           localStorage.setItem('username',params.username)
+          sessionStorage.setItem('RyxToken',res.result.token)
           this.$router.push('/home/commercialcustom')
           this.$store.dispatch('setLogin',1)
         }else{

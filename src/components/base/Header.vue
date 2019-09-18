@@ -40,6 +40,7 @@ export default {
       if(command == 'logout'){
         logOut().then(res => {
           if(res.code==2000){
+            sessionStorage.removeItem('RyxToken')
             this.$router.push('/login')
           }
         }).catch()
