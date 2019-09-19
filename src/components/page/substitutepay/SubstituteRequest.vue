@@ -108,7 +108,7 @@
                   <i class="el-icon-download"></i>&nbsp;拦截
                 </el-button>
                 <el-button type="primary" size="small" @click="handleSearch">
-                  <i class="el-icon-search"></i>&nbsp;撤销
+                  <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;导入
