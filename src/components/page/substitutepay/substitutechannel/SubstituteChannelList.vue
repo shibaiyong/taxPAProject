@@ -1,17 +1,10 @@
 <template>
   <div class="rolelist">
-    <div class="operate">
+    <div class="operate paddingcontainer">
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
-          
-          
           <el-col :span="8">
-            <el-form-item label="复核编号">
-              <el-input v-model="formSearch.phone" placeholder="批次编号"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="复核状态">
+            <el-form-item label="打款通道类型">
               <el-select v-model="formSearch.status">
                 <el-option
                   v-for="option in statusOptions"
@@ -22,33 +15,38 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="复核日期">
-              <el-date-picker
-                v-model="formSearch.beginDate"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="开始日期"
-              ></el-date-picker>
-              -
-              <el-date-picker
-                v-model="formSearch.endDate"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="结束日期"
-              ></el-date-picker>
+          <el-col :span="8">
+            <el-form-item label="通道状态">
+              <el-select v-model="formSearch.status">
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
+            <el-form-item label="所属银行">
+              <el-select v-model="formSearch.status">
+                <el-option
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
             <div class="operate">
               <div class="operateBtn">
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleSearch">
-                  <i class="el-icon-circle-close"></i>&nbsp;审核
+                  <i class="el-icon-circle-close"></i>&nbsp;新增
                 </el-button>
               </div>
             </div>
@@ -65,14 +63,24 @@
         @select-all="handleSelectAll"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="复核编号" prop="name" width="90"></el-table-column>
-        <el-table-column label="发起时间" prop="idCard" width="180"></el-table-column>
-        <el-table-column label="发起人" prop="phone" width="100"></el-table-column>
-        <el-table-column label="复核时间" prop="enterpriseName" width="140"></el-table-column>
-        <el-table-column label="复核人" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="总笔数" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="总金额" prop="usablePayment" width="90"></el-table-column>
-        <el-table-column label="状态" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column label="通道编号" prop="name" width="90"></el-table-column>
+        <el-table-column label="通道名称" prop="idCard" width="180"></el-table-column>
+        <el-table-column label="所属银行" prop="phone" width="100"></el-table-column>
+        <el-table-column label="账户类型" prop="enterpriseName" width="140"></el-table-column>
+        <el-table-column label="通道状态" prop="bankName" width="140"></el-table-column>
+        <el-table-column label="单笔限额" prop="createdTime" width="160"></el-table-column>
+        <el-table-column label="当日限额" prop="usablePayment" width="90"></el-table-column>
+        <el-table-column label="单笔最小限额" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column label="单批限量" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column label="单批限额" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column label="支持币种" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column label="操作" prop="usedPayment" width="120">
+            <template slot-scope="scope">
+                <button class="statusbtn" v-status="scope.row">启用</button>
+                <button class="statusbtn">修改</button>
+          </template>
+        </el-table-column>
+        
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -231,41 +239,15 @@ export default {
     this.handlegetUserInfoList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
-      }
-    }
-  },
   beforeDestroy() {}
 };
 </script>
 <style scoped>
 .operate {
-  padding: 0 0;
-  padding-left:20px;
+  /* padding: 0 15px; */
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 .operate .el-button--small {

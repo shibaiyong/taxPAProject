@@ -25,6 +25,7 @@ const UserBlack = r => require.ensure([], () => r(require('@/components/page/ris
 
 const SubstituteRequest = r => require.ensure([], () => r(require('@/components/page/substitutepay/SubstituteRequest')), 'SubstituteRequest')
 const PaymentBatch = r => require.ensure([], () => r(require('@/components/page/substitutepay/PaymentBatch')), 'PaymentBatch')
+const SubstituteChannelList = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/SubstituteChannelList')), 'SubstituteChannelList')
 
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
@@ -228,6 +229,16 @@ const instance = new Router({
             title: '打款批次',
             requireAuth: false,
             bread:['主页','代付管理','打款批次']
+          }
+        },
+        {
+          path: '/home/substitutechannellist',
+          name: 'SubstituteChannelList',
+          component: SubstituteChannelList,
+          meta: {
+            title: '代付渠道列表',
+            requireAuth: false,
+            bread:['主页','代付管理','代付渠道列表']
           }
         },
         {

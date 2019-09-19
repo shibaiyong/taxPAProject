@@ -106,7 +106,7 @@
         <el-table-column label="账户余额" prop="mobile"></el-table-column>
         <el-table-column label="入网日期" prop="createdTime" width="160"></el-table-column>
         <el-table-column label="关闭日期" prop="closedTime" width="160"></el-table-column>
-        <el-table-column label="状态" prop="status">
+        <el-table-column label="状态">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>
           </template>
@@ -364,31 +364,6 @@ export default {
     this.handleGetMerchantList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
-      }
-    }
-  },
   beforeDestroy() {}
 };
 </script>
