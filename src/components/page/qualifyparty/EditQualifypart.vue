@@ -248,7 +248,7 @@ export default {
             .then(res => {
               if (res.success) {
                 this.$message({
-                  type: "error",
+                  type: "success",
                   message: "资质方编辑成功"
                 })
               } else {

@@ -55,6 +55,9 @@
                 <!-- <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button> -->
+                <el-button type="primary" size="small" @click="handleDelete">
+                  <i class="el-icon-search"></i>&nbsp;删除
+                </el-button>
                 <el-button type="primary" size="small" @click="handleExportUser">
                   <i class="el-icon-download"></i>&nbsp;导出
                 </el-button>
@@ -115,7 +118,7 @@
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
+import { addBlackList, getUserInfoList, exportUser, deleteUserInfo } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -180,8 +183,39 @@ export default {
             this.dialogBlackList = false;
           }
         })
-        .catch(err => {
-          console.log(err);
+        .catch(err => {});
+    },
+    handleDelete(){
+      let multipleSelection = this.multipleSelection;
+      if (!this.judgeRight(multipleSelection)) {
+        return false;
+      }
+      let id = multipleSelection[0].id
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteUserInfo( { userInfoId : id } ).then(res => {
+            if(res.success){
+              this.handlegetUserInfoList(this.currentPage)
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
+            }else{
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              })
+            }
+          }).catch( err => {})
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })         
         });
     },
     handleEdit() {

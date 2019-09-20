@@ -255,6 +255,12 @@ export const editUserInfo = params => {
     return axiosInstance.post("/apii/userInfo/editUserInfo",data).then(res => res.data)
 }
 
+//用户删除
+export const deleteUserInfo = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/userInfo/deleteUserInfo",data).then(res => res.data)
+}
+
 //加入黑名单
 
 export const addBlackList = params => {
@@ -262,6 +268,27 @@ export const addBlackList = params => {
     return axiosInstance.post("/apii/userInfo/insertBlanklist",data).then(res => res.data)
 }
 
+/*-------------------------代付管理------------------------------*/
+
+export const getPaymentChannelList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+}
+
+export const addPaymentChannel = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/addPaymentChannel",data).then(res => res.data)
+}
+
+export const editPaymentChannel = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/editPaymentChannel",data).then(res => res.data)
+}
+
+export const changeChannelStatus = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/changeChannelStatus",data).then(res => res.data)
+}
 
 
 

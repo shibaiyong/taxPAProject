@@ -5,9 +5,9 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="打款通道类型">
-              <el-select v-model="formSearch.status">
+              <el-select v-model="formSearch.accountType">
                 <el-option
-                  v-for="option in statusOptions"
+                  v-for="option in accountType"
                   :key="option.value"
                   :label="option.label"
                   :value="option.value"
@@ -17,9 +17,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="通道状态">
-              <el-select v-model="formSearch.status">
+              <el-select v-model="formSearch.channelStatus">
                 <el-option
-                  v-for="option in statusOptions"
+                  v-for="option in channelStatus"
                   :key="option.value"
                   :label="option.label"
                   :value="option.value"
@@ -29,14 +29,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属银行">
-              <el-select v-model="formSearch.status">
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
+              <el-input v-model="formSearch.bankName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -45,8 +38,11 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small" @click="handleSearch">
-                  <i class="el-icon-circle-close"></i>&nbsp;新增
+                <el-button type="primary" size="small" @click="handleAdd">
+                  <i class="el-icon-circle-close"></i>&nbsp;录入
+                </el-button>
+                <el-button type="primary" size="small" @click="handleEdit">
+                  <i class="el-icon-edit"></i>&nbsp;修改
                 </el-button>
               </div>
             </div>
@@ -57,28 +53,56 @@
 
     <div class="paddingcontainer">
       <el-table
-        :data="merchantList"
+        :data="paymentChannelsList"
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="通道编号" prop="name" width="90"></el-table-column>
-        <el-table-column label="通道名称" prop="idCard" width="180"></el-table-column>
-        <el-table-column label="所属银行" prop="phone" width="100"></el-table-column>
-        <el-table-column label="账户类型" prop="enterpriseName" width="140"></el-table-column>
-        <el-table-column label="通道状态" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="单笔限额" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="当日限额" prop="usablePayment" width="90"></el-table-column>
-        <el-table-column label="单笔最小限额" prop="usedPayment" width="120"></el-table-column>
-        <el-table-column label="单批限量" prop="usedPayment" width="120"></el-table-column>
-        <el-table-column label="单批限额" prop="usedPayment" width="120"></el-table-column>
-        <el-table-column label="支持币种" prop="usedPayment" width="120"></el-table-column>
-        <el-table-column label="操作" prop="usedPayment" width="120">
+        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column label="渠道编号" prop="channelSn" width="90"></el-table-column>
+        <el-table-column label="渠道名称" prop="channelName" width="130"></el-table-column>
+        <el-table-column label="所属银行" prop="bankName" width="100"></el-table-column>
+        <el-table-column label="账户类型" width="80">
             <template slot-scope="scope">
-                <button class="statusbtn" v-status="scope.row">启用</button>
-                <button class="statusbtn">修改</button>
-          </template>
+                {{scope.row.accountType == 1 ? '对公' : '对私'}}
+            </template>
+        </el-table-column>
+        <el-table-column label="渠道状态" width="80">
+            <template slot-scope="scope">
+                {{scope.row.channelStatus == 1 ? '启用' : '停用'}}
+            </template>
+        </el-table-column>
+        <el-table-column label="单笔限额（对公）" width="140">
+            <template slot-scope="scope">
+                {{scope.row.publicSinglePayment | fMoney}}
+            </template>
+        </el-table-column>
+        <el-table-column label="单笔限额（对私）" width="140">
+            <template slot-scope="scope">
+                {{scope.row.privateSinglePayment | fMoney}}
+            </template>
+        </el-table-column>
+        <el-table-column label="当日限额" width="90">
+            <template slot-scope="scope">
+                {{scope.row.dayPayment | fMoney}}
+            </template>
+        </el-table-column>
+        <el-table-column label="单笔最小限额" width="120">
+            <template slot-scope="scope">
+                {{scope.row.minSinglePayment | fMoney}}
+            </template>
+        </el-table-column>
+        <el-table-column label="单批限量" prop="batchSingleNum" width="120"></el-table-column>
+        <el-table-column label="单批限额" width="120">
+            <template slot-scope="scope">
+                {{scope.row.batchSinglePayment | fMoney}}
+            </template>
+        </el-table-column>
+        <el-table-column label="支持币种" prop="currency" width="120"></el-table-column>
+        <el-table-column label="操作" prop="usedPayment" width="140">
+            <template slot-scope="scope">
+                <button class="statusbtn" v-status="{status:scope.row.channelStatus,id:scope.row.id}">启用</button>
+            </template>
         </el-table-column>
         
       </el-table>
@@ -89,30 +113,15 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handlegetUserInfoList"
+        @current-change="handlegetPaymentChannelList"
         :current-page.sync="currentPage"
       ></el-pagination>
-    </div>
-    
-    <div class="dialogblack">
-      <el-dialog title="黑名单" :visible.sync="dialogBlackList">
-        <p>您确定要提交该代付吗？</p>
-        <el-form size="small" :model="formSearch">
-          <el-form-item label="备注：">
-            <el-input v-model="remark"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
-        </div>
-      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
+import { getPaymentChannelList, changeChannelStatus } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -121,65 +130,47 @@ export default {
       currentPage: 1,
       total: 1,
       remark:'',
-      statusOptions: [
-        { label: "生效中", value: 1 },
-        { label: "停用中", value: 0 }
+      accountType: [
+        {label:"全部",value:0},
+        { label: "对公", value: 1 },
+        { label: "对私", value: 2 }
       ],
-      qualificationList:[],
-      merchantList: [],
+      channelStatus: [
+        { label: "开启", value: 1 },
+        { label: "关闭", value: 0 }
+      ],
+      paymentChannelsList: [],
       multipleSelection: [],
       formSearch: {
-        enterpriseName: "",
-        idCard: "",
-        beginDate: "",
-        endDate: "",
-        phone:""
+        accountType: "",
+        bankName: "",
+        channelStatus: ""
       }
     };
   },
   created() {},
   methods: {
+    handleEffect(id, channelStatus) {
+      return changeChannelStatus({ id, channelStatus }).then(res => {
+        if (res.success) {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+          this.handlegetPaymentChannelList(this.currentPage);
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg
+          });
+        }
+      });
+    },
     handleSearch() {
-      this.handlegetUserInfoList(this.currentPage);
+      this.handlegetPaymentChannelList(this.currentPage);
     },
     handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
-    },
-
-    handleExportUser(){
-      let idsStr = ''
-      let ids = []
-      if(this.multipleSelection.length){
-        ids = this.multipleSelection.map((item,index)=>item.id)
-      }
-      idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
-    },
-    
-    handleBlackList() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.dialogBlackList = true;
-    },
-    handleaddBlackList() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      addBlackList({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetUserInfoList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.$router.push("/home/addsubstitutechannel");
     },
     handleEdit() {
       let multipleSelection = this.multipleSelection;
@@ -187,19 +178,19 @@ export default {
         return false;
       }
       this.$router.push({
-        name: "UserEdit",
+        name: "EditSubstituteChannel",
         params: multipleSelection[0]
       });
     },
-    handlegetUserInfoList(currentPage) {
+    handlegetPaymentChannelList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20
       });
-      getUserInfoList(params)
+      getPaymentChannelList(params)
         .then(res => {
           if (res.success) {
-            this.merchantList = res.result.userInfos;
+            this.paymentChannelsList = res.result.paymentChannels;
             this.total = res.result.total;
           }
         })
@@ -230,13 +221,11 @@ export default {
         return false;
       }
       return true;
-    },
-    cancelEidt() {},
-    confirmEdit() {}
+    }
   },
   computed: {},
   mounted() {
-    this.handlegetUserInfoList(this.currentPage);
+    this.handlegetPaymentChannelList(this.currentPage);
   },
   components: {},
   beforeDestroy() {}
@@ -244,7 +233,6 @@ export default {
 </script>
 <style scoped>
 .operate {
-  /* padding: 0 15px; */
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;

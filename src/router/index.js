@@ -26,6 +26,8 @@ const UserBlack = r => require.ensure([], () => r(require('@/components/page/ris
 const SubstituteRequest = r => require.ensure([], () => r(require('@/components/page/substitutepay/SubstituteRequest')), 'SubstituteRequest')
 const PaymentBatch = r => require.ensure([], () => r(require('@/components/page/substitutepay/PaymentBatch')), 'PaymentBatch')
 const SubstituteChannelList = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/SubstituteChannelList')), 'SubstituteChannelList')
+const AddSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/AddSubstituteChannel')), 'AddSubstituteChannel')
+const EditSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/EditSubstituteChannel')), 'EditSubstituteChannel')
 
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
@@ -239,6 +241,26 @@ const instance = new Router({
             title: '代付渠道列表',
             requireAuth: false,
             bread:['主页','代付管理','代付渠道列表']
+          }
+        },
+        {
+          path: '/home/addsubstitutechannel',
+          name: 'AddSubstituteChannel',
+          component: AddSubstituteChannel,
+          meta: {
+            title: '代付渠道录入',
+            requireAuth: false,
+            bread:['主页','代付管理','代付渠道录入']
+          }
+        },
+        {
+          path: '/home/editsubstitutechannel',
+          name: 'EditSubstituteChannel',
+          component: EditSubstituteChannel,
+          meta: {
+            title: '代付渠道修改',
+            requireAuth: false,
+            bread:['主页','代付管理','代付渠道修改']
           }
         },
         {

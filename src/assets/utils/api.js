@@ -18,20 +18,19 @@ export default{
     Vue.directive('status', {
       bind(el, binding, vonode) {
         if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
           el.innerHTML = "停用";
+        } else {
+          el.innerHTML = "启用";
         }
       },
       inserted(el, binding, vonode) {
         el.onclick = function() {
           if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
+            vonode.context.handleEffect(binding.value.id, 1).then(res => {
               el.innerHTML = "停用";
             });
           } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
+            vonode.context.handleEffect(binding.value.id, 0).then(res => {
               el.innerHTML = "启用";
             });
           }
