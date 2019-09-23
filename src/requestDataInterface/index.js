@@ -270,6 +270,7 @@ export const addBlackList = params => {
 
 /*-------------------------代付管理------------------------------*/
 
+//渠道列表
 export const getPaymentChannelList = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
@@ -288,6 +289,32 @@ export const editPaymentChannel = params => {
 export const changeChannelStatus = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/paymentChannel/changeChannelStatus",data).then(res => res.data)
+}
+
+
+//代付请求
+
+export const getPaymentRequestList = params => {//查询列表
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentRequest/getPaymentRequestList",data).then(res => res.data)
+}
+
+export const createPaymentBatch = params => {//生批
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+}
+
+export const interceptPayment = params => {//拦截
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+}
+export const cancelPaymentBatch = params => {//撤销
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+}
+export const importPayment = params => {//导入
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
 }
 
 

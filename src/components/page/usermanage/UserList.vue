@@ -101,8 +101,8 @@
     </div>
     
     <div class="dialogblack">
-      <el-dialog title="黑名单" :visible.sync="dialogBlackList">
-        <p>确定要将该用户加入黑名单吗？</p>
+      <el-dialog title="删除" :visible.sync="dialogBlackList">
+        <p>确定要将该用户删除吗？</p>
         <el-form size="small" :model="formSearch">
           <el-form-item label="备注：">
             <el-input v-model="remark" placeholder=""></el-input>
@@ -110,7 +110,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
+          <el-button type="primary" size="small" @click="handleDeleteUser">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -190,33 +190,23 @@ export default {
       if (!this.judgeRight(multipleSelection)) {
         return false;
       }
-      let id = multipleSelection[0].id
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteUserInfo( { userInfoId : id } ).then(res => {
-            if(res.success){
-              this.handlegetUserInfoList(this.currentPage)
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              })
-            }else{
-              this.$message({
-                type: 'error',
-                message: '删除失败'
-              })
-            }
-          }).catch( err => {})
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })         
-        });
+      this.dialogBlackList = true;
+    },
+    handleDeleteUser(){
+      let userInfoId = this.multipleSelection[0].id;
+      let remark = this.remark;
+      deleteUserInfo({ userInfoId, remark })
+        .then(res => {
+          if (res.success) {
+            this.$message({
+              type: "success",
+              message: res.msg
+            });
+            this.handlegetUserInfoList(this.currentPage);
+            this.dialogBlackList = false;
+          }
+        })
+        .catch(err => {});
     },
     handleEdit() {
       let multipleSelection = this.multipleSelection;
