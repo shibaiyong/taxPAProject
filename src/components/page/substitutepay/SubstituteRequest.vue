@@ -134,10 +134,26 @@
         <el-table-column label="收款人身份证号" prop="payeeCardId" width="150"></el-table-column>
         <el-table-column label="导入日期" prop="inputTime" width="140"></el-table-column>
         <el-table-column label="出款日期" prop="createBatchTime" width="140"></el-table-column>
-        <el-table-column label="应出款金额" prop="orgPayeeAmt" width="100"></el-table-column>
-        <el-table-column label="商户服务费" prop="merchFee" width="100"></el-table-column>
-        <el-table-column label="个人服务费" prop="personalFee" width="100"></el-table-column>
-        <el-table-column label="实际出款金额" prop="actualPayAmt" width="100"></el-table-column>
+        <el-table-column label="应出款金额" width="100">
+          <template slot-scope="scope">
+            {{scope.row.orgPayeeAmt | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="商户服务费" width="100">
+          <template slot-scope="scope">
+            {{scope.row.merchFee | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="个人服务费" width="100">
+          <template slot-scope="scope">
+            {{scope.row.personalFee | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="实际出款金额" width="100">
+          <template slot-scope="scope">
+            {{scope.row.actualPayAmt | fMoney}}
+          </template>
+        </el-table-column>
         <el-table-column label="发票类型" width="90">
           <template slot-scope="scope">
             {{scope.row.invoiceType == 1 && scope.row.invoiceType ? '专用发票':'普通发票'}}
