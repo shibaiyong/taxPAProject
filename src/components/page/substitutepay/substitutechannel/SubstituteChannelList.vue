@@ -59,9 +59,9 @@
         @select-all="handleSelectAll"
       >
         <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column label="渠道编号" prop="channelSn" width="90"></el-table-column>
-        <el-table-column label="渠道名称" prop="channelName" width="130"></el-table-column>
-        <el-table-column label="所属银行" prop="bankName" width="100"></el-table-column>
+        <el-table-column label="渠道编号" prop="channelSn" width="120"></el-table-column>
+        <el-table-column label="渠道名称" prop="channelName" width="120"></el-table-column>
+        <el-table-column label="所属银行" prop="bankName" width="120"></el-table-column>
         <el-table-column label="账户类型" width="80">
             <template slot-scope="scope">
                 {{scope.row.accountType == 1 ? '对公' : '对私'}}
@@ -72,17 +72,17 @@
                 {{scope.row.channelStatus == 1 ? '启用' : '停用'}}
             </template>
         </el-table-column>
-        <el-table-column label="单笔限额（对公）" width="140">
+        <el-table-column label="单笔限额（对公）" width="120">
             <template slot-scope="scope">
                 {{scope.row.publicSinglePayment | fMoney}}
             </template>
         </el-table-column>
-        <el-table-column label="单笔限额（对私）" width="140">
+        <el-table-column label="单笔限额（对私）" width="120">
             <template slot-scope="scope">
                 {{scope.row.privateSinglePayment | fMoney}}
             </template>
         </el-table-column>
-        <el-table-column label="当日限额" width="90">
+        <el-table-column label="当日限额" width="120">
             <template slot-scope="scope">
                 {{scope.row.dayPayment | fMoney}}
             </template>
@@ -98,8 +98,8 @@
                 {{scope.row.batchSinglePayment | fMoney}}
             </template>
         </el-table-column>
-        <el-table-column label="支持币种" prop="currency" width="120"></el-table-column>
-        <el-table-column label="操作" prop="usedPayment" width="140">
+        <el-table-column label="支持币种" prop="currency" width="90"></el-table-column>
+        <el-table-column label="操作" prop="usedPayment" width="100">
             <template slot-scope="scope">
                 <button class="statusbtn" v-status="{status:scope.row.channelStatus,id:scope.row.id}">启用</button>
             </template>

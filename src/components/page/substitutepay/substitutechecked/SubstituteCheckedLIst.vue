@@ -3,8 +3,6 @@
     <div class="operate">
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
-          
-          
           <el-col :span="8">
             <el-form-item label="复核编号">
               <el-input v-model="formSearch.phone" placeholder="批次编号"></el-input>
@@ -63,9 +61,14 @@
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
+        @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="复核编号" prop="name" width="90"></el-table-column>
+        <el-table-column label="复核编号" width="90">
+          <template slot-scope="scope">
+            <span class="myblue">{{scope.row.name}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="发起时间" prop="idCard" width="180"></el-table-column>
         <el-table-column label="发起人" prop="phone" width="100"></el-table-column>
         <el-table-column label="复核时间" prop="enterpriseName" width="140"></el-table-column>
@@ -85,26 +88,11 @@
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
-    
-    <div class="dialogblack">
-      <el-dialog title="黑名单" :visible.sync="dialogBlackList">
-        <p>您确定要提交该代付吗？</p>
-        <el-form size="small" :model="formSearch">
-          <el-form-item label="备注：">
-            <el-input v-model="remark"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
-        </div>
-      </el-dialog>
-    </div>
   </div>
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
+import { getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -134,54 +122,14 @@ export default {
     handleSearch() {
       this.handlegetUserInfoList(this.currentPage);
     },
-    handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
-    },
-
-    handleExportUser(){
-      let idsStr = ''
-      let ids = []
-      if(this.multipleSelection.length){
-        ids = this.multipleSelection.map((item,index)=>item.id)
-      }
-      idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
-    },
-    
-    handleBlackList() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.dialogBlackList = true;
-    },
-    handleaddBlackList() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      addBlackList({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetUserInfoList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
+    handleShowDetail(row, column, cell, event) {
+      if(column.label == '复核编号'){
+        this.$router.push({
+          name: "SubstituteCheckDetail",
+          params: row
         });
-    },
-    handleEdit() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
       }
-      this.$router.push({
-        name: "UserEdit",
-        params: multipleSelection[0]
-      });
+      
     },
     handlegetUserInfoList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
@@ -222,40 +170,13 @@ export default {
         return false;
       }
       return true;
-    },
-    cancelEidt() {},
-    confirmEdit() {}
+    }
   },
   computed: {},
   mounted() {
     this.handlegetUserInfoList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
-      }
-    }
-  },
   beforeDestroy() {}
 };
 </script>

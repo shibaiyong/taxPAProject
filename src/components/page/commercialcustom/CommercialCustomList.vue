@@ -95,7 +95,7 @@
         @select-all="handleSelectAll"
         @cell-click="handleShowDetail"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="商户编号" prop="sn" width="160"></el-table-column>
         <el-table-column label="企业名称">
           <template slot-scope="scope">

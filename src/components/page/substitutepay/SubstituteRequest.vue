@@ -123,29 +123,41 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="代付流水号" prop="id" width="90"></el-table-column>
-        <el-table-column label="特约商户号" prop="tyMerchId" width="180"></el-table-column>
-        <el-table-column label="商户编号" prop="merchId" width="100"></el-table-column>
-        <el-table-column label="商户名称" prop="merchName" width="140"></el-table-column>
-        <el-table-column label="收款人姓名" prop="payeeName" width="140"></el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column label="代付流水号" prop="id" width="220"></el-table-column>
+        <el-table-column label="特约商户号" prop="tyMerchId" width="90"></el-table-column>
+        <el-table-column label="商户编号" prop="merchId" width="130"></el-table-column>
+        <el-table-column label="商户名称" prop="merchName" width="120"></el-table-column>
+        <el-table-column label="收款人姓名" prop="payeeName" width="80"></el-table-column>
         <el-table-column label="收款人银行账号" prop="payeeBankNumber" width="160"></el-table-column>
         <el-table-column label="联行号" prop="payeeBankCode" width="90"></el-table-column>
-        <el-table-column label="收款人身份证号" prop="payeeCardId" width="120"></el-table-column>
-        <el-table-column label="导入日期" prop="inputTime" width="120"></el-table-column>
-        <el-table-column label="出款日期" prop="createBatchTime" width="120"></el-table-column>
-        <el-table-column label="应出款金额" prop="orgPayeeAmt" width="120"></el-table-column>
-        <el-table-column label="商户服务费" prop="merchFee" width="120"></el-table-column>
-        <el-table-column label="个人服务费" prop="personalFee" width="120"></el-table-column>
-        <el-table-column label="实际出款金额" prop="actualPayAmt" width="120"></el-table-column>
-        <el-table-column label="发票类型" prop="invoiceType" width="120"></el-table-column>
-        <el-table-column label="批次号" prop="batchCode" width="120"></el-table-column>
-        <el-table-column label="代付状态" prop="flag" width="120"></el-table-column>
+        <el-table-column label="收款人身份证号" prop="payeeCardId" width="150"></el-table-column>
+        <el-table-column label="导入日期" prop="inputTime" width="140"></el-table-column>
+        <el-table-column label="出款日期" prop="createBatchTime" width="140"></el-table-column>
+        <el-table-column label="应出款金额" prop="orgPayeeAmt" width="100"></el-table-column>
+        <el-table-column label="商户服务费" prop="merchFee" width="100"></el-table-column>
+        <el-table-column label="个人服务费" prop="personalFee" width="100"></el-table-column>
+        <el-table-column label="实际出款金额" prop="actualPayAmt" width="100"></el-table-column>
+        <el-table-column label="发票类型" width="90">
+          <template slot-scope="scope">
+            {{scope.row.invoiceType == 1 && scope.row.invoiceType ? '专用发票':'普通发票'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="批次号" prop="batchCode" width="100"></el-table-column>
+        <el-table-column label="代付状态" width="80">
+          <template slot-scope="scope">
+            {{scope.row.flag | bussType}}
+          </template>
+        </el-table-column>
         <el-table-column label="打款失败原因描述" prop="failReason" width="120"></el-table-column>
-        <el-table-column label="业务类型" prop="bussType" width="120"></el-table-column>
-        <el-table-column label="原代付账户" prop="orgPayAccount" width="120"></el-table-column>
-        <el-table-column label="实际代付账户" prop="actualPayAccount" width="120"></el-table-column>
-        <el-table-column label="备注" prop="remark" width="120"></el-table-column>
+        <el-table-column label="业务类型" width="100">
+          <template slot-scope="scope">
+            {{ scope.row.bussType == '1' && scope.row.bussType ? '特约商户代付' : '普通商户代付' }}
+          </template>
+        </el-table-column>
+        <el-table-column label="原代付账户" prop="orgPayAccount" width="160"></el-table-column>
+        <el-table-column label="实际代付账户" prop="actualPayAccount" width="160"></el-table-column>
+        <el-table-column label="备注" prop="remark" width="160"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -340,29 +352,38 @@ export default {
     this.handlegetPaymentRequestList(this.currentPage)
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
+  filters: {
+    bussType( val ){
+      let text;
+      switch ( val ) {
+        default: 
+          text = "";
+          break;
+        case '0':
+          text = "未处理";
+          break;
+        case '1':
+          text = "已生批";
+          break;
+        case '2':
+          text = "复核中";
+          break;
+        case '3':
+          text = "复合通过";
+          break;
+        case '4':
+          text = "打款成功";
+          break;
+        case '5':
+          text = "打款失败";
+          break;
+        case '6':
+          text = "撤销";
+          break;
+        case '7':
+          text = "风险拦截";
       }
+      return text
     }
   },
   beforeDestroy() {}

@@ -113,7 +113,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行信息" prop="openingBankBranchInfo">
-              <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
+              <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod">
+                <el-option
+                  v-for="item in statusOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -362,6 +369,9 @@ export default {
       // Object.assign(this.formEdit, this.resetFormEdit)
       // this.$refs[form].resetFields()
       this.$router.go(-1)
+    },
+    remoteMethod(){
+      console.log('hahah')
     },
     handleGetProvinceList(){
       getProvinceList().then(res => {
