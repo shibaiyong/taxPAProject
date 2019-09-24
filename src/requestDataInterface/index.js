@@ -291,6 +291,23 @@ export const changeChannelStatus = params => {
     return axiosInstance.post("/apii/paymentChannel/changeChannelStatus",data).then(res => res.data)
 }
 
+//联行号列表
+
+export const getBankLinkSnList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/bankLinkSn/getBankLinkSnList",data).then(res => res.data)
+}
+
+export const addBankLinkSn = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/bankLinkSn/addBankLinkSn",data).then(res => res.data)
+}
+
+export const editBankLinkSn = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/bankLinkSn/editBankLinkSn",data).then(res => res.data)
+}
+
 
 //代付请求
 

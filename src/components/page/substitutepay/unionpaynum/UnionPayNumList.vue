@@ -1,44 +1,17 @@
 <template>
   <div class="rolelist">
-    <div class="operate">
+    <div class="operate paddingcontainer">
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
           
-          
-          <el-col :span="8">
-            <el-form-item label="复核编号">
-              <el-input v-model="formSearch.phone" placeholder="批次编号"></el-input>
+          <el-col :span="6">
+            <el-form-item label="银行名称">
+              <el-input v-model="formSearch.bankName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="复核状态">
-              <el-select v-model="formSearch.status">
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="复核日期">
-              <el-date-picker
-                v-model="formSearch.beginDate"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="开始日期"
-              ></el-date-picker>
-              -
-              <el-date-picker
-                v-model="formSearch.endDate"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="结束日期"
-              ></el-date-picker>
+          <el-col :span="6">
+            <el-form-item label="联行号">
+              <el-input v-model="formSearch.bankLinkSn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -47,8 +20,17 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small" @click="handleSearch">
-                  <i class="el-icon-circle-close"></i>&nbsp;审核
+                <el-button type="primary" size="small" @click="handleAdd">
+                  <i class="el-icon-circle-close"></i>&nbsp;录入
+                </el-button>
+                <el-button type="primary" size="small" @click="handleEdit">
+                  <i class="el-icon-edit"></i>&nbsp;修改
+                </el-button>
+                <!-- <el-button type="primary" size="small" @click="handleExport">
+                  <i class="el-icon-edit"></i>&nbsp;导出
+                </el-button> -->
+                <el-button type="primary" size="small" @click="handleImport">
+                  <i class="el-icon-edit"></i>&nbsp;导入
                 </el-button>
               </div>
             </div>
@@ -59,20 +41,18 @@
 
     <div class="paddingcontainer">
       <el-table
-        :data="merchantList"
+        :data="paymentChannelsList"
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="复核编号" prop="name" width="90"></el-table-column>
-        <el-table-column label="发起时间" prop="idCard" width="180"></el-table-column>
-        <el-table-column label="发起人" prop="phone" width="100"></el-table-column>
-        <el-table-column label="复核时间" prop="enterpriseName" width="140"></el-table-column>
-        <el-table-column label="复核人" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="总笔数" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="总金额" prop="usablePayment" width="90"></el-table-column>
-        <el-table-column label="状态" prop="usedPayment" width="120"></el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
+        <!-- <el-table-column label="序号" prop="channelSn" width="120"></el-table-column> -->
+        <el-table-column label="银行名称" prop="bankName" width="120"></el-table-column>
+        <el-table-column label="支行名称" prop="bankBranchName" width="360"></el-table-column>
+        <el-table-column label="联行号" prop="bankLinkSn"></el-table-column>
+        <el-table-column label="生效日期" prop="effectiveDate"></el-table-column>
+        <el-table-column label="失效日期" prop="expirationDate"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -81,30 +61,15 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handlegetUserInfoList"
+        @current-change="handlegetBankLinkSnList"
         :current-page.sync="currentPage"
       ></el-pagination>
-    </div>
-    
-    <div class="dialogblack">
-      <el-dialog title="黑名单" :visible.sync="dialogBlackList">
-        <p>您确定要提交该代付吗？</p>
-        <el-form size="small" :model="formSearch">
-          <el-form-item label="备注：">
-            <el-input v-model="remark"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
-        </div>
-      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
+import { getBankLinkSnList } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -112,66 +77,27 @@ export default {
       dialogBlackList: false,
       currentPage: 1,
       total: 1,
-      remark:'',
-      statusOptions: [
-        { label: "生效中", value: 1 },
-        { label: "停用中", value: 0 }
-      ],
-      qualificationList:[],
-      merchantList: [],
+      paymentChannelsList: [],
       multipleSelection: [],
       formSearch: {
-        enterpriseName: "",
-        idCard: "",
-        beginDate: "",
-        endDate: "",
-        phone:""
+        bankLinkSn: "",
+        bankName: ""
       }
     };
   },
   created() {},
   methods: {
+    handleExport(){
+
+    },
+    handleImport(){
+
+    },
     handleSearch() {
-      this.handlegetUserInfoList(this.currentPage);
+      this.handlegetBankLinkSnList(this.currentPage);
     },
     handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
-    },
-
-    handleExportUser(){
-      let idsStr = ''
-      let ids = []
-      if(this.multipleSelection.length){
-        ids = this.multipleSelection.map((item,index)=>item.id)
-      }
-      idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
-    },
-    
-    handleBlackList() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.dialogBlackList = true;
-    },
-    handleaddBlackList() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      addBlackList({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetUserInfoList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.$router.push("/home/addunionpaynum");
     },
     handleEdit() {
       let multipleSelection = this.multipleSelection;
@@ -179,19 +105,19 @@ export default {
         return false;
       }
       this.$router.push({
-        name: "UserEdit",
+        name: "EditUnionPayNum",
         params: multipleSelection[0]
       });
     },
-    handlegetUserInfoList(currentPage) {
+    handlegetBankLinkSnList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20
       });
-      getUserInfoList(params)
+      getBankLinkSnList(params)
         .then(res => {
           if (res.success) {
-            this.merchantList = res.result.userInfos;
+            this.paymentChannelsList = res.result.bankLinks;
             this.total = res.result.total;
           }
         })
@@ -222,50 +148,21 @@ export default {
         return false;
       }
       return true;
-    },
-    cancelEidt() {},
-    confirmEdit() {}
+    }
   },
   computed: {},
   mounted() {
-    this.handlegetUserInfoList(this.currentPage);
+    this.handlegetBankLinkSnList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
-      }
-    }
-  },
   beforeDestroy() {}
 };
 </script>
 <style scoped>
 .operate {
-  padding: 0 0;
-  padding-left:20px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 .operate .el-button--small {
@@ -279,39 +176,8 @@ export default {
 .el-pagination {
   display: inline-block;
 }
-
-.el-form-item__content > .el-input {
-  width: 230px;
-}
-
-.el-form-item__content > .el-select {
-  width: 230px;
-}
-.el-form-item__content > .el-date-editor {
-  width: 180px;
-}
 .el-form {
   width: 100%;
 }
-.el-row h4 {
-  padding-bottom: 6px;
-}
->>> .el-dialog {
-  width: 62%;
-}
-.dialogblack >>> .el-dialog {
-  width: 30%;
-}
 
-.dialogblack >>> .el-button--small{
-  width:40%;
-}
-.dialogblack >>> .el-dialog__body{
-  padding-top:15px;
-  padding-bottom: 15px;
-}
-.dialog-footer{
-  display:flex;
-  justify-content: space-between;
-}
 </style>

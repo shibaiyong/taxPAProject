@@ -195,7 +195,7 @@
 </template>
 
 <script>
-import { addMerchant, getProvinceList, getCityListByProvinceId, getQualificationPartyList } from "@/requestDataInterface"
+import { addMerchant, getProvinceList, getCityListByProvinceId, getQualificationPartyList, getBankLinkSnList } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -304,6 +304,7 @@ export default {
       qualificationId:[],
       provinceList:[],
       cityList:[],
+      unionPayNumList:[],
       formEdit: {
         sn:'',
         otherSn:'',
@@ -371,7 +372,19 @@ export default {
       this.$router.go(-1)
     },
     remoteMethod(){
-      console.log('hahah')
+      this.handlegetBankLinkSnList();
+    },
+    handlegetBankLinkSnList() {
+
+      getBankLinkSnList({ page: 1, rows: 20 })
+        .then(res => {
+          if (res.success) {
+            this.unionPayNumList = res.result.bankLinks;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     handleGetProvinceList(){
       getProvinceList().then(res => {

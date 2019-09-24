@@ -24,8 +24,15 @@ const MarchantBlack = r => require.ensure([], () => r(require('@/components/page
 const UserBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/UserBlack')), 'UserBlack')
 
 const SubstituteRequest = r => require.ensure([], () => r(require('@/components/page/substitutepay/SubstituteRequest')), 'SubstituteRequest')
+
 const PaymentBatch = r => require.ensure([], () => r(require('@/components/page/substitutepay/PaymentBatch')), 'PaymentBatch')
-const SubstituteCheckDetail = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechecked/substitutecheckdetail')), 'substitutecheckdetail') 
+
+const SubstituteCheckDetail = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechecked/SubstituteCheckDetail')), 'SubstituteCheckDetail') 
+
+const UnionPayNumList = r => require.ensure([], () => r(require('@/components/page/substitutepay/unionpaynum/UnionPayNumList')), 'UnionPayNumList')
+const AddUnionPayNum = r => require.ensure([], () => r(require('@/components/page/substitutepay/unionpaynum/AddUnionPayNum')), 'AddUnionPayNum')
+const EditUnionPayNum = r => require.ensure([], () => r(require('@/components/page/substitutepay/unionpaynum/EditUnionPayNum')), 'EditUnionPayNum')
+
 const SubstituteChannelList = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/SubstituteChannelList')), 'SubstituteChannelList')
 const AddSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/AddSubstituteChannel')), 'AddSubstituteChannel')
 const EditSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/EditSubstituteChannel')), 'EditSubstituteChannel')
@@ -242,6 +249,36 @@ const instance = new Router({
             title: '打款批次',
             requireAuth: false,
             bread:['主页','代付管理','打款批次']
+          }
+        },
+        {
+          path: '/home/unionpaynumlist',
+          name: 'UnionPayNumList',
+          component: UnionPayNumList,
+          meta: {
+            title: '联行号列表',
+            requireAuth: false,
+            bread:['主页','代付管理','联行号列表']
+          }
+        },
+        {
+          path: '/home/addunionpaynum',
+          name: 'AddUnionPayNum',
+          component: AddUnionPayNum,
+          meta: {
+            title: '联行号录入',
+            requireAuth: false,
+            bread:['主页','代付管理','联行号录入']
+          }
+        },
+        {
+          path: '/home/editunionpaynum',
+          name: 'EditUnionPayNum',
+          component: EditUnionPayNum,
+          meta: {
+            title: '联行号修改',
+            requireAuth: false,
+            bread:['主页','代付管理','联行号修改']
           }
         },
         {

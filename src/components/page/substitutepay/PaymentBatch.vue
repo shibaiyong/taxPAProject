@@ -6,17 +6,17 @@
           
           <el-col :span="8">
             <el-form-item label="打款账户">
-              <el-input v-model="formSearch.phone" placeholder="打款账户"></el-input>
+              <el-input v-model="formSearch.autualPayAccount" placeholder="打款账户"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="批次编号">
-              <el-input v-model="formSearch.phone" placeholder="批次编号"></el-input>
+              <el-input v-model="formSearch.id" placeholder="批次编号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="状态">
-              <el-select v-model="formSearch.status">
+              <el-select v-model="formSearch.flag">
                 <el-option
                   v-for="option in statusOptions"
                   :key="option.value"
@@ -29,7 +29,7 @@
           <el-col :span="12">
             <el-form-item label="导入日期">
               <el-date-picker
-                v-model="formSearch.beginDate"
+                v-model="formSearch.beginInputTime"
                 type="date"
                 format="yyyy - MM - dd"
                 value-format="yyyy-MM-dd"
@@ -37,7 +37,7 @@
               ></el-date-picker>
               -
               <el-date-picker
-                v-model="formSearch.endDate"
+                v-model="formSearch.endInputTime"
                 type="date"
                 format="yyyy - MM - dd"
                 value-format="yyyy-MM-dd"
@@ -71,20 +71,20 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="批次编号" prop="name" width="90"></el-table-column>
-        <el-table-column label="文件名称" prop="idCard" width="180"></el-table-column>
-        <el-table-column label="处理时间" prop="phone" width="100"></el-table-column>
-        <el-table-column label="打款渠道" prop="enterpriseName" width="140"></el-table-column>
-        <el-table-column label="打款账户名称" prop="bankName" width="140"></el-table-column>
-        <el-table-column label="状态" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="打款总笔数" prop="usablePayment" width="90"></el-table-column>
-        <el-table-column label="打款总金额" prop="usedPayment" width="120"></el-table-column>
-        <el-table-column label="打款备注" prop="usingPayment" width="120"></el-table-column>
-        <el-table-column label="成功总笔数" prop="usingPayment" width="120"></el-table-column>
-        <el-table-column label="成功金额" prop="usingPayment" width="120"></el-table-column>
-        <el-table-column label="失败总笔数" prop="usingPayment" width="120"></el-table-column>
-        <el-table-column label="失败金额" prop="usingPayment" width="120"></el-table-column>
+        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column label="批次编号" prop="id" width="90"></el-table-column>
+        <el-table-column label="文件名称" prop="fileName" width="180"></el-table-column>
+        <el-table-column label="处理时间" prop="payDate" width="100"></el-table-column>
+        <el-table-column label="打款渠道" prop="channelId" width="140"></el-table-column>
+        <el-table-column label="打款账户名称" prop="autualPayAccount" width="140"></el-table-column>
+        <el-table-column label="状态" prop="flag" width="160"></el-table-column>
+        <el-table-column label="打款总笔数" prop="totalNum" width="90"></el-table-column>
+        <el-table-column label="打款总金额" prop="totalAmt" width="120"></el-table-column>
+        <el-table-column label="打款备注" prop="remark" width="120"></el-table-column>
+        <el-table-column label="成功总笔数" prop="successNum" width="120"></el-table-column>
+        <el-table-column label="成功金额" prop="successAmt" width="120"></el-table-column>
+        <el-table-column label="失败总笔数" prop="failNum" width="120"></el-table-column>
+        <el-table-column label="失败金额" prop="failAmt" width="120"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -133,11 +133,11 @@ export default {
       merchantList: [],
       multipleSelection: [],
       formSearch: {
-        enterpriseName: "",
-        idCard: "",
-        beginDate: "",
-        endDate: "",
-        phone:""
+        autualPayAccount:'',
+        beginInputTime:'',
+        id:'',
+        flag:'',
+        endInputTime:''
       }
     };
   },
