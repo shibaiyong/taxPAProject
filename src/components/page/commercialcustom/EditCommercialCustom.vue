@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { getProvinceList, getCityListByProvinceId, editMerchant, getCityList, getQualificationPartyList } from "@/requestDataInterface"
+import { getProvinceList, getCityListByProvinceId, editMerchant, getCityList, getQualificationPartyList, getMerchantById } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -358,8 +358,12 @@ export default {
       this.$router.go(-1)
     },
     handleEdit() {
-      let row = this.$route.params
-      Object.assign(this.formEdit,row)
+      let id = this.$route.params.id
+      getMerchantById({ id }).then(res => {
+        if(res.success){
+          Object.assign(this.formEdit, res.result)
+        }
+      }).catch(err=>{})
     },
     handleGetProvinceList(){
       getProvinceList().then(res => {

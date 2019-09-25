@@ -161,8 +161,11 @@ export const insertBlanklist = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/insertBlanklist",data).then(res => res.data)
 }
-
-
+//获取商户详情
+export const getMerchantById = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/getMerchantById",data).then(res => res.data)
+}
 /*---------------资质方管理---------------*/
 
 //查询省

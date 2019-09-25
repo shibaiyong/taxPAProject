@@ -116,7 +116,7 @@
               <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod" @change="getBankLinkSn">
                 <el-option
                   v-for="item in unionPayNumList"
-                  :key="item.bankLinkSn"
+                  :key="item.id"
                   :label="item.bankBranchName"
                   :value="item.bankBranchName">
                 </el-option>
@@ -372,8 +372,8 @@ export default {
       this.$router.go(-1)
     },
     getBankLinkSn( val ){
-      let obj = this.unionPayNumList.find((item)=>{//这里的userList就是上面遍历的数据源
-          return item.bankLinkSn === val;//筛选出匹配数据
+      let obj = this.unionPayNumList.find((item)=>{
+          return item.bankBranchName === val
       })
       this.formEdit.openingBankLinkSn = obj.bankLinkSn
     },

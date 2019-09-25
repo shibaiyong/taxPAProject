@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { getProvinceList, getCityListByProvinceId, getCityList, getQualificationPartyList } from "@/requestDataInterface"
+import { getProvinceList, getCityListByProvinceId, getCityList, getQualificationPartyList, getMerchantById } from "@/requestDataInterface"
 
 export default {
   props: {},
@@ -184,8 +184,12 @@ export default {
   created() {},
   methods: {
     handleDetail() {
-      let row = this.$route.params
-      Object.assign(this.formEdit,row)
+      let id = this.$route.params.id
+      getMerchantById({ id }).then(res => {
+        if(res.success){
+          Object.assign(this.formEdit, res.result)
+        }
+      }).catch(err=>{})
     },
     goback(){
         this.$router.go(-1)
