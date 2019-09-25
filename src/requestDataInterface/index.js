@@ -209,6 +209,12 @@ export const changeQualificationStatus = params => {
     return axiosInstance.post("/apii/qualificationParty/changeStatus",data).then(res => res.data)
 }
 
+//获取资质方详情
+export const getQualificationPartyById = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/qualificationParty/getQualificationPartyById",data).then(res => res.data)
+}
+
 /*---------风险管理------------*/
 
 //获取商户黑名单列表
@@ -316,9 +322,16 @@ export const getPaymentRequestList = params => {//查询列表
     return axiosInstance.post("/apii/paymentRequest/getPaymentRequestList",data).then(res => res.data)
 }
 
-export const createPaymentBatch = params => {//生批
-    let data = qs.stringify(params)
-    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+export const statistics = params => {//生批统计
+    return axiosInstance.post("/apii/paymentRequest/statistics", params).then(res => res.data)
+}
+
+export const createBatch = params => {//生批
+    return axiosInstance.post("/apii/paymentRequest/createBatch", params).then(res => res.data)
+}
+
+export const getPayBatchList = params => {//生批列表
+    return axiosInstance.post("/apii/payBatch/getPayBatchList", params).then(res => res.data)
 }
 
 export const interceptPayment = params => {//拦截

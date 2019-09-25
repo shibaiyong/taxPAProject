@@ -66,7 +66,7 @@
 
     <div class="paddingcontainer">
       <el-table
-        :data="merchantList"
+        :data="payBatchList"
         style="width: 100%"
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { addBlackList, getUserInfoList, editUserInfo, exportUser } from "@/requestDataInterface";
+import { getPayBatchList } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -130,7 +130,7 @@ export default {
         { label: "停用中", value: 0 }
       ],
       qualificationList:[],
-      merchantList: [],
+      payBatchList: [],
       multipleSelection: [],
       formSearch: {
         autualPayAccount:'',
@@ -146,9 +146,7 @@ export default {
     handleSearch() {
       this.handlegetUserInfoList(this.currentPage);
     },
-    handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
-    },
+    
 
     handleExportUser(){
       let idsStr = ''
@@ -158,14 +156,6 @@ export default {
       }
       idsStr = ids.join(',')
       window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
-    },
-    
-    handleBlackList() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.dialogBlackList = true;
     },
     handleaddBlackList() {
       let id = this.multipleSelection[0].id;
@@ -185,25 +175,15 @@ export default {
           console.log(err);
         });
     },
-    handleEdit() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
-        return false;
-      }
-      this.$router.push({
-        name: "UserEdit",
-        params: multipleSelection[0]
-      });
-    },
-    handlegetUserInfoList(currentPage) {
+    handlegetPayBatchList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20
       });
-      getUserInfoList(params)
+      getPayBatchList(params)
         .then(res => {
           if (res.success) {
-            this.merchantList = res.result.userInfos;
+            this.payBatchList = res.result.userInfos;
             this.total = res.result.total;
           }
         })
@@ -240,7 +220,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.handlegetUserInfoList(this.currentPage);
+    this.handlegetPayBatchList(this.currentPage);
   },
   components: {},
   directives: {

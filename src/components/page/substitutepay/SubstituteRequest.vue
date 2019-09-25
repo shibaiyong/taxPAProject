@@ -1,7 +1,7 @@
 <template>
   <div class="rolelist">
     <div class="operate">
-      <el-form :model="formSearch" size="small" label-width="100px">
+      <el-form :model="formSearch" label-width="100px" :rules="rules">
         <el-row>
           <el-col :span="8">
             <el-form-item label="业务类型">
@@ -26,7 +26,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="结算户名">
+            <el-form-item label="收款人姓名">
               <el-input v-model="formSearch.payeeName"></el-input>
             </el-form-item>
           </el-col>
@@ -97,7 +97,7 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small" @click="handleCreatePaymentBatch">
+                <el-button type="primary" size="small" @click="handleStatistics">
                   <i class="el-icon-edit-outline"></i>&nbsp;生批
                 </el-button>
                 <el-button type="primary" size="small" @click="handleIntercept">
@@ -159,7 +159,7 @@
             {{scope.row.invoiceType == 1 && scope.row.invoiceType ? '专用发票':'普通发票'}}
           </template>
         </el-table-column>
-        <el-table-column label="批次号" prop="batchCode" width="100"></el-table-column>
+        <el-table-column label="批次号" prop="batchCode" width="200"></el-table-column>
         <el-table-column label="代付状态" width="80">
           <template slot-scope="scope">
             {{scope.row.flag | bussType}}
@@ -201,19 +201,66 @@
         </div>
       </el-dialog>
     </div>
+    <div class="dialogblack">
+    <el-dialog title="批量生批" :visible.sync="createBatch">
+        <el-form size="small" :model="formCreateBatch" ref="formEdit">
+          <el-form-item label="总笔数">
+            <el-input v-model="COUNT" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="总金额">
+            <el-input v-model="AMT" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="打款渠道">
+              <el-select v-model="formCreateBatch.channelId">
+                <el-option
+                  v-for="option in channelId"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="打款账户" prop="batchPayAccount">
+              <el-select v-model="formCreateBatch.batchPayAccount">
+                <el-option
+                  v-for="option in qualificationPartiesList"
+                  :key="option.id"
+                  :label="option.enterpriseName"
+                  :value="option.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注：">
+            <el-input v-model="formCreateBatch.remark" placeholder=""></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="small" @click="createBatch = false">取 消</el-button>
+          <el-button type="primary" size="small" @click="submitForm('formEdit')">确 定</el-button>
+        </div>
+      </el-dialog>
+      </div>
   </div>
 </template>
 
 <script>
-import { interceptPayment, getPaymentRequestList, cancelPaymentBatch, importPayment } from "@/requestDataInterface";
+import { interceptPayment, getPaymentRequestList, cancelPaymentBatch, importPayment, createBatch, statistics, getQualificationPartyList } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
     return {
+      rules: {
+        batchPayAccount: [
+          { required: true, message:'必填', trigger: 'blur' }
+        ]
+      },
       dialogBlackList: false,
+      createBatch: false,
       currentPage: 1,
       total: 1,
       remark:'',
+      COUNT: 0,
+      AMT: 0,
       title:'拦截',
       describe:'您确定要拦截该笔代付吗？',
       bussType: [
@@ -232,8 +279,16 @@ export default {
         { label: "撤销", value: '6' },
         { label: "风险拦截", value: '7' }
       ],
+      channelId:[{label:'平安银行',value:'payl'}],
       merchantList: [],
       multipleSelection: [],
+      qualificationPartiesList:[],
+      createBatchParams:{},
+      formCreateBatch:{
+        remark:'',
+        channelId:'payl',
+        batchPayAccount:''
+      },
       formSearch: {
         bussType:'',
         id:'',
@@ -258,6 +313,39 @@ export default {
     handleImport(){
       
     },
+    handleStatistics(){
+      let multipleSelection = this.multipleSelection;
+      let len = multipleSelection.length
+      let params = {}
+      let idList = []
+      if ( !len ) {
+        params = this.formSearch
+      } else if (len >= 1) {
+        for(let i = 0; i < len; i++){
+          if(item.flag == '0'){
+            idList.push(item.id)
+          }else{
+            this.$message({
+              type: "error",
+              message: '生批数据状态必需是“未处理”'
+            });
+            return false
+          }
+        }
+        params = Object.assign(params,{idList,flag:'0'})
+      }
+      this.createBatchParams = params
+      statistics(params).then(res => {
+        if (res.success) {
+          this.COUNT = res.result.COUNT
+          this.AMT = res.result.AMT
+          this.createBatch = true
+        }
+      })
+    },
+
+    
+
     handleCancel() {
       let multipleSelection = this.multipleSelection;
       if (!this.judgeRight(multipleSelection)) {
@@ -331,11 +419,46 @@ export default {
         rows: 20
       });
       getPaymentRequestList(params).then(res => {
+        if (res.success) {
+          this.merchantList = res.result.paymentRequestlList;
+          this.total = res.result.total;
+        }
+      })
+    },
+    handlegetQualificationPartyList(currentPage) {
+      let params =Object.assign({}, {
+        page: 1,
+        rows: 200
+      })
+      getQualificationPartyList(params)
+        .then(res => {
           if (res.success) {
-            this.merchantList = res.result.paymentRequestlList;
-            this.total = res.result.total;
+            this.qualificationPartiesList = res.result.qualificationParties
           }
         })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    submitForm(ref){
+      this.$refs[ref].validate((valid) => {
+        if (valid) {
+            let params = Object.assign(this.createBatchParams,this.formCreateBatch)
+            createBatch( params ).then(res => {
+              if(res.success){
+                this.createBatch = false
+              }else{
+                this.$message({
+                  type:'error',
+                  message: res.msg
+                })
+              }
+            }).catch(err => {console.log(err)})
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     handleSelectionChange(selection, row) {
       this.multipleSelection = selection;

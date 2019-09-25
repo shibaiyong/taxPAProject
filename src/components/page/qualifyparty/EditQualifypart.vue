@@ -87,6 +87,11 @@
               <el-input v-model="formEdit.tel"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户短号">
+              <el-input v-model="formEdit.userShortId" :disabled="isEdit"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <h4>账户信息</h4>
         <el-row>
@@ -95,14 +100,20 @@
               <el-input v-model="formEdit.openingBankName"></el-input>
             </el-form-item>
           </el-col>
+          
           <el-col :span="12">
             <el-form-item label="开户行支行信息" prop="openingBankBranchInfo">
-              <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
+              <el-input v-model="formEdit.openingBankBranchInfo" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业银行账号" prop="enterpriseBankAccount">
               <el-input v-model="formEdit.enterpriseBankAccount"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="代付合约编号">
+              <el-input v-model="formEdit.paymentContractSn" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -128,7 +139,7 @@
 </template>
 
 <script>
-import {editQualificationParty} from "@/requestDataInterface"
+import {editQualificationParty, getQualificationPartyById} from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -212,7 +223,9 @@ export default {
         enterpriseBankAccount:'',
         contacts:'',
         contactsTel:'',
-        allYearPayment:''
+        allYearPayment:'',
+        paymentContractSn:'',
+        userShortId:''
       },
       resetFormEdit: {
         sn:'',
@@ -230,15 +243,39 @@ export default {
         openingBankBranchInfo:'',
         enterpriseBankAccount:'',
         contacts:'',
-        contactsTel:''
-      }
+        contactsTel:'',
+        paymentContractSn:'',
+        userShortId:''
+      },
+      unionPayNumList:[]
     };
   },
   created() {},
   methods: {
-    handleEdit() {
-      let row = this.$route.params
-      Object.assign(this.formEdit,row)
+    remoteMethod(val){
+      this.handlegetBankLinkSnList(val);
+    },
+    handlegetQualificationPartyById(){
+      let id = this.$route.params.id
+      getQualificationPartyById({id}).then(res => {
+          if (res.success) {
+            Object.assign(this.formEdit,res.result)
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handlegetBankLinkSnList(bankBranchName) {
+      getBankLinkSnList({ page: 1, rows: 20, bankBranchName})
+        .then(res => {
+          if (res.success) {
+            this.unionPayNumList = res.result.bankLinks
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     submitForm(ref) {
       this.$refs[ref].validate(valid => {
@@ -276,7 +313,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.handleEdit()
+    this.handlegetQualificationPartyById()
   },
   components: {},
   beforeDestroy() {}

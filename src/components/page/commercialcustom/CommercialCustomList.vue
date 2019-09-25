@@ -103,7 +103,7 @@
           </template>
         </el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
-        <el-table-column label="账户余额" prop="mobile"></el-table-column>
+        <el-table-column label="账户余额" prop="totalAccountPayment"></el-table-column>
         <el-table-column label="入网日期" prop="createdTime" width="160"></el-table-column>
         <el-table-column label="关闭日期" prop="closedTime" width="160"></el-table-column>
         <el-table-column label="状态">

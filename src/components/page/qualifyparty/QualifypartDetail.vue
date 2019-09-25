@@ -61,6 +61,10 @@
             <el-col :span="6"><label class="descr">电话号码</label></el-col>
             <el-col :span="18"><label>{{formEdit.tel}}</label></el-col>
         </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label class="descr">用户短号</label></el-col>
+            <el-col :span="18"><label>{{formEdit.userShortId}}</label></el-col>
+        </el-col>
     </el-row>
     <h4>账户信息</h4>
     <el-row>
@@ -75,6 +79,10 @@
         <el-col :span="12">
             <el-col :span="6"><label class="descr">企业银行账号</label></el-col>
             <el-col :span="18"><label>{{formEdit.enterpriseBankAccount}}</label></el-col>
+        </el-col>
+        <el-col :span="12">
+            <el-col :span="6"><label class="descr">代付合约编号</label></el-col>
+            <el-col :span="18"><label>{{formEdit.paymentContractSn}}</label></el-col>
         </el-col>
     </el-row>
     <h4>其他信息</h4>
@@ -95,7 +103,7 @@
 </template>
 
 <script>
-
+import { getQualificationPartyById } from "@/requestDataInterface"
 export default {
   props: {},
   data() {
@@ -117,15 +125,24 @@ export default {
             enterpriseBankAccount:'',
             contacts:'',
             contactsTel:'',
-            allYearPayment:''
+            allYearPayment:'',
+            paymentContractSn:'',
+            userShortId:''
       },
     }
   },
   created() {},
   methods: {
     handleDetail() {
-      let row = this.$route.params
-      Object.assign(this.formEdit,row)
+      let id = this.$route.params.id
+      getQualificationPartyById({id}).then(res => {
+          if (res.success) {
+            Object.assign(this.formEdit,res.result)
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     goback(){
         this.$router.go(-1)

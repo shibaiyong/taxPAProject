@@ -1,6 +1,6 @@
 <template>
   <div class="rolelist operate">
-      <el-form :model="formEdit" label-width="120px" :rules="rules" auto-complete="off" size="small" ref="formEdit">
+      <el-form :model="formEdit" label-width="120px" :rules="rules" auto-complete="off" ref="formEdit">
         <el-row><h4>企业信息</h4></el-row>
         <el-row>
           <el-col :span="12">
@@ -113,12 +113,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行信息" prop="openingBankBranchInfo">
-              <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod">
+              <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod" @change="getBankLinkSn">
                 <el-option
-                  v-for="item in statusOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in unionPayNumList"
+                  :key="item.bankLinkSn"
+                  :label="item.bankBranchName"
+                  :value="item.bankBranchName">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -132,7 +132,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行联行号" prop="openingBankLinkSn">
-              <el-input v-model="formEdit.openingBankLinkSn"></el-input>
+              <el-input v-model="formEdit.openingBankLinkSn" :disabled="true"></el-input>
             </el-form-item>
           </el-col> 
         </el-row>
@@ -371,12 +371,18 @@ export default {
       // this.$refs[form].resetFields()
       this.$router.go(-1)
     },
-    remoteMethod(){
-      this.handlegetBankLinkSnList();
+    getBankLinkSn( val ){
+      let obj = this.unionPayNumList.find((item)=>{//这里的userList就是上面遍历的数据源
+          return item.bankLinkSn === val;//筛选出匹配数据
+      })
+      this.formEdit.openingBankLinkSn = obj.bankLinkSn
     },
-    handlegetBankLinkSnList() {
+    remoteMethod(val){
+      this.handlegetBankLinkSnList(val);
+    },
+    handlegetBankLinkSnList(bankBranchName) {
 
-      getBankLinkSnList({ page: 1, rows: 20 })
+      getBankLinkSnList({ page: 1, rows: 20, bankBranchName })
         .then(res => {
           if (res.success) {
             this.unionPayNumList = res.result.bankLinks;

@@ -81,6 +81,11 @@
               <el-input v-model="formEdit.tel"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户短号" prop="userShortId">
+              <el-input v-model="formEdit.userShortId"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <h4>账户信息</h4>
         <el-row>
@@ -91,12 +96,24 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="开户行支行信息" prop="openingBankBranchInfo">
-              <el-input v-model="formEdit.openingBankBranchInfo"></el-input>
+              <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod">
+                <el-option
+                  v-for="item in unionPayNumList"
+                  :key="item.id"
+                  :label="item.bankBranchName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业银行账号" prop="enterpriseBankAccount">
               <el-input v-model="formEdit.enterpriseBankAccount"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="代付合约编号" >
+              <el-input v-model="formEdit.paymentContractSn"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -128,7 +145,7 @@
 
 <script>
 import {
-  addQualificationParty,getSingleMonthPayment
+  addQualificationParty,getSingleMonthPayment,getBankLinkSnList
 } from "@/requestDataInterface"
 export default {
   props: {},
@@ -203,6 +220,9 @@ export default {
             message: "请输入11位数字",
             trigger: "blur"
           }
+        ],
+        userShortId:[
+          { required: true, message: "必填", trigger: "blur" }
         ]
         
       },
@@ -222,7 +242,9 @@ export default {
         openingBankBranchInfo:'',
         enterpriseBankAccount:'',
         contacts:'',
-        contactsTel:''
+        contactsTel:'',
+        paymentContractSn:'',
+        userShortId:''
       },
       resetFormEdit: {
         sn:'',
@@ -240,18 +262,35 @@ export default {
         openingBankBranchInfo:'',
         enterpriseBankAccount:'',
         contacts:'',
-        contactsTel:''
+        contactsTel:'',
+        paymentContractSn:'',
+        userShortId:''
       },
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() < Date.now()-24*60*60*1000
         }
-      }
+      },
+      unionPayNumList:[]
     }
   },
   created() {
   },
   methods: {
+    remoteMethod(val){
+      this.handlegetBankLinkSnList(val);
+    },
+    handlegetBankLinkSnList(bankBranchName) {
+      getBankLinkSnList({ page: 1, rows: 20, bankBranchName})
+        .then(res => {
+          if (res.success) {
+            this.unionPayNumList = res.result.bankLinks
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     handleGetSingleMonthPayment( val ){
       let yearPayment = val
       getSingleMonthPayment({yearPayment}).then( res => {

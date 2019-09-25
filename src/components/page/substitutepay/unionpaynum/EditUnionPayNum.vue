@@ -17,7 +17,7 @@
             
             <el-col :span="12">
                 <el-form-item label="开户行支行" prop="bankBranchName">
-                <el-input v-model="formEdit.bankBranchName"></el-input>
+                <el-input v-model="formEdit.bankBranchName" :disabled="true"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
