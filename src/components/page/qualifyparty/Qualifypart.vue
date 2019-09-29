@@ -20,6 +20,9 @@
                 <el-button type="primary" size="small" @click="handleEdit">
                   <i class="el-icon-edit-outline"></i>&nbsp;修改
                 </el-button>
+                <el-button type="primary" size="small" @click="handleExport">
+                  <i class="el-icon-edit-outline"></i>&nbsp;导出
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -124,6 +127,15 @@ export default {
     },
     handleSearch() {
       this.handlegetQualificationPartyList(this.currentPage);
+    },
+    handleExport(){
+      let idsStr = ''
+      let ids = []
+      if(this.multipleSelection.length){
+        ids = this.multipleSelection.map((item,index)=>item.id)
+      }
+      idsStr = ids.join(',')
+      window.open('http://192.168.130.103:14541/apii/export/qualificationPartyList?ids='+idsStr)
     },
     handleAdd() {
       this.$router.push("/home/addqualifypart")

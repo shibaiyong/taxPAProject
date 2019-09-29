@@ -34,7 +34,7 @@
                 <el-button type="primary" size="small" @click="handleCheck">
                   <i class="el-icon-circle-close"></i>&nbsp;审核
                 </el-button>
-                <el-button type="primary" size="small">
+                <el-button type="primary" size="small" @click="handleExport">
                   <i class="el-icon-circle-plus-outline"></i>&nbsp;导出
                 </el-button>
               </div>
@@ -211,6 +211,16 @@ export default {
     
     handleSearch() {
       this.handlegetAccountAdjustmentList(this.currentPage)
+    },
+
+    handleExport(){
+      let idsStr = ''
+      let ids = []
+      if(this.multipleSelection.length){
+        ids = this.multipleSelection.map((item,index)=>item.id)
+      }
+      idsStr = ids.join(',')
+      window.open('http://192.168.130.103:14541/apii/export/accountAdjustmentList?ids='+idsStr)
     },
     
     handleCheck() {
