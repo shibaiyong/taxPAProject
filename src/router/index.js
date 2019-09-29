@@ -27,7 +27,9 @@ const SubstituteRequest = r => require.ensure([], () => r(require('@/components/
 
 const PaymentBatch = r => require.ensure([], () => r(require('@/components/page/substitutepay/PaymentBatch')), 'PaymentBatch')
 
+const SubstituteCheckedList = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechecked/SubstituteCheckedList')), 'SubstituteCheckedLIst')
 const SubstituteCheckDetail = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechecked/SubstituteCheckDetail')), 'SubstituteCheckDetail') 
+const BatchCheckDetail = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechecked/BatchCheckDetail')), 'BatchCheckDetail') 
 
 const UnionPayNumList = r => require.ensure([], () => r(require('@/components/page/substitutepay/unionpaynum/UnionPayNumList')), 'UnionPayNumList')
 const AddUnionPayNum = r => require.ensure([], () => r(require('@/components/page/substitutepay/unionpaynum/AddUnionPayNum')), 'AddUnionPayNum')
@@ -42,6 +44,8 @@ const RoleMange = r => require.ensure([], () => r(require('@/components/page/aut
 const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
 const NoFound = r => require.ensure([], () => r(require('@/components/page/noFound/404.vue')), 'NoFound')
 const ErrorPage = r => require.ensure([], () => r(require('@/components/page/noFound/500.vue')), 'ErrorPage')
+
+const MerchantAjustAccount =  r => require.ensure([], () => r(require('@/components/page/accountmanage/MerchantAjustAccount.vue')), 'MerchantAjustAccount')
 
 const instance = new Router({
   routes: [
@@ -232,13 +236,33 @@ const instance = new Router({
           }
         },
         {
+          path: '/home/substitutecheckedlist',
+          name: 'SubstituteCheckedList',
+          component: SubstituteCheckedList,
+          meta: {
+            title: '代付请求复核',
+            requireAuth: false,
+            bread:['主页','代付管理','代付请求复核']
+          }
+        },
+        {
           path: '/home/substitutecheckdetail',
           name: 'SubstituteCheckDetail',
           component: SubstituteCheckDetail,
           meta: {
-            title: '代付复核',
+            title: '代付复核详情',
             requireAuth: false,
             bread:['主页','代付管理','代付复核详情']
+          }
+        },
+        {
+          path: '/home/BatchCheckDetail',
+          name: 'BatchCheckDetail',
+          component: BatchCheckDetail,
+          meta: {
+            title: '代付批次复核详情',
+            requireAuth: false,
+            bread:['主页','代付管理','代付批次复核详情']
           }
         },
         {
@@ -340,6 +364,16 @@ const instance = new Router({
             title: '权限列表',
             requireAuth: false,
             bread:['主页','权限管理','权限列表']
+          }
+        },
+        {
+          path: '/home/merchantajustaccount',
+          name: 'MerchantAjustAccount',
+          component: MerchantAjustAccount,
+          meta: {
+            title: '账户管理',
+            requireAuth: false,
+            bread:['主页','账户管理','商户调账']
           }
         }
       ]

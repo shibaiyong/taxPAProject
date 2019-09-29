@@ -166,6 +166,18 @@ export const getMerchantById = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/merchant/getMerchantById",data).then(res => res.data)
 }
+//根据资质方获取商户列表（互调时调用来获取下方商户列表）
+export const getMerchantListByZZF = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchant/getMerchantListByZZF",data).then(res => res.data)
+}
+//商户调账申请
+export const applicationSubmit = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/accountAdjustment/applicationSubmit",data).then(res => res.data)
+}
+
+
 /*---------------资质方管理---------------*/
 
 //查询省
@@ -337,18 +349,58 @@ export const getPayBatchList = params => {//生批列表
     return axiosInstance.post("/apii/payBatch/getPayBatchList", params).then(res => res.data)
 }
 
-export const interceptPayment = params => {//拦截
-    let data = qs.stringify(params)
-    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+export const getPayReviewList = params => {//代付请求复核列表
+    return axiosInstance.post("/apii/paymentReview/getPayReviewList", params).then(res => res.data)
 }
-export const cancelPaymentBatch = params => {//撤销
-    let data = qs.stringify(params)
-    return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
+
+export const getReviewIdByBatchList = params => {//代付批次复核明细列表
+    return axiosInstance.post("/apii/paymentReview/getReviewIdByBatchList", params).then(res => res.data)
 }
+
+export const getReviewIdByRequestList = params => {//代付请求复核明细列表
+    return axiosInstance.post("/apii/paymentReview/getReviewIdByRequestList", params).then(res => res.data)
+}
+
+export const submitReview = params => {//批次出款审核
+    return axiosInstance.post("/apii/payBatch/submitReview", params).then(res => res.data)
+}
+
+export const revokeOrIntercept = params => {//代付请求数据风险拦截与撤销提交复核
+    return axiosInstance.post("/apii/paymentRequest/revokeOrIntercept", params).then(res => res.data)
+}
+
+export const confirmPay = params => {//复核界面--业务复核
+    return axiosInstance.post("/apii/paymentReview/confirmPay", params).then(res => res.data)
+}
+
 export const importPayment = params => {//导入
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/paymentChannel/getPaymentChannelList",data).then(res => res.data)
 }
+
+/*--------------------------- 账户管理 ---------------------------------*/
+
+//获取商户调账数据列表
+export const getAccountAdjustmentList = params => {
+  return axiosInstance.post("/apii/accountAdjustment/getAccountAdjustmentList", params).then(res => res.data)
+}
+//获取商户调账数据
+export const getAccountAdjustmentById = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/accountAdjustment/getAccountAdjustmentById", data).then(res => res.data)
+}
+//获取商户调账审核
+export const applicationExamine = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/accountAdjustment/applicationExamine", data).then(res => res.data)
+}
+//商户调账驳回
+export const applicationReject = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/accountAdjustment/applicationReject", data).then(res => res.data)
+}
+
+
 
 
 

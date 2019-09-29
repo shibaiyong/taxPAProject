@@ -103,7 +103,7 @@
                 <el-button type="primary" size="small" @click="handleIntercept">
                   <i class="el-icon-download"></i>&nbsp;拦截
                 </el-button>
-                <el-button type="primary" size="small" @click="handleCancel">
+                <el-button type="primary" size="small" @click="handleRevoke">
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
                 <el-button type="primary" size="small" @click="handleImport">
@@ -191,13 +191,13 @@
       <el-dialog :title="title" :visible.sync="dialogBlackList">
         <p>{{ describe }}</p>
         <el-form size="small" :model="formSearch">
-          <el-form-item label="备注：">
+          <!-- <el-form-item label="备注：">
             <el-input v-model="remark" placeholder=""></el-input>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small">确 定</el-button>
+          <el-button type="primary" size="small" @click="revokeOrIntercept">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -213,10 +213,10 @@
           <el-form-item label="打款渠道">
               <el-select v-model="formCreateBatch.channelId">
                 <el-option
-                  v-for="option in channelId"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
+                  v-for="option in paymentChannelsList"
+                  :key="option.channelSn"
+                  :label="option.bankName"
+                  :value="option.channelSn"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -226,7 +226,7 @@
                   v-for="option in qualificationPartiesList"
                   :key="option.id"
                   :label="option.enterpriseName"
-                  :value="option.id"
+                  :value="option.enterpriseBankAccount"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -244,7 +244,7 @@
 </template>
 
 <script>
-import { interceptPayment, getPaymentRequestList, cancelPaymentBatch, importPayment, createBatch, statistics, getQualificationPartyList } from "@/requestDataInterface";
+import { revokeOrIntercept, getPaymentRequestList, createBatch, statistics, getQualificationPartyList, getPaymentChannelList } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -279,14 +279,15 @@ export default {
         { label: "撤销", value: '6' },
         { label: "风险拦截", value: '7' }
       ],
-      channelId:[{label:'平安银行',value:'payl'}],
+      
       merchantList: [],
       multipleSelection: [],
       qualificationPartiesList:[],
+      paymentChannelsList:[],
       createBatchParams:{},
       formCreateBatch:{
         remark:'',
-        channelId:'payl',
+        channelId:'',
         batchPayAccount:''
       },
       formSearch: {
@@ -308,111 +309,61 @@ export default {
   created() {},
   methods: {
     handleSearch() {
-      this.handlegetPaymentRequestList(this.currentPage);
+      this.handlegetPaymentRequestList(this.currentPage)
     },
     handleImport(){
       
     },
     handleStatistics(){
-      let multipleSelection = this.multipleSelection;
-      let len = multipleSelection.length
-      let params = {}
-      let idList = []
-      if ( !len ) {
-        params = this.formSearch
-      } else if (len >= 1) {
-        for(let i = 0; i < len; i++){
-          if(item.flag == '0'){
-            idList.push(item.id)
-          }else{
-            this.$message({
-              type: "error",
-              message: '生批数据状态必需是“未处理”'
-            });
-            return false
-          }
-        }
-        params = Object.assign(params,{idList,flag:'0'})
+      if (!this.judgeRight({ flag: '0' })) {
+        return false;
       }
-      this.createBatchParams = params
-      statistics(params).then(res => {
+      statistics(this.createBatchParams).then(res => {
         if (res.success) {
           this.COUNT = res.result.COUNT
           this.AMT = res.result.AMT
+          this.handlegetQualificationPartyList()
+          this.handlegetPaymentChannelList()
           this.createBatch = true
         }
       })
     },
-
-    
-
-    handleCancel() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
+    handleRevoke() {
+      if (!this.judgeRight({ flag: '0', reviewType:'3' })) {
         return false;
       }
       this.dialogBlackList = true;
       this.title = '撤销';
       this.describe = '您确定要撤销该批次吗？';
     },
-    handleCancelPaymentBatch() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      cancelPaymentBatch({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetPaymentRequestList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-    },
+    
     handleIntercept() {
-      let multipleSelection = this.multipleSelection;
-      if (!this.judgeRight(multipleSelection)) {
+      if (!this.judgeRight({ flag: '0', reviewType:'2' })) {
         return false;
       }
       this.dialogBlackList = true;
       this.title = '拦截';
       this.describe = '您确定要拦截该笔代付吗？';
     },
-    handleAddIntercept() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      interceptPayment({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetPaymentRequestList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-    },
-    handleCreatePaymentBatch() {
-      let idsStr = ''
-      let ids = []
-      if(this.multipleSelection.length){
-        ids = this.multipleSelection.map((item,index)=>item.id)
-      }
-      idsStr = ids.join(',')
-      return false;
-      createPaymentBatch({ id, remark }).then(res => {
+
+    revokeOrIntercept(){
+      revokeOrIntercept(this.createBatchParams).then(res => {
+        this.dialogBlackList = false
         if (res.success) {
           this.$message({
-            type: "success",
-            message: res.msg
+            type:'success',
+            message: '提交审核成功！'
           })
           this.handlegetPaymentRequestList(this.currentPage)
-          this.dialogBlackList = false
+        }else{
+          this.$message({
+            type:'error',
+            message: '提交审核失败！'
+          })
         }
       })
     },
+  
     handlegetPaymentRequestList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
@@ -440,13 +391,34 @@ export default {
           console.log(err);
         });
     },
+    handlegetPaymentChannelList(currentPage) {
+      let params = Object.assign( {
+        page: 1,
+        rows: 200
+      });
+      getPaymentChannelList(params)
+        .then(res => {
+          if (res.success) {
+            this.paymentChannelsList = res.result.paymentChannels;
+            this.total = res.result.total;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     submitForm(ref){
       this.$refs[ref].validate((valid) => {
         if (valid) {
             let params = Object.assign(this.createBatchParams,this.formCreateBatch)
             createBatch( params ).then(res => {
+              this.createBatch = false
               if(res.success){
-                this.createBatch = false
+                this.$message({
+                  type:'success',
+                  message: res.msg
+                })
+                this.handlegetPaymentRequestList(this.currentPage)
               }else{
                 this.$message({
                   type:'error',
@@ -466,24 +438,30 @@ export default {
     handleSelectAll(selection) {
       this.multipleSelection = selection;
     },
-    judgeRight(multipleSelection, interrupt) {
-      if(interrupt && multipleSelection.length > 1){
-        return true
+    judgeRight( args ) {
+      let multipleSelection = this.multipleSelection
+      let len = multipleSelection.length
+      let params = {}
+      let idList = []
+      if ( !len ) {
+        params = Object.assign({}, this.formSearch, args)
+      } else if (len >= 1) {
+        for(let i = 0; i < len; i++){
+          var item = multipleSelection[i]
+          if(item.flag == '0'){
+            idList.push(item.id)
+          }else{
+            this.$message({
+              type: "error",
+              message: '生批数据状态必需是“未处理”'
+            });
+            return false
+          }
+        }
+        params = Object.assign(params,{idList},args)
       }
-      if (!multipleSelection.length) {
-        this.$message({
-          type: "error",
-          message: "请选择数据"
-        });
-        return false;
-      } else if (multipleSelection.length > 1) {
-        this.$message({
-          type: "error",
-          message: "请选择一条数据"
-        });
-        return false;
-      }
-      return true;
+      this.createBatchParams = params
+      return true
     }
   },
   computed: {},

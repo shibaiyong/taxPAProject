@@ -5,29 +5,29 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="商户编号">
-              <el-input v-model="formSearch.sn" placeholder="商户编号"></el-input>
+              <el-input v-model="formSearch.sn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+              <el-input v-model="formSearch.enterpriseName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="企业账户">
-              <el-input v-model="formSearch.enterpriseAccounts" placeholder="企业账户"></el-input>
+              <el-input v-model="formSearch.enterpriseAccounts"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <el-form-item label="纳税人识别号">
-              <el-input v-model="formSearch.taxpayerIdentificationSn" placeholder="纳税人识别号"></el-input>
+              <el-input v-model="formSearch.taxpayerIdentificationSn"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
+              <el-select v-model="formSearch.status">
                 <el-option
                   v-for="option in statusOptions"
                   :key="option.value"
@@ -77,9 +77,9 @@
                 <!-- <el-button type="primary" size="small" @click="handleBlackList">
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button> -->
-                <!-- <el-button type="primary" size="small" @click="handleAdjust">
+                <el-button type="primary" size="small" @click="handleAdjust">
                   <i class="el-icon-search"></i>&nbsp;调账
-                </el-button> -->
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -123,14 +123,35 @@
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
+    <div class="dialogblack dialogchange">
     <el-dialog title="调账" :visible.sync="dialogChangeAccount">
-      <el-form :model="formSearch" size="small" label-width="100px">
+      <el-form :model="formChangeAccount" size="small" label-width="80px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
+            <el-col :span="24" v-show="formChangeAccount.type != 2">
+              <el-form-item label="商户名称">
+                <el-input v-model="formChangeAccount.turnInMerchantName" :disabled="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24" v-show="formChangeAccount.type != 2">
+              <el-form-item label="商户编号">
+                <el-input v-model="formChangeAccount.turnInMerchantSn" :disabled="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24" v-show="formChangeAccount.type == 2">
+              <el-form-item label="商户名称">
+                <el-input v-model="formChangeAccount.turnOutMerchantName" :disabled="true"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24" v-show="formChangeAccount.type == 2">
+              <el-form-item label="商户编号">
+                <el-input v-model="formChangeAccount.turnOutMerchantSn" :disabled="true"></el-input>
+              </el-form-item>
+            </el-col>
+          <el-col :span="24">
+            <el-form-item label="调账类型">
+              <el-select v-model="formChangeAccount.type" @change="handleChangeAccount">
                 <el-option
-                  v-for="option in statusOptions"
+                  v-for="option in changeAccountType"
                   :key="option.value"
                   :label="option.label"
                   :value="option.value"
@@ -138,56 +159,40 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+          <el-col :span="24">
+            <el-form-item label="调账金额">
+              <el-input v-model="formChangeAccount.payment"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
+          <el-col :span="24" v-if="eachOther">
+            <div style="border-bottom: 1px solid #DCDFE6;margin-bottom:10px;"></div>
+          </el-col>
+          <el-col :span="24" v-if="eachOther">
+            <el-form-item label="商户名称">
+              <el-select v-model="formChangeAccount.turnOutMerchantId" @change="translateValue">
                 <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
+                  v-for="option in merchantListById"
+                  :key="option.id"
+                  :label="option.enterpriseName"
+                  :value="option.id"
                 ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
+          <el-col :span="24" v-if="eachOther">
+            <el-form-item label="商户编号">
+              <el-input v-model="formChangeAccount.turnOutMerchantSn" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="当前状态">
-              <el-select v-model="formSearch.status" placeholder>
-                <el-option
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  :label="option.label"
-                  :value="option.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="企业名称">
-              <el-input v-model="formSearch.enterpriseName" placeholder="企业名称"></el-input>
-            </el-form-item>
-          </el-col>
+          
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogChangeAccount = false">取 消</el-button>
-        <el-button type="primary" size="small">确 定</el-button>
+        <el-button type="primary" size="small" @click="handleAdjustAccount">确 定</el-button>
       </div>
     </el-dialog>
+    </div>
     <div class="dialogblack">
       <el-dialog title="黑名单" :visible.sync="dialogBlackList">
         <p>确定要将该商户加入黑名单吗？</p>
@@ -209,12 +214,15 @@
 import {
   changeMerchantStatus,
   insertBlanklist,
-  getMerchantList
+  getMerchantList,
+  applicationSubmit,
+  getMerchantListByZZF
 } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
     return {
+      eachOther:false,
       dialogChangeAccount: false,
       dialogBlackList: false,
       currentPage: 1,
@@ -224,8 +232,35 @@ export default {
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],
+      changeAccountType: [
+        { label: "调增", value: 1 },
+        { label: "调减", value: 2 },
+        { label: "互调", value: 3 }
+      ],
       merchantList: [],
+      merchantListById:[
+        {id:1234,enterpriseName:'hahahha',sn:'lalalallal'}
+      ],
       multipleSelection: [],
+      formChangeAccount: {
+        turnInMerchantSn:'',
+        turnInMerchantId:'',
+        turnInMerchantName:'',
+        turnOutMerchantSn:'',
+        turnOutMerchantId:'',
+        turnOutMerchantName:'',
+        type:1,
+        payment:''
+      },
+      resetFormChangeAccount: {
+        turnInMerchantSn:'',
+        turnInMerchantId:'',
+        turnInMerchantName:'',
+        turnOutMerchantSn:'',
+        turnOutMerchantId:'',
+        turnOutMerchantName:'',
+        payment:''
+      },
       formSearch: {
         sn: "",
         enterpriseName: "",
@@ -260,21 +295,70 @@ export default {
         }
       });
     },
+    handleChangeAccount(val){
+      let multipleSelection = this.multipleSelection;
+      Object.assign(this.formChangeAccount,this.resetFormChangeAccount)
+      this.eachOther = false
+      if(val == '3'){
+        this.eachOther = true
+        this.formChangeAccount.turnInMerchantId = multipleSelection[0].id
+        this.formChangeAccount.turnInMerchantSn = multipleSelection[0].sn
+        this.formChangeAccount.turnInMerchantName = multipleSelection[0].enterpriseName
+      }else if(val == '1'){
+        this.formChangeAccount.turnInMerchantId = multipleSelection[0].id
+        this.formChangeAccount.turnInMerchantSn = multipleSelection[0].sn
+        this.formChangeAccount.turnInMerchantName = multipleSelection[0].enterpriseName
+      }else if(val == '2'){
+        this.formChangeAccount.turnOutMerchantId = multipleSelection[0].id
+        this.formChangeAccount.turnOutMerchantSn = multipleSelection[0].sn
+        this.formChangeAccount.turnOutMerchantName = multipleSelection[0].enterpriseName
+      }
+    },
     handleSearch() {
-      this.handleGetMerchantList(this.currentPage);
+      this.handleGetMerchantList(this.currentPage)
     },
     handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
+      this.$router.push("/home/addcommercialcustom")
+    },
+    translateValue( val ){
+      let obj = this.merchantListById.find((item)=>{
+          return item.id === val
+      })
+      this.formChangeAccount.turnOutMerchantName = obj.enterpriseName
+      this.formChangeAccount.turnOutMerchantSn = obj.sn
     },
     handleAdjust() {
-      let multipleSelection = this.multipleSelection;
+      let multipleSelection = this.multipleSelection
       if (!this.judgeRight(multipleSelection)) {
-        return false;
+        return false
       }
-      this.dialogChangeAccount = true;
+      this.dialogChangeAccount = true
+      this.formChangeAccount.type = 1
+      this.handleChangeAccount(1)
+      getMerchantListByZZF({qualificationId:multipleSelection[0].qualificationId,merchantId:multipleSelection[0].id}).then(res => {
+        if(res.code == 2000){
+          this.merchantListById = res.result
+        }
+      }).catch()
+    },
+    handleAdjustAccount(){
+      applicationSubmit(this.formChangeAccount).then( res => {
+        if(res.code==2000){
+          this.dialogChangeAccount = false
+          this.$message({
+              type: "success",
+              message: res.msg
+          });
+        }else{
+          this.$message({
+              type: "error",
+              message: res.msg
+          });
+        }
+      }).catch(err=>{})
     },
     handleBlackList() {
-      let multipleSelection = this.multipleSelection;
+      let multipleSelection = this.multipleSelection
       if (!this.judgeRight(multipleSelection)) {
         return false;
       }
@@ -408,7 +492,14 @@ export default {
 .dialogblack >>> .el-dialog {
   width: 40%;
 }
-.dialogblack >>> .el-dialog {
-  width: 40%;
+.dialogchange >>> .el-dialog {
+  width: 30%;
+}
+.dialogchange hr{
+  color:#DCDFE6
+}
+.dialogchange >>> .el-dialog__body{
+  padding-top:15px;
+  padding-bottom:15px;
 }
 </style>

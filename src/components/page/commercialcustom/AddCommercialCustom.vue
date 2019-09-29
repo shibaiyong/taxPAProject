@@ -353,7 +353,7 @@ export default {
         openingBankBranchInfo:'',
         openingBankLinkSn:'',
         enterpriseElectronicAccount:'',
-        qualificationId:'1234567889',
+        qualificationId:'',
         invoiceType:'',
         merchantServiceCharge:'',
         personalServiceCharge:'',
@@ -375,7 +375,7 @@ export default {
       let obj = this.unionPayNumList.find((item)=>{
           return item.bankBranchName === val
       })
-      this.formEdit.openingBankLinkSn = obj.bankLinkSn
+      this.formEdit.openingBankLinkSn = obj.id
     },
     remoteMethod(val){
       this.handlegetBankLinkSnList(val);

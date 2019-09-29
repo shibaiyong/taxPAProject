@@ -6,7 +6,7 @@
           
           <el-col :span="8">
             <el-form-item label="打款账户">
-              <el-input v-model="formSearch.autualPayAccount" placeholder="打款账户"></el-input>
+              <el-input v-model="formSearch.actualPayAccount" placeholder="打款账户"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -18,7 +18,7 @@
             <el-form-item label="状态">
               <el-select v-model="formSearch.flag">
                 <el-option
-                  v-for="option in statusOptions"
+                  v-for="option in flag"
                   :key="option.value"
                   :label="option.label"
                   :value="option.value"
@@ -54,7 +54,7 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;导入
                 </el-button>
-                <el-button type="primary" size="small" @click="handleSearch">
+                <el-button type="primary" size="small" @click="handlesubmitReview">
                   <i class="el-icon-circle-close"></i>&nbsp;提交复核
                 </el-button>
               </div>
@@ -72,12 +72,16 @@
         @select-all="handleSelectAll"
       >
         <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column label="批次编号" prop="id" width="90"></el-table-column>
-        <el-table-column label="文件名称" prop="fileName" width="180"></el-table-column>
+        <el-table-column label="批次编号" prop="id" width="220"></el-table-column>
+        <el-table-column label="文件名称" prop="fileName" width="240"></el-table-column>
         <el-table-column label="处理时间" prop="payDate" width="100"></el-table-column>
         <el-table-column label="打款渠道" prop="channelId" width="140"></el-table-column>
-        <el-table-column label="打款账户名称" prop="autualPayAccount" width="140"></el-table-column>
-        <el-table-column label="状态" prop="flag" width="160"></el-table-column>
+        <el-table-column label="打款账户名称" prop="actualPayAccount" width="140"></el-table-column>
+        <el-table-column label="状态" width="160">
+          <template slot-scope="scope">
+            {{scope.row.flag | bussType}}
+          </template>
+        </el-table-column>
         <el-table-column label="打款总笔数" prop="totalNum" width="90"></el-table-column>
         <el-table-column label="打款总金额" prop="totalAmt" width="120"></el-table-column>
         <el-table-column label="打款备注" prop="remark" width="120"></el-table-column>
@@ -93,22 +97,22 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handlegetUserInfoList"
+        @current-change="handlegetPayBatchList"
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
     
     <div class="dialogblack">
-      <el-dialog title="黑名单" :visible.sync="dialogBlackList">
+      <el-dialog title="复核" :visible.sync="dialogBlackList">
         <p>您确定要提交该代付吗？</p>
-        <el-form size="small" :model="formSearch">
+        <!-- <el-form size="small" :model="formSearch">
           <el-form-item label="备注：">
             <el-input v-model="remark"></el-input>
           </el-form-item>
-        </el-form>
+        </el-form> -->
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="handleaddBlackList">确 定</el-button>
+          <el-button type="primary" size="small" @click="submitReview">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -116,7 +120,7 @@
 </template>
 
 <script>
-import { getPayBatchList } from "@/requestDataInterface";
+import { getPayBatchList, submitReview } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -125,15 +129,22 @@ export default {
       currentPage: 1,
       total: 1,
       remark:'',
-      statusOptions: [
-        { label: "生效中", value: 1 },
-        { label: "停用中", value: 0 }
+      flag:[
+        {label:"全部",value:''},
+        { label: "未处理", value: '0' },
+        { label: "已生批", value: '1' },
+        { label: "复核中", value: '2' },
+        { label: "复核通过", value: '3' },
+        { label: "打款成功", value: '4' },
+        { label: "打款失败", value: '5' },
+        { label: "撤销", value: '6' },
+        { label: "风险拦截", value: '7' }
       ],
       qualificationList:[],
       payBatchList: [],
       multipleSelection: [],
       formSearch: {
-        autualPayAccount:'',
+        actualPayAccount:'',
         beginInputTime:'',
         id:'',
         flag:'',
@@ -144,37 +155,45 @@ export default {
   created() {},
   methods: {
     handleSearch() {
-      this.handlegetUserInfoList(this.currentPage);
+      this.handlegetPayBatchList(this.currentPage);
+    },
+    handlesubmitReview(){
+      this.dialogBlackList = true
+    },
+    submitReview(){
+      let multipleSelection = this.multipleSelection
+      let len = multipleSelection.length
+      let params = {}
+      let idList = []
+      if ( !len ) {
+        params = Object.assign({},this.formSearch, {reviewType:'1',flag:'0'})
+      } else if (len >= 1) {
+        for(let i = 0; i < len; i++){
+          var item = multipleSelection[i]
+          if(item.flag == '0'){
+            idList.push(item.id)
+          }else{
+            this.$message({
+              type: "error",
+              message: '复核数据状态必需是“未处理”'
+            });
+            return false
+          }
+        }
+        params = Object.assign(params,{idList,flag:'0',reviewType:'1'})
+      }
+      submitReview(params).then(res => {
+        if (res.success) {
+         this.$message({
+            type: "success",
+            message: res.msg
+          })
+        }
+        this.dialogBlackList = false
+        this.handlegetPayBatchList(this.currentPage)
+      })
     },
     
-
-    handleExportUser(){
-      let idsStr = ''
-      let ids = []
-      if(this.multipleSelection.length){
-        ids = this.multipleSelection.map((item,index)=>item.id)
-      }
-      idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
-    },
-    handleaddBlackList() {
-      let id = this.multipleSelection[0].id;
-      let remark = this.remark;
-      addBlackList({ id, remark })
-        .then(res => {
-          if (res.success) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.handlegetUserInfoList(this.currentPage);
-            this.dialogBlackList = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     handlegetPayBatchList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
@@ -183,11 +202,10 @@ export default {
       getPayBatchList(params)
         .then(res => {
           if (res.success) {
-            this.payBatchList = res.result.userInfos;
+            this.payBatchList = res.result.payBatchList;
             this.total = res.result.total;
           }
-        })
-        .catch(err => {
+        }).catch(err => {
           console.log(err);
         });
     },
@@ -223,29 +241,42 @@ export default {
     this.handlegetPayBatchList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
+  filters: {
+    bussType( val ){
+      let text;
+      switch ( val ) {
+        default: 
+          text = "";
+          break;
+        case '0':
+          text = "未处理";
+          break;
+        case '1':
+          text = "复核中";
+          break;
+        case '2':
+          text = "复核通过";
+          break;
+        case '3':
+          text = "复核不通过";
+          break;
+        case '4':
+          text = "已撤销";
+          break;
+        case '5':
+          text = "银行受理中";
+          break;
+        case '6':
+          text = "银行受理失败";
+          break;
+          case '7':
+          text = "银行处理成功";
+          break;
+          case '8':
+          text = "银行处理失败";
+          break;
       }
+      return text
     }
   },
   beforeDestroy() {}
@@ -295,15 +326,9 @@ export default {
   width: 30%;
 }
 
-.dialogblack >>> .el-button--small{
-  width:40%;
-}
 .dialogblack >>> .el-dialog__body{
   padding-top:15px;
   padding-bottom: 15px;
 }
-.dialog-footer{
-  display:flex;
-  justify-content: space-between;
-}
+
 </style>
