@@ -98,7 +98,7 @@
         @select-all="handleSelectAll"
         @cell-click="handleShowDetail"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="商户编号" prop="sn" width="160"></el-table-column>
         <el-table-column label="企业名称">
           <template slot-scope="scope">
@@ -424,7 +424,7 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/merchantList?ids='+idsStr)
+      window.open('http://localhost:8088/export/merchantList?ids='+idsStr)
     },
 
     handleSelectionChange(selection, row) {

@@ -39,6 +39,8 @@ const SubstituteChannelList = r => require.ensure([], () => r(require('@/compone
 const AddSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/AddSubstituteChannel')), 'AddSubstituteChannel')
 const EditSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/EditSubstituteChannel')), 'EditSubstituteChannel')
 
+const CheckTransaction = r => require.ensure([], () => r(require('@/components/page/checkaccountmanage/CheckTransaction')), 'CheckTransaction')
+
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
 const OperateManage = r => require.ensure([], () => r(require('@/components/page/authmanage/OperateManage')), 'OperateManage')
@@ -333,6 +335,17 @@ const instance = new Router({
             title: '代付渠道修改',
             requireAuth: false,
             bread:['主页','代付管理','代付渠道修改']
+          }
+        },
+        
+        {
+          path: '/home/checktransaction',
+          name: 'CheckTransaction',
+          component: CheckTransaction,
+          meta: {
+            title: '交易对账',
+            requireAuth: false,
+            bread:['主页','对账管理','交易对账']
           }
         },
         {

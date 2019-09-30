@@ -142,7 +142,7 @@ export const addMerchant = params => {
 //获取商户列表
 export const getMerchantList = params => {
     let data = qs.stringify(params)
-    return axiosInstance.post("/apii/merchant/getMerchantList",data).then(res => res.data)
+    return axiosInstance.post("/merchant/getMerchantList",data).then(res => res.data)
 }
 //商户编辑
 export const editMerchant = params => {

@@ -75,7 +75,7 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="姓名" prop="name" width="90"></el-table-column>
         <el-table-column label="身份证号码" prop="idCard" width="140"></el-table-column>
         <el-table-column label="手机号" prop="phone" width="100"></el-table-column>
@@ -171,7 +171,7 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/userInfoList?ids='+idsStr)
+      window.open('http://localhost:8088/export/userInfoList?ids='+idsStr)
     },
     
     handleBlackList() {
@@ -287,31 +287,6 @@ export default {
     this.handlegetUserInfoList(this.currentPage);
   },
   components: {},
-  directives: {
-    status: {
-      bind(el, binding, vonode) {
-        if (binding.value.status == 1) {
-          el.innerHTML = "启用";
-        } else {
-          el.innerHTML = "停用";
-        }
-      },
-      inserted(el, binding, vonode) {
-        el.onclick = function() {
-          if (el.innerHTML == "启用") {
-            vonode.context.handleEffect(binding.value.id, 0).then(res => {
-              el.innerHTML = "停用";
-            });
-          } else {
-            vonode.context.handleEffect(binding.value.id, 1).then(res => {
-              console.log(res);
-              el.innerHTML = "启用";
-            });
-          }
-        };
-      }
-    }
-  },
   beforeDestroy() {}
 };
 </script>

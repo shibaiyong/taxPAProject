@@ -51,24 +51,24 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column label="转出商户编号" prop="turnOutMerchantSn" width="160"></el-table-column>
-        <el-table-column label="转出商户名称" prop="turnOutMerchantName"></el-table-column>
-        <el-table-column label="转入商户编号" prop="turnInMerchantSn"></el-table-column>
-        <el-table-column label="转入商户名称" prop="turnInMerchantName"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
+        <el-table-column label="转出商户编号" prop="turnOutMerchantSn" width="140"></el-table-column>
+        <el-table-column label="转出商户名称" prop="turnOutMerchantName" width="140"></el-table-column>
+        <el-table-column label="转入商户编号" prop="turnInMerchantSn" width="140"></el-table-column>
+        <el-table-column label="转入商户名称" prop="turnInMerchantName" width="140"></el-table-column>
         <el-table-column label="调账时间" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="调账类型" width="160">
+        <el-table-column label="调账类型" width="80">
           <template slot-scope="scope">
-            {{scope.row.type}}
+            {{scope.row.type | type}}
           </template>
         </el-table-column>
-        <el-table-column label="调整资金" prop="payment" width="160"></el-table-column>
-        <el-table-column label="状态" width="160">
+        <el-table-column label="调整资金" prop="payment" width="120"></el-table-column>
+        <el-table-column label="状态" width="100">
           <template slot-scope="scope">
-            {{scope.row.status}}
+            {{scope.row.status | status}}
           </template>
         </el-table-column>
-        <el-table-column label="失败原因" prop="failRemark" width="160"></el-table-column>
+        <el-table-column label="失败原因" prop="failRemark" width="140"></el-table-column>
       </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -220,7 +220,7 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/accountAdjustmentList?ids='+idsStr)
+      window.open('http://localhost:8088/export/accountAdjustmentList?ids='+idsStr)
     },
     
     handleCheck() {
@@ -315,6 +315,42 @@ export default {
   computed: {},
   mounted() {
     this.handlegetAccountAdjustmentList()
+  },
+  filters: {
+    type( val ){
+      let text;
+      switch ( val ) {
+        default: 
+          text = "";
+          break;
+        case 1:
+          text = "调增";
+          break;
+        case 2:
+          text = "调减";
+          break;
+        case 3:
+          text = "互调";
+      }
+      return text
+    },
+    status( val ){
+      let text;
+      switch ( val ) {
+        default: 
+          text = "";
+          break;
+        case 1:
+          text = "待审核";
+          break;
+        case 2:
+          text = "审核通过";
+          break;
+        case 3:
+          text = '审核不通过';
+      }
+      return text
+    }
   },
   components: {},
   beforeDestroy() {}

@@ -64,7 +64,7 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="姓名" prop="name" width="90"></el-table-column>
         <el-table-column label="身份证号码" prop="idCard" width="180"></el-table-column>
         <el-table-column label="手机号" prop="phone" width="120"></el-table-column>

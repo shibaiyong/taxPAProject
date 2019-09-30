@@ -123,7 +123,7 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="代付流水号" prop="id" width="220"></el-table-column>
         <el-table-column label="特约商户号" prop="tyMerchId" width="90"></el-table-column>
         <el-table-column label="商户编号" prop="merchId" width="130"></el-table-column>

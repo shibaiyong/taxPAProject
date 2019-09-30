@@ -70,7 +70,7 @@
     
     <div class="paddingcontainer">
       <el-table :data="blackList" style="width: 100%" @select="handleSelectionChange" @select-all="handleSelectAll">
-        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="商户编号" prop="sn"></el-table-column>
         <el-table-column label="企业名称" prop="enterpriseName"></el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>

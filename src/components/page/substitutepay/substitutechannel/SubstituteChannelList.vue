@@ -58,7 +58,7 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="渠道编号" prop="channelSn" width="120"></el-table-column>
         <el-table-column label="渠道名称" prop="channelName" width="120"></el-table-column>
         <el-table-column label="所属银行" prop="bankName" width="120"></el-table-column>

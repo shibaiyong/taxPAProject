@@ -37,7 +37,7 @@
         @select-all="handleSelectAll"
         @row-click="handleShowDetail"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="编号" prop="sn"></el-table-column>
         <el-table-column label="企业名称">
           <template slot-scope="scope">
@@ -135,7 +135,7 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://192.168.130.103:14541/apii/export/qualificationPartyList?ids='+idsStr)
+      window.open('http://localhost:8088/export/qualificationPartyList?ids='+idsStr)
     },
     handleAdd() {
       this.$router.push("/home/addqualifypart")

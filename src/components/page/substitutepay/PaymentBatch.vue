@@ -32,7 +32,7 @@
                 v-model="formSearch.beginInputTime"
                 type="date"
                 format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
                 placeholder="开始日期"
               ></el-date-picker>
               -
@@ -40,7 +40,7 @@
                 v-model="formSearch.endInputTime"
                 type="date"
                 format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
                 placeholder="结束日期"
               ></el-date-picker>
             </el-form-item>
@@ -71,7 +71,7 @@
         @select="handleSelectionChange"
         @select-all="handleSelectAll"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
+        <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="批次编号" prop="id" width="220"></el-table-column>
         <el-table-column label="文件名称" prop="fileName" width="240"></el-table-column>
         <el-table-column label="处理时间" prop="payDate" width="100"></el-table-column>
@@ -132,13 +132,14 @@ export default {
       flag:[
         {label:"全部",value:''},
         { label: "未处理", value: '0' },
-        { label: "已生批", value: '1' },
-        { label: "复核中", value: '2' },
-        { label: "复核通过", value: '3' },
-        { label: "打款成功", value: '4' },
-        { label: "打款失败", value: '5' },
-        { label: "撤销", value: '6' },
-        { label: "风险拦截", value: '7' }
+        { label: "复核中", value: '1' },
+        { label: "复核通过", value: '2' },
+        { label: "复核不通过", value: '3' },
+        { label: "已撤销", value: '4' },
+        { label: "银行受理中", value: '5' },
+        { label: "银行受理失败", value: '6' },
+        { label: "银行处理成功", value: '7' },
+        { label: "银行处理失败", value: '8' }
       ],
       qualificationList:[],
       payBatchList: [],
