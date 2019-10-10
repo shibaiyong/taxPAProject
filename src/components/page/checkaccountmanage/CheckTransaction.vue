@@ -4,9 +4,9 @@
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="导入日期">
+            <el-form-item label="交易日期">
               <el-date-picker
-                v-model="formSearch.beginDate"
+                v-model="formSearch.beginDatePayment"
                 type="date"
                 format="yyyy - MM - dd"
                 value-format="yyyy-MM-dd"
@@ -14,7 +14,7 @@
               ></el-date-picker>
               -
               <el-date-picker
-                v-model="formSearch.endDate"
+                v-model="formSearch.endDatePayment"
                 type="date"
                 format="yyyy - MM - dd"
                 value-format="yyyy-MM-dd"
@@ -29,7 +29,7 @@
                 <el-button type="primary" size="small" @click="handleSearch">
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
-                <el-button type="primary" size="small">
+                <el-button type="primary" size="small" @click="handleReset">
                   <i class="el-icon-edit-outline"></i>&nbsp;重置
                 </el-button>
                
@@ -44,29 +44,49 @@
     </div>
 
     <div class="paddingcontainer">
-    <el-table :data="tableData3" style="width: 100%">
-        <el-table-column label="序号" type="index" width="50"></el-table-column>
-        <el-table-column prop="date" label="交易日期" width="150"></el-table-column>
-        <el-table-column label="我司">
-            <el-table-column prop="name" label="笔数" width="120"></el-table-column>
-            <el-table-column label="金额" prop="city" width="140"></el-table-column>
-        </el-table-column>
-        <el-table-column label="渠道">
-            <el-table-column prop="name" label="笔数" width="120"></el-table-column>
-            <el-table-column label="金额" prop="city" width="140"></el-table-column>
-        </el-table-column>
-        <el-table-column label="对平">
-            <el-table-column prop="name" label="笔数" width="120"></el-table-column>
-            <el-table-column label="金额" prop="city" width="140"></el-table-column>
-        </el-table-column>
-        <el-table-column label="通路多">
-            <el-table-column prop="name" label="笔数" width="120"></el-table-column>
-            <el-table-column label="金额" prop="city" width="140"></el-table-column>
-        </el-table-column>
-        <el-table-column label="平台多">
-            <el-table-column prop="name" label="笔数" width="120"></el-table-column>
-            <el-table-column label="金额" prop="city" width="140"></el-table-column>
-        </el-table-column>
+    <el-table :data="reconciliationResultList" style="width: 100%">
+      <el-table-column label="序号" type="index" width="50"></el-table-column>
+      <el-table-column prop="datePayment" label="交易日期" width="150"></el-table-column>
+      <el-table-column label="我司">
+          <el-table-column prop="ourChannelSum" label="笔数" width="120"></el-table-column>
+          <el-table-column label="金额" width="140">
+            <template slot-scope="scope">
+              {{scope.row.ourChannelAmount | fMoney}}
+            </template>
+          </el-table-column>
+      </el-table-column>
+      <el-table-column label="渠道">
+          <el-table-column prop="opposingChannelSum" label="笔数" width="120"></el-table-column>
+          <el-table-column label="金额" width="140">
+            <template slot-scope="scope">
+              {{scope.row.opposingChannelAmount | fMoney}}
+            </template>
+          </el-table-column>
+      </el-table-column>
+      <el-table-column label="对平">
+          <el-table-column prop="ourEqualOpposingSum" label="笔数" width="120"></el-table-column>
+          <el-table-column label="金额" width="140">
+            <template slot-scope="scope">
+              {{scope.row.ourEqualOpposingAmount | fMoney}}
+            </template>
+          </el-table-column>
+      </el-table-column>
+      <el-table-column label="通路多">
+          <el-table-column prop="ourLessOpposingSum" label="笔数" width="120"></el-table-column>
+          <el-table-column label="金额" width="140">
+            <template slot-scope="scope">
+              {{scope.row.ourLessOpposingAmount | fMoney}}
+            </template>
+          </el-table-column>
+      </el-table-column>
+      <el-table-column label="平台多">
+          <el-table-column prop="ourManyOpposingSum" label="笔数" width="120"></el-table-column>
+          <el-table-column label="金额" width="140">
+            <template slot-scope="scope">
+              {{scope.row.ourManyOpposingAmount | fMoney}}
+            </template>
+          </el-table-column>
+      </el-table-column>
     </el-table>
     </div>
     <div class="paddingcontainer pagecontainer">
@@ -75,7 +95,7 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="20"
-        @current-change="handlegetUserInfoList"
+        @current-change="handlegetReconciliationResultList"
         :current-page.sync="currentPage"
       ></el-pagination>
     </div>
@@ -83,88 +103,35 @@
 </template>
 
 <script>
-import { getUserInfoList, exportUser } from "@/requestDataInterface";
+import { getReconciliationResultList } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
     return {
-        tableData3: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }],
-      dialogBlackList: false,
       currentPage: 1,
       total: 1,
-      remark:'',
-      statusOptions: [
-        { label: "生效中", value: 1 },
-        { label: "停用中", value: 0 }
-      ],
-      qualificationList:[],
-      merchantList: [],
+      reconciliationResultList: [],
       multipleSelection: [],
       formSearch: {
-        enterpriseName: "",
-        idCard: "",
-        beginDate: "",
-        endDate: "",
-        phone:""
+        reconciliationType:'1',
+        beginDatePayment:'',
+        endDatePayment:''
+      },
+      resetFormSearch:{
+        reconciliationType:'1',
+        beginDatePayment:'',
+        endDatePayment:''
       }
     };
   },
   created() {},
   methods: {
     handleSearch() {
-      this.handlegetUserInfoList(this.currentPage);
+      this.handlegetReconciliationResultList(this.currentPage);
     },
-    handleAdd() {
-      this.$router.push("/home/addcommercialcustom");
+
+    handleReset(){
+      Object.assign(this.formSearch, this.resetFormSearch)
     },
 
     handleExportUser(){
@@ -177,51 +144,26 @@ export default {
       window.open('http://localhost:8088/export/userInfoList?ids='+idsStr)
     },
     
-    
-    
-    handlegetUserInfoList(currentPage) {
+    handlegetReconciliationResultList(currentPage) {
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20
       });
-      getUserInfoList(params)
+      getReconciliationResultList(params)
         .then(res => {
           if (res.success) {
-            this.merchantList = res.result.userInfos;
+            this.reconciliationResultList = res.result.reconciliationResultList;
             this.total = res.result.total;
           }
         })
         .catch(err => {
           console.log(err);
-        });
-    },
-
-    handleSelectionChange(selection, row) {
-      this.multipleSelection = selection;
-    },
-    handleSelectAll(selection) {
-      this.multipleSelection = selection;
-    },
-    judgeRight(multipleSelection) {
-      if (!multipleSelection.length) {
-        this.$message({
-          type: "error",
-          message: "请选择用户"
-        });
-        return false;
-      } else if (multipleSelection.length > 1) {
-        this.$message({
-          type: "error",
-          message: "请选择一个用户"
-        });
-        return false;
-      }
-      return true;
+      })
     }
   },
   computed: {},
   mounted() {
-    this.handlegetUserInfoList(this.currentPage);
+    this.handlegetReconciliationResultList(this.currentPage)
   },
   components: {},
   beforeDestroy() {}

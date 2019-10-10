@@ -232,6 +232,8 @@ export const getQualificationPartyById = params => {
 
 /*---------风险管理------------*/
 
+//拦截订单  使用代付请求的接口，仅展示代付状态为7风险拦截的代付请求
+
 //获取商户黑名单列表
 export const getBlacklist = params => {
     let data = qs.stringify(params)
@@ -399,6 +401,30 @@ export const applicationReject = params => {
     let data = qs.stringify(params)
     return axiosInstance.post("/apii/accountAdjustment/applicationReject", data).then(res => res.data)
 }
+//日终账单查询接口
+export const getDailyBillList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/bailyBill/getDailyBillList", data).then(res => res.data)
+}
+
+//日账单详情
+export const getDailyBillDetailList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/dailyBillDetail/getDailyBillDetailList", data).then(res => res.data)
+}
+//账户总额查询接口
+export const getMerchantManagementList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/merchantManagement/getMerchantManagementList", data).then(res => res.data)
+}
+/*-------------------------------- 对账管理 --------------------------------------*/
+
+//对账结果查询接口
+export const getReconciliationResultList = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/apii/reconciliationResult/getReconciliationResultList", data).then(res => res.data)
+}
+
 
 
 

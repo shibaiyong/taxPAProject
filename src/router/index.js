@@ -22,6 +22,7 @@ const UserDetail = r => require.ensure([], () => r(require('@/components/page/us
 const BlackList = r => require.ensure([], () => r(require('@/components/page/riskmanage/BlackList')), 'BlackList')
 const MarchantBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/MarchantBlack')), 'MarchantBlack')
 const UserBlack = r => require.ensure([], () => r(require('@/components/page/riskmanage/UserBlack')), 'UserBlack')
+const IntercepteOrderList = r => require.ensure([], () => r(require('@/components/page/riskmanage/IntercepteOrderList')), 'IntercepteOrderList')
 
 const SubstituteRequest = r => require.ensure([], () => r(require('@/components/page/substitutepay/SubstituteRequest')), 'SubstituteRequest')
 
@@ -40,6 +41,7 @@ const AddSubstituteChannel = r => require.ensure([], () => r(require('@/componen
 const EditSubstituteChannel = r => require.ensure([], () => r(require('@/components/page/substitutepay/substitutechannel/EditSubstituteChannel')), 'EditSubstituteChannel')
 
 const CheckTransaction = r => require.ensure([], () => r(require('@/components/page/checkaccountmanage/CheckTransaction')), 'CheckTransaction')
+const CheckPayment = r => require.ensure([], () => r(require('@/components/page/checkaccountmanage/CheckPayment')), 'CheckPayment')
 
 const UserManage = r => require.ensure([], () => r(require('@/components/page/authmanage/UserManage')), 'UserManage')
 const RoleMange = r => require.ensure([], () => r(require('@/components/page/authmanage/RoleMange')), 'RoleMange')
@@ -48,7 +50,9 @@ const NoFound = r => require.ensure([], () => r(require('@/components/page/noFou
 const ErrorPage = r => require.ensure([], () => r(require('@/components/page/noFound/500.vue')), 'ErrorPage')
 
 const MerchantAjustAccount =  r => require.ensure([], () => r(require('@/components/page/accountmanage/MerchantAjustAccount.vue')), 'MerchantAjustAccount')
-
+const AccountDailyBill =  r => require.ensure([], () => r(require('@/components/page/accountmanage/AccountDailyBill.vue')), 'AccountDailyBill')
+const DetailAccountDailyBill =  r => require.ensure([], () => r(require('@/components/page/accountmanage/DetailAccountDailyBill.vue')), 'DetailAccountDailyBill')
+const AccountAmount =  r => require.ensure([], () => r(require('@/components/page/accountmanage/AccountAmount.vue')), 'AccountAmount')
 const instance = new Router({
   routes: [
     { path: '/', redirect: '/login' },
@@ -193,7 +197,16 @@ const instance = new Router({
             bread:['主页','用户管理','用户详情']
           }
         },
-
+        {
+          path: '/home/intercepteorderlist',
+          name: 'IntercepteOrderList',
+          component: IntercepteOrderList,
+          meta: {
+            title: '拦截订单',
+            requireAuth: false,
+            bread:['主页','风险管理','拦截订单']
+          }
+        },
         {
           path: '/home/blacklist',
           name: 'BlackList',
@@ -349,6 +362,16 @@ const instance = new Router({
           }
         },
         {
+          path: '/home/checkpayment',
+          name: 'CheckPayment',
+          component: CheckPayment,
+          meta: {
+            title: '代付对账',
+            requireAuth: false,
+            bread:['主页','对账管理','代付对账']
+          }
+        },
+        {
           path: '/home/usermanage',
           name: 'UserManage',
           component: UserManage,
@@ -380,6 +403,16 @@ const instance = new Router({
           }
         },
         {
+          path: '/home/accountamount',
+          name: 'AccountAmount',
+          component: AccountAmount,
+          meta: {
+            title: '账户总额',
+            requireAuth: false,
+            bread:['主页','账户管理','账户总额']
+          }
+        },
+        {
           path: '/home/merchantajustaccount',
           name: 'MerchantAjustAccount',
           component: MerchantAjustAccount,
@@ -387,6 +420,26 @@ const instance = new Router({
             title: '账户管理',
             requireAuth: false,
             bread:['主页','账户管理','商户调账']
+          }
+        },
+        {
+          path: '/home/accountdailybill',
+          name: 'AccountDailyBill',
+          component: AccountDailyBill,
+          meta: {
+            title: '账户管理',
+            requireAuth: false,
+            bread:['主页','账户管理','日账单']
+          }
+        },
+        {
+          path: '/home/detailaccountdailybill',
+          name: 'DetailAccountDailyBill',
+          component: DetailAccountDailyBill,
+          meta: {
+            title: '账户管理',
+            requireAuth: false,
+            bread:['主页','账户管理','日账单详情']
           }
         }
       ]

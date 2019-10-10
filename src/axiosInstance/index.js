@@ -1,6 +1,6 @@
 /** 
- * @Desc: axios实例
- */
+ **@Desc: axios实例
+ **/
 import axios from 'axios'
 import router from '@/router'
 
@@ -8,7 +8,7 @@ import router from '@/router'
 // http://12.3.16.12:8090/
 //baseURL:'http://192.168.129.108:8088',
 let axiosInstance = axios.create({
-    //baseURL:'http://localhost:8088',
+    //baseURL:'http://12.3.0.15',
     timeout: 60000
 })
 

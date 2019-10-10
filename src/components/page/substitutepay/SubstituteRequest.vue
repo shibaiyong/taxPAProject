@@ -277,7 +277,11 @@ export default {
         { label: "打款成功", value: '4' },
         { label: "打款失败", value: '5' },
         { label: "撤销", value: '6' },
-        { label: "风险拦截", value: '7' }
+        { label: "风险拦截", value: '7' },
+        { label: "生批中", value: '8' },
+        { label: "银行受理中", value: '9' },
+        { label: "受理失败", value: '10' },
+        { label: "上送渠道失败", value: '11' }
       ],
       
       merchantList: [],

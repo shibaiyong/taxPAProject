@@ -139,7 +139,8 @@ export default {
         { label: "银行受理中", value: '5' },
         { label: "银行受理失败", value: '6' },
         { label: "银行处理成功", value: '7' },
-        { label: "银行处理失败", value: '8' }
+        { label: "银行处理失败", value: '8' },
+        { label: "上送渠道失败", value: '9' }
       ],
       qualificationList:[],
       payBatchList: [],
