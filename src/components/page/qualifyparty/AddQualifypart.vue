@@ -35,7 +35,8 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="启用日期"
-              :picker-options="pickerOptions"
+              :picker-options="startPicker"
+              @change="resetEndPicker"
             ></el-date-picker>
         </el-form-item>
         </el-col>
@@ -47,6 +48,7 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="停用日期"
+              :picker-options="endPicker"
             ></el-date-picker>
         </el-form-item>
         </el-col>
@@ -266,10 +268,13 @@ export default {
         paymentContractSn:'',
         userShortId:''
       },
-      pickerOptions: {
+      startPicker: {
         disabledDate(time) {
           return time.getTime() < Date.now()-24*60*60*1000
         }
+      },
+      endPicker: {
+        disabledDate(time) {}
       },
       unionPayNumList:[]
     }
@@ -277,6 +282,11 @@ export default {
   created() {
   },
   methods: {
+    resetEndPicker(val){
+      this.endPicker.disabledDate = function(time){
+        return time.getTime() < new Date(val).getTime()
+      }
+    },
     remoteMethod(val){
       this.handlegetBankLinkSnList(val);
     },
