@@ -1,7 +1,7 @@
 <template>
   <div class="rolelist">
     <div class="operate">
-      <el-form :model="formSearch" label-width="100px" :rules="rules">
+      <el-form :model="formSearch" label-width="100px">
         <el-row>
           <el-col :span="8">
             <el-form-item label="商户名称">
@@ -37,7 +37,7 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleExport">
-                  <i class="el-icon-search"></i>&nbsp;导入
+                  <i class="el-icon-search"></i>&nbsp;导出
                 </el-button>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default {
       })
     },
     handleSelectionChange(selection, row) {
-      this.multipleSelection = selection;
+      this.multipleSelection = selection
     },
     handleSelectAll(selection) {
       this.multipleSelection = selection;
@@ -189,9 +189,8 @@ export default {
       }
       return text
     }
-  },
-  beforeDestroy() {}
-};
+  }
+}
 </script>
 <style scoped>
 .operate {

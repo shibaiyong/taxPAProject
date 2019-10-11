@@ -36,8 +36,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item label="商户编号">
+              <el-input v-model="formSearch.merchId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="实际打款账户">
+              <el-input v-model="formSearch.actualPayAccount"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="出款金额">
               <el-input v-model="formSearch.actualPayAmt"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="批次编号">
+              <el-input v-model="formSearch.batchCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -72,11 +87,6 @@
                 format="yyyy - MM - dd"
                 value-format="yyyy-MM-dd"
               ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="批次编号">
-              <el-input v-model="formSearch.batchCode" :style="{'width':'164px'}"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">

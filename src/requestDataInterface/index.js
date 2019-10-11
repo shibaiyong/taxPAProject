@@ -142,7 +142,7 @@ export const addMerchant = params => {
 //获取商户列表
 export const getMerchantList = params => {
     let data = qs.stringify(params)
-    return axiosInstance.post("/merchant/getMerchantList",data).then(res => res.data)
+    return axiosInstance.post("/apii/merchant/getMerchantList",data).then(res => res.data)
 }
 //商户编辑
 export const editMerchant = params => {
@@ -237,7 +237,7 @@ export const getQualificationPartyById = params => {
 //获取商户黑名单列表
 export const getBlacklist = params => {
     let data = qs.stringify(params)
-    return axiosInstance.post("/apii/merchant/getBlacklist",data).then(res => res.data)
+    return axiosInstance.post("/merchant/getBlacklist",data).then(res => res.data)
 }
 
 //解除商户黑名单
