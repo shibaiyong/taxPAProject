@@ -56,7 +56,7 @@
                   <i class="el-icon-search"></i>&nbsp;加入黑名单
                 </el-button> -->
                 <el-button type="primary" size="small" @click="handleDelete">
-                  <i class="el-icon-search"></i>&nbsp;删除
+                  <i class="el-icon-delete"></i>&nbsp;删除
                 </el-button>
                 <el-button type="primary" size="small" @click="handleExportUser">
                   <i class="el-icon-download"></i>&nbsp;导出

@@ -32,10 +32,10 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleCheck">
-                  <i class="el-icon-circle-close"></i>&nbsp;审核
+                  <i class="el-icon-check"></i>&nbsp;审核
                 </el-button>
                 <el-button type="primary" size="small" @click="handleExport">
-                  <i class="el-icon-circle-plus-outline"></i>&nbsp;导出
+                  <i class="el-icon-download"></i>&nbsp;导出
                 </el-button>
               </div>
             </div>

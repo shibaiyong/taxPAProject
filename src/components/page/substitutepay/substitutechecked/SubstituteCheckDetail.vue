@@ -94,7 +94,25 @@ export default {
     this.handlegetReviewIdByBatchList()
   },
   components: {},
-  beforeDestroy() {}
+  filters: {
+    bussType( val ){
+      let text;
+      switch ( val ) {
+        default: 
+          text = "";
+          break;
+        case '0':
+          text = "待复核";
+          break;
+        case '1':
+          text = "复核通过";
+          break;
+        case '2':
+          text = "复核拒绝";
+      }
+      return text
+    }
+  }
 };
 </script>
 <style scoped>

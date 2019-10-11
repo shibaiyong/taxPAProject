@@ -30,7 +30,7 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleReset">
-                  <i class="el-icon-edit-outline"></i>&nbsp;重置
+                  <i class="el-icon-circle-close"></i>&nbsp;重置
                 </el-button>
                
                 <el-button type="primary" size="small" @click="handleExport">

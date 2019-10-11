@@ -52,10 +52,10 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleSearch">
-                  <i class="el-icon-search"></i>&nbsp;导入
+                  <i class="el-icon-download"></i>&nbsp;导入
                 </el-button>
                 <el-button type="primary" size="small" @click="handlesubmitReview">
-                  <i class="el-icon-circle-close"></i>&nbsp;提交复核
+                  <i class="el-icon-check"></i>&nbsp;提交复核
                 </el-button>
               </div>
             </div>

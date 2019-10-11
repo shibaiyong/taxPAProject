@@ -46,7 +46,7 @@
                   <i class="el-icon-search"></i>&nbsp;查询
                 </el-button>
                 <el-button type="primary" size="small" @click="handleConfirmPay">
-                  <i class="el-icon-circle-close"></i>&nbsp;审核
+                  <i class="el-icon-check"></i>&nbsp;审核
                 </el-button>
               </div>
             </div>
