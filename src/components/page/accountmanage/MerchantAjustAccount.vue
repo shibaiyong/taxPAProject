@@ -220,7 +220,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/accountAdjustmentList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/accountAdjustmentList?ids='+idsStr)
+      }else{
+        window.open('/apii/export/accountAdjustmentList')
+      }
     },
     
     handleCheck() {

@@ -168,7 +168,12 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/dailyBillList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/exportDailyBillList?ids='+idsStr)
+      }else{
+        window.open('/apii/export/exportDailyBillList')
+      }
+      
     },
 
     handleSelectionChange(selection, row) {

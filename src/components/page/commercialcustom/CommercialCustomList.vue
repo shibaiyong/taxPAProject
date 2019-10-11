@@ -424,7 +424,12 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/merchantList?ids='+idsStr)
+      window.open('/apii/export/merchantList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/merchantList?ids='+idsStr)
+      }else{
+        window.open('/apii/export/merchantList')
+      }
     },
 
     handleSelectionChange(selection, row) {

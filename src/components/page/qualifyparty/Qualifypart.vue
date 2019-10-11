@@ -135,7 +135,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/qualificationPartyList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/qualificationPartyList?ids='+idsStr)
+      }else{
+        window.open('/apii/export/qualificationPartyList')
+      }
     },
     handleAdd() {
       this.$router.push("/home/addqualifypart")
