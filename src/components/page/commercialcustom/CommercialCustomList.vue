@@ -99,16 +99,20 @@
         @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column label="商户编号" prop="sn" width="160"></el-table-column>
+        <el-table-column label="商户编号" prop="sn" width="120"></el-table-column>
         <el-table-column label="企业名称">
           <template slot-scope="scope">
             <span class="myblue">{{scope.row.enterpriseName}}</span>
           </template>
         </el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
-        <el-table-column label="账户余额" prop="totalAccountPayment"></el-table-column>
-        <el-table-column label="入网日期" prop="createdTime" width="160"></el-table-column>
-        <el-table-column label="关闭日期" prop="closedTime" width="160"></el-table-column>
+        <el-table-column label="账户余额">
+          <template slot-scope="scope">
+            {{scope.row.totalAccountPayment | fMoney}}
+          </template>
+        </el-table-column>
+        <el-table-column label="入网日期" prop="createdTime" width="140"></el-table-column>
+        <el-table-column label="关闭日期" prop="closedTime" width="140"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <button class="statusbtn" v-status="scope.row">启用</button>

@@ -63,8 +63,8 @@
         <el-table-column label="账单编号" prop="billNumber" width="160"></el-table-column>
         <el-table-column label="商户编号" prop="merchantNumber" width="160"></el-table-column>
         <el-table-column label="商户名称" prop="merchantName"></el-table-column>
-        <el-table-column label="交易日期" prop="transactionTime" width="160"></el-table-column>
-        <el-table-column label="账单日期" prop="billTime" width="160"></el-table-column>
+        <el-table-column label="交易日期" prop="transactionTime" width="140"></el-table-column>
+        <el-table-column label="账单日期" prop="billTime" width="140"></el-table-column>
         <el-table-column label="资质方" prop="qualificationPartyName" width="120"></el-table-column>
         <el-table-column label="充值金额">
           <template slot-scope="scope">

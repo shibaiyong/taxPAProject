@@ -38,7 +38,7 @@
         @row-click="handleShowDetail"
       >
         <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column label="编号" prop="sn"></el-table-column>
+        <el-table-column label="编号" prop="sn" width="120"></el-table-column>
         <el-table-column label="企业名称">
           <template slot-scope="scope">
             <span class="myblue">{{scope.row.enterpriseName}}</span>

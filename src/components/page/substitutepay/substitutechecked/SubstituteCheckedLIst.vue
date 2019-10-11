@@ -64,7 +64,7 @@
         @cell-click="handleShowDetail"
       >
         <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column label="复核编号" width="230">
+        <el-table-column label="复核编号" width="240">
           <template slot-scope="scope">
             <span class="myblue">{{scope.row.id}}</span>
           </template>
