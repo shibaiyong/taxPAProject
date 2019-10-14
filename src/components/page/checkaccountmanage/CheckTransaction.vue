@@ -141,7 +141,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/userInfoList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/exportReconciliationResultList?ids='+idsStr+'&reconciliationType=1')
+      }else{
+        window.open('/apii/export/exportReconciliationResultList?reconciliationType=1')
+      }
     },
     
     handlegetReconciliationResultList(currentPage) {

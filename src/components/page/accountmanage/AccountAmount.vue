@@ -1,6 +1,6 @@
 <template>
   <div class="rolelist">
-    <div class="amount"><span>总余额：</span><span>100,000,000.00元</span></div>
+    <!-- <div class="amount"><span>总余额：</span><span>100,000,000.00元</span></div> -->
     <div class="operate">
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
@@ -198,7 +198,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/merchantManagementList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/exportMerchantManagementList?ids='+idsStr)
+      }else{
+        window.open('/apii/export/exportMerchantManagementList')
+      }
     },
 
     handleSelectionChange(selection, row) {

@@ -4,7 +4,7 @@
       <el-form :model="formSearch" size="small" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="交易日期">
+            <el-form-item label="代付日期">
               <el-date-picker
                 v-model="formSearch.beginDatePayment"
                 type="date"
@@ -137,7 +137,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/userInfoList?ids='+idsStr)
+      if(idsStr){
+        window.open('/apii/export/exportReconciliationResultList?ids='+idsStr+'&reconciliationType=2')
+      }else{
+        window.open('/apii/export/exportReconciliationResultList?reconciliationType=2')
+      }
     },
 
     handleReset(){
