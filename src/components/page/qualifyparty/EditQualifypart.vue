@@ -13,18 +13,18 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="编码" prop="sn">
-              <el-input v-model="formEdit.sn"></el-input>
+              <el-input v-model="formEdit.sn" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" prop="enterpriseName">
             <el-form-item label="企业名称" prop="enterpriseName">
-              <el-input v-model="formEdit.enterpriseName"></el-input>
+              <el-input v-model="formEdit.enterpriseName" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
         
           <el-col :span="12">
             <el-form-item label="税号" prop="enterpriseTaxSn">
-              <el-input v-model="formEdit.enterpriseTaxSn"></el-input>
+              <el-input v-model="formEdit.enterpriseTaxSn" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -35,7 +35,6 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="启用日期"
-               :disabled="isEdit"
             ></el-date-picker>
         </el-form-item>
         </el-col>
@@ -47,13 +46,12 @@
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               placeholder="停用日期"
-               :disabled="isEdit"
             ></el-date-picker>
         </el-form-item>
         </el-col>
           <el-col :span="12">
             <el-form-item label="全年缴税额度" prop="yearPayment">
-              <el-input v-model="formEdit.yearPayment"></el-input>
+              <el-input v-model="formEdit.yearPayment" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           
@@ -89,7 +87,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="用户短号">
-              <el-input v-model="formEdit.userShortId" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.userShortId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -97,7 +95,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户银行名称" prop="openingBankName">
-              <el-input v-model="formEdit.openingBankName"></el-input>
+              <el-input v-model="formEdit.openingBankName" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           
@@ -108,7 +106,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业银行账号" prop="enterpriseBankAccount">
-              <el-input v-model="formEdit.enterpriseBankAccount"></el-input>
+              <el-input v-model="formEdit.enterpriseBankAccount" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -121,12 +119,12 @@
         <el-row>
             <el-col :span="12">
             <el-form-item label="资质方联系人" prop="contacts">
-              <el-input v-model="formEdit.contacts"></el-input>
+              <el-input v-model="formEdit.contacts" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="contactsTel">
-              <el-input v-model="formEdit.contactsTel"></el-input>
+              <el-input v-model="formEdit.contactsTel" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -288,6 +286,7 @@ export default {
                   type: "success",
                   message: "资质方编辑成功"
                 })
+                this.$router.push('/home/qualifypart')
               } else {
                 this.$message({
                   type: "error",

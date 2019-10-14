@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="身份证号">
-              <el-input v-model="formSearch.idcard" placeholder="身份证号"></el-input>
+              <el-input v-model="formSearch.idCard" placeholder="身份证号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">

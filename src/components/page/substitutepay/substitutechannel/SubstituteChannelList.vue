@@ -136,6 +136,7 @@ export default {
         { label: "对私", value: 2 }
       ],
       channelStatus: [
+        { label: "全部", value: '' },
         { label: "开启", value: 1 },
         { label: "关闭", value: 0 }
       ],
