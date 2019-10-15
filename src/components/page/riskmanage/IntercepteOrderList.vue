@@ -151,7 +151,11 @@ export default {
         ids = this.multipleSelection.map((item,index)=>item.id)
       }
       idsStr = ids.join(',')
-      window.open('http://localhost:8088/export/merchantList?ids='+idsStr)
+      if(idsStr){
+        window.open('http://12.3.0.15:8090/export/exportPaymentRequestlList?ids='+idsStr,'_self')
+      }else{
+        window.open('http://12.3.0.15:8090/export/exportPaymentRequestlList','_self')
+      }
     },
     handlegetPaymentRequestList(currentPage) {
       let params = Object.assign({}, this.formSearch, {

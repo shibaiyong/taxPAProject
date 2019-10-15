@@ -142,9 +142,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/exportReconciliationResultList?ids='+idsStr+'&reconciliationType=1')
+        window.open('http://12.3.0.15:8090/export/exportReconciliationResultList?ids='+idsStr+'&reconciliationType=1','_self')
       }else{
-        window.open('/apii/export/exportReconciliationResultList?reconciliationType=1')
+        window.open('http://12.3.0.15:8090/export/exportReconciliationResultList?reconciliationType=1','_self')
       }
     },
     

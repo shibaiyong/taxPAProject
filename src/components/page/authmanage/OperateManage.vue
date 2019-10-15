@@ -75,6 +75,14 @@
           </el-col>
         </el-row>
 
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="排序">
+              <el-input v-model="formEdit.sort"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEditVisible = false" size="small">取 消</el-button>
@@ -105,14 +113,16 @@ export default {
         url:'',
         parentId:'0',
         vueUrl:'',
-        icon:''
+        icon:'',
+        sort:''
       },
       resetFormEdit: {
         name:'',
         url:'',
         parentId:'0',
         vueUrl:'',
-        icon:''
+        icon:'',
+        sort:''
       }
     }
   },

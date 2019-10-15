@@ -56,6 +56,10 @@ a:active{
   margin-top:15px;
 }
 
+.el-submenu .el-menu-item{
+  padding-left:52px !important;
+}
+
 /* 启用、停用按钮的样式 - 商户管理列表，资质方管理列表 */
 
 .statusbtn{

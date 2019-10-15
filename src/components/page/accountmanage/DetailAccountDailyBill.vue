@@ -58,6 +58,8 @@ export default {
   props: {},
   data() {
     return {
+      total:1,
+      currentPage:1,
       dailyBillDetailList: [],
       formSearch: {
         userName: ""

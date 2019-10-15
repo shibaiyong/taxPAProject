@@ -136,9 +136,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/qualificationPartyList?ids='+idsStr)
+        window.open('http://12.3.0.15:8090/export/qualificationPartyList?ids='+idsStr,'_self')
       }else{
-        window.open('/apii/export/qualificationPartyList')
+        window.open('http://12.3.0.15:8090/export/qualificationPartyList','_self')
       }
     },
     handleAdd() {

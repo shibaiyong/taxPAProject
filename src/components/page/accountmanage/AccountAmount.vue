@@ -199,9 +199,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/exportMerchantManagementList?ids='+idsStr)
+        window.open('http://12.3.0.15:8090/export/exportMerchantManagementList?ids='+idsStr,'_self')
       }else{
-        window.open('/apii/export/exportMerchantManagementList')
+        window.open('http://12.3.0.15:8090/export/exportMerchantManagementList','_self')
       }
     },
 

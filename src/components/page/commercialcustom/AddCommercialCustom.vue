@@ -113,7 +113,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行信息" prop="openingBankBranchInfo">
-              <el-select v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod" @change="getBankLinkSn">
+              <el-select placeholder="" v-model="formEdit.openingBankBranchInfo" filterable remote :remote-method="remoteMethod" @change="getBankLinkSn">
                 <el-option
                   v-for="item in unionPayNumList"
                   :key="item.id"
@@ -132,7 +132,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开户行联行号" prop="openingBankLinkSn">
-              <el-input v-model="formEdit.openingBankLinkSn" :disabled="true"></el-input>
+              <el-input v-model="bankLinkSn" :disabled="true"></el-input>
             </el-form-item>
           </el-col> 
         </el-row>
@@ -305,6 +305,7 @@ export default {
       provinceList:[],
       cityList:[],
       unionPayNumList:[],
+      bankLinkSn:'',
       formEdit: {
         sn:'',
         otherSn:'',
@@ -375,6 +376,7 @@ export default {
       let obj = this.unionPayNumList.find((item)=>{
           return item.bankBranchName === val
       })
+      this.bankLinkSn = obj.bankLinkSn
       this.formEdit.openingBankLinkSn = obj.id
     },
     remoteMethod(val){

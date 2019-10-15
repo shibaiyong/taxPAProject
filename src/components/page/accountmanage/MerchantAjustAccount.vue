@@ -221,9 +221,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/accountAdjustmentList?ids='+idsStr)
+        window.open('http://12.3.0.15:8090/export/accountAdjustmentList?ids='+idsStr,'_self')
       }else{
-        window.open('/apii/export/accountAdjustmentList')
+        window.open('http://12.3.0.15:8090/export/accountAdjustmentList','_self')
       }
     },
     

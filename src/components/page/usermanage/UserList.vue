@@ -172,9 +172,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/userInfoList?ids='+idsStr)
+        window.open('http://12.3.0.15:8090/export/userInfoList?ids='+idsStr)
       }else{
-        window.open('/apii/export/userInfoList')
+        window.open('http://12.3.0.15:8090/export/userInfoList')
       }
     },
     

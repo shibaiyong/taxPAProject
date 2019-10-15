@@ -106,6 +106,11 @@
           </template>
         </el-table-column>
         <el-table-column label="联系人姓名" prop="contactsName"></el-table-column>
+        <el-table-column label="当前状态">
+          <template slot-scope="scope">
+            {{ scope.row.status == 1 ? '启用' : '停用' }}
+          </template>
+        </el-table-column>
         <el-table-column label="账户余额">
           <template slot-scope="scope">
             {{scope.row.totalAccountPayment | fMoney}}
@@ -431,9 +436,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('/apii/export/merchantList?ids='+idsStr)
+        window.open('http://12.3.0.15:8090/export/merchantList?ids='+idsStr,'_self')
       }else{
-        window.open('/apii/export/merchantList')
+        window.open('http://12.3.0.15:8090/export/merchantList','_self')
       }
     },
 
