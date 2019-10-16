@@ -58,6 +58,11 @@ a:active{
 
 .el-submenu .el-menu-item{
   padding-left:52px !important;
+  font-size: 12px;
+}
+
+.el-submenu__title{
+  /* color:#b4bcc8 !important; */
 }
 
 /* 启用、停用按钮的样式 - 商户管理列表，资质方管理列表 */

@@ -180,8 +180,8 @@
             <div style="border-bottom: 1px solid #DCDFE6;margin-bottom:10px;"></div>
           </el-col>
           <el-col :span="24" v-if="eachOther">
-            <el-form-item label="商户名称">
-              <el-select v-model="formChangeAccount.turnOutMerchantId" @change="translateValue">
+            <el-form-item label="商户名称" prop="openingBankBranchInfo">
+              <el-select placeholder="" v-model="formChangeAccount.turnOutMerchantId" filterable remote :remote-method="remoteMethod" @change="translateValue">
                 <el-option
                   v-for="option in merchantListById"
                   :key="option.id"
@@ -340,6 +340,14 @@ export default {
       this.formChangeAccount.turnOutMerchantName = obj.enterpriseName
       this.formChangeAccount.turnOutMerchantSn = obj.sn
     },
+    remoteMethod(val){
+      let multipleSelection = this.multipleSelection
+      getMerchantListByZZF({qualificationId:multipleSelection[0].qualificationId,merchantId:multipleSelection[0].id,enterpriseName:val}).then(res => {
+        if(res.code == 2000){
+          this.merchantListById = res.result
+        }
+      }).catch()
+    },
     handleAdjust() {
       let multipleSelection = this.multipleSelection
       if (!this.judgeRight(multipleSelection)) {
@@ -348,11 +356,6 @@ export default {
       this.dialogChangeAccount = true
       this.formChangeAccount.type = 1
       this.handleChangeAccount(1)
-      getMerchantListByZZF({qualificationId:multipleSelection[0].qualificationId,merchantId:multipleSelection[0].id}).then(res => {
-        if(res.code == 2000){
-          this.merchantListById = res.result
-        }
-      }).catch()
     },
     handleAdjustAccount(){
       applicationSubmit(this.formChangeAccount).then( res => {
