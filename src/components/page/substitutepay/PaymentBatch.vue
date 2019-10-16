@@ -160,15 +160,27 @@ export default {
       this.handlegetPayBatchList(this.currentPage);
     },
     handlesubmitReview(){
-      this.dialogBlackList = true
+      if(this.payBatchList.length){
+        this.dialogBlackList = true
+      }else{
+        this.dialogBlackList = false
+      }
     },
     submitReview(){
       let multipleSelection = this.multipleSelection
       let len = multipleSelection.length
       let params = {}
       let idList = []
-      if ( !len ) {
-        params = Object.assign({},this.formSearch, {reviewType:'1',flag:'0'})
+      if ( !len && this.formSearch.flag=='0') {
+
+        params = Object.assign({},this.formSearch, {reviewType:'1'})
+
+      }else if(!len && this.formSearch.flag !='0'){
+        this.$message({
+          type: "error",
+          message: '复核数据状态必需是“未处理”'
+        })
+        return false
       } else if (len >= 1) {
         for(let i = 0; i < len; i++){
           var item = multipleSelection[i]
@@ -188,6 +200,11 @@ export default {
         if (res.success) {
          this.$message({
             type: "success",
+            message: res.msg
+          })
+        }else{
+          this.$message({
+            type: "error",
             message: res.msg
           })
         }

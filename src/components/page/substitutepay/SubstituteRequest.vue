@@ -116,9 +116,18 @@
                 <el-button type="primary" size="small" @click="handleRevoke">
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
-                <!-- <el-button type="primary" size="small" @click="handleImport">
-                  <i class="el-icon-search"></i>&nbsp;导入
-                </el-button> -->
+                
+                <el-upload action="http://12.3.0.15:8090/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
+                  :auto-upload="true"
+                  :show-file-list="false"
+                  :multiple="false"
+                  accept=".xlsx"
+                  :on-success="handleSuccess"
+                  :before-upload="handleBeforeUpload">
+                  <el-button type="primary" size="small">
+                    <i class="el-icon-search"></i>&nbsp;导入
+                  </el-button>
+                </el-upload>
               </div>
             </div>
           </el-col>
@@ -325,8 +334,11 @@ export default {
     handleSearch() {
       this.handlegetPaymentRequestList(this.currentPage)
     },
-    handleImport(){
-      
+    handleBeforeUpload(file){
+      // console.log(file)
+    },
+    handleSuccess(response, file, fileList){
+      // console.log(response)
     },
     handleStatistics(){
       if (!this.judgeRight({ flag: '0' })) {

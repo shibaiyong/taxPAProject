@@ -14,7 +14,7 @@
         </li>
         <li class="bottom16" :class="{ 'verify': errorPassWordShow }">密码</li>
         <li class="input bottom24" :class="{ 'verify': errorPassWordShow }">
-          <input :class="{ 'verify': errorPassWordShow, 'verifylan': errorPassWordShowAcive }" type="password" autocomplete="off" v-model="userInfo.password" @keyup.enter="gotoLogin" placeholder="请输入密码"/>
+          <input :class="{ 'verify': errorPassWordShow, 'verifylan': errorPassWordShowAcive }" type="password" v-model="userInfo.password" @keyup.enter="gotoLogin" placeholder="请输入密码"/>
           <span v-show="errorPassWordShow"><img src=""/>&nbsp;{{ errorPassWordMessage }}</span>
         </li>
         <li class="remeberme">
@@ -221,6 +221,11 @@ export default {
   height:50px;
   border:none;
   box-sizing: border-box;
+  color:#333;
+}
+.loginright li input:-webkit-autofill {
+  -webkit-text-fill-color: #333 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 .loginright li.verify {
   border-color: red;
