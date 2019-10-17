@@ -337,8 +337,18 @@ export default {
     handleBeforeUpload(file){
       // console.log(file)
     },
-    handleSuccess(response, file, fileList){
-      // console.log(response)
+    handleSuccess(res, file, fileList){
+      if(res.success){
+        this.$message({
+          type: 'success',
+          message: res.msg
+        })
+      }else{
+        this.$message({
+          type: 'error',
+          message: res.msg
+        })
+      }
     },
     handleStatistics(){
       if (!this.judgeRight({ flag: '0' })) {
