@@ -7,9 +7,9 @@ import store from './vuex/store'
 import '@/assets/css/common.css'
 //按需引入 借助 babel-plugin-component
 // import { Button, Select, Table, TableColumn,Form, FormItem, Tree, MessageBox,Icon, Row, Col, Menu, Submenu, MenuItem, MenuItemGroup,} from 'element-ui'
-import ElementUI from 'element-ui'
+import ElementUI from 'myelement-myui'
 import Api from '@/assets/utils/api.js'
-import 'element-ui/lib/theme-chalk/index.css'
+import 'myelement-myui/lib/theme-chalk/index.css'
 Vue.use(ElementUI,{size:'small'})
 Vue.use(Api)
 Vue.config.productionTip = false

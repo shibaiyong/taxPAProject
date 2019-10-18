@@ -12,10 +12,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.11.1",
-    "mint-ui": "^2.2.13",
+    "myelement-myui": "^2.12.5",
     "qs": "^6.7.0",
     "vue": "^2.5.2",
-    "vue-awesome-swiper": "^3.1.3",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.1"
   },

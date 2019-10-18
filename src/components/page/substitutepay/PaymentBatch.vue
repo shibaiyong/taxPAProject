@@ -294,6 +294,9 @@ export default {
           case '8':
           text = "银行处理失败";
           break;
+          case '9':
+          text = "上送渠道失败";
+          break;
       }
       return text
     }

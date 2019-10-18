@@ -179,7 +179,7 @@
           </template>
         </el-table-column>
         <el-table-column label="批次号" prop="batchCode" width="200"></el-table-column>
-        <el-table-column label="代付状态" width="80">
+        <el-table-column label="代付状态" width="100">
           <template slot-scope="scope">
             {{scope.row.flag | bussType}}
           </template>
@@ -341,7 +341,7 @@ export default {
       if(res.success){
         this.$message({
           type: 'success',
-          message: res.msg
+          message: '导入文件成功'
         })
       }else{
         this.$message({
@@ -535,6 +535,18 @@ export default {
           break;
         case '7':
           text = "风险拦截";
+          break;
+        case '8':
+          text = "生批中";
+          break;
+        case '9':
+          text = "银行受理中";
+          break;
+        case '10':
+          text = "受理失败";
+          break;
+        case '11':
+          text = "上送渠道失败";
       }
       return text
     }
