@@ -73,10 +73,6 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
-
-        <el-row>
-          
           <el-col :span="12">
             <el-form-item label="创建日期">
               <el-date-picker
@@ -88,9 +84,6 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
-        
-        <el-row>
           <el-col :span="12">
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="formEdit.email"></el-input>
@@ -101,8 +94,6 @@
               <el-input v-model="formEdit.name"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="地址">
               <el-input v-model="formEdit.address"></el-input>
@@ -113,8 +104,6 @@
               <el-input v-model="formEdit.phone"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row v-if="editPassword">
           <el-col :span="12">
             <el-form-item label="密码" prop="password">
               <el-input type="password" v-model="formEdit.password" auto-complete="off"></el-input>
@@ -226,7 +215,7 @@ export default {
         email: "",
         name: "",
         phone: "",
-        createdTime:new Date(1000000000000)
+        createdTime:''
       },
       resetFormEdit: {
         username: "",
@@ -256,10 +245,14 @@ export default {
             addUser( params ).then(res => {
               if(res.success){
                 this.handleGetUserList(this.currentPage)
+                this.$message({
+                  type:'success',
+                  message:res.msg
+                })
               }else{
                 this.$message({
                   type:'error',
-                  message:'新增失败,'+res.msg
+                  message:res.msg
                 })
               }
             }).catch(err => {
@@ -269,10 +262,14 @@ export default {
             editUser( this.formEdit ).then( res => {
               if(res.success){
                 this.handleGetUserList(this.currentPage)
+                this.$message({
+                  type:'success',
+                  message:res.msg
+                })
               }else{
                 this.$message({
                   type:'error',
-                  message:'编辑失败,'+res.msg
+                  message:res.msg
                 })
               }
             }).catch( err => {
