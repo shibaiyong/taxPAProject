@@ -10,6 +10,7 @@ import '@/assets/css/common.css'
 import ElementUI from 'myelement-myui'
 import Api from '@/assets/utils/api.js'
 import 'myelement-myui/lib/theme-chalk/index.css'
+require ('babel-polyfill')
 Vue.use(ElementUI,{size:'small'})
 Vue.use(Api)
 Vue.config.productionTip = false

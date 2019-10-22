@@ -90,7 +90,7 @@
       </el-form>
     </div>
 
-    <div class="paddingcontainer" v-if="updateTable">
+    <div class="paddingcontainer">
       <el-table
         :data="merchantList"
         style="width: 100%"
@@ -120,7 +120,7 @@
         <el-table-column label="关闭日期" prop="closedTime" width="140"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <button class="statusbtn" v-status="scope.row"></button>
+            <button class="statusbtn" v-status="scope.row" :key="scope.row.id"></button>
           </template>
         </el-table-column>
       </el-table>
@@ -234,7 +234,6 @@ export default {
   props: {},
   data() {
     return {
-      updateTable:true,
       eachOther:false,
       dialogChangeAccount: false,
       dialogBlackList: false,
@@ -327,7 +326,6 @@ export default {
       }
     },
     handleSearch() {
-      this.updateTable = false
       this.handleGetMerchantList(this.currentPage)
     },
     handleAdd() {
@@ -424,7 +422,6 @@ export default {
             this.merchantList = res.result.merchants;
             this.total = res.result.total;
           }
-          this.updateTable = true
         })
         .catch(err => {
           console.log(err);

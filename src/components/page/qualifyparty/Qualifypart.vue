@@ -68,7 +68,7 @@
         </el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
-            <button class="statusbtn" v-status="scope.row">启用</button>
+            <button class="statusbtn" v-status="scope.row" :key="scope.row.id">启用</button>
           </template>
         </el-table-column>
       </el-table>

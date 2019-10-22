@@ -98,7 +98,7 @@
         <el-table-column label="出入金流水号" prop="inOutNumber" width="120"></el-table-column>
         <el-table-column label="借贷标识">
           <template slot-scope="scope">
-            {{scope.row.loanFlag | fMoney}}
+            {{scope.row.loanFlag == '1' ? '贷' : '借'}}
           </template>
         </el-table-column>
         <el-table-column label="资金变动日期" width="140" prop="createdTime"></el-table-column>

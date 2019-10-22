@@ -84,3 +84,7 @@ a:active{
   color:#409EFF;
   cursor: pointer;
 }
+
+/*清除ie浏览器中输入框的清空标志*/
+
+::-ms-clear,::-ms-reveal{display:none;}
