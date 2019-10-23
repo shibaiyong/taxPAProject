@@ -58,7 +58,7 @@ export default {
 }
 .header {
   padding: 20px 30px;
-  background: #4259a7;
+  background: #5e8ddb;
   display: flex;
   justify-content: space-between;
   align-items: center;

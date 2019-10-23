@@ -136,7 +136,7 @@
           <div class="dialog-footer">
             <el-form-item>
               <el-button size="small" @click="resetForm('formEdit')">取 消</el-button>
-              <el-button type="primary" @click="submitForm('formEdit')" size="small">保 存</el-button>
+              <el-button type="primary" @click="submitForm('formEdit')" size="small">确 定</el-button>
             </el-form-item>
           </div>
         </el-row>

@@ -117,7 +117,7 @@
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
                 
-                <el-upload action="http://12.3.0.15:8090/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
+                <el-upload action="http://localhost:8088/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
                   :auto-upload="true"
                   :show-file-list="false"
                   :multiple="false"
