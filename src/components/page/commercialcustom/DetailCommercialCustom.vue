@@ -24,13 +24,9 @@
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">纳税人类型</label></el-col>
-
-           <el-col :span="18">
-            <el-radio-group v-model="formEdit.taxpayerType" :disabled="true">
-                <el-radio :label="0">一般纳税人</el-radio>
-                <el-radio :label="1">小规模纳税人</el-radio>
-              </el-radio-group>
-              </el-col>
+            <el-col :span="18">
+              <label class="labelname">{{formEdit.taxpayerType == 0 ? '一般纳税人' : '小规模纳税人'}}</label>
+            </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">联系人姓名</label></el-col>
@@ -68,11 +64,7 @@
         <el-col :span="12">
             <el-col :span="6"><label class="descr">开户行地域</label></el-col>
             <el-col :span="18">
-                <el-select v-model="formEdit.openingBankRegionProvince" size="small" :disabled="true">
-                    <el-option v-for="option in provinceList" :key="option.id" :label="option.name" :value="option.id"></el-option>
-                </el-select>&nbsp;-&nbsp;<el-select v-model="formEdit.openingBankRegionCity" size="small" :disabled="true">
-                    <el-option v-for="option in cityList" :key="option.id" :label="option.name" :value="option.id"></el-option>
-                </el-select>
+                <el-col :span="18"><label class="labelname">{{ (regionProvinceName ? regionProvinceName : '') + '-' + (regionCityName ? regionCityName : '') }}</label></el-col>
             </el-col>
         </el-col>
         <el-col :span="12">
@@ -95,28 +87,21 @@
         
         <el-col :span="12">
             <el-col :span="6"><label class="descr">资质方关联</label></el-col>
-            <el-col :span="18">
-                <el-select v-model="formEdit.qualificationId" placeholder="" :disabled="true">
-                    <el-option v-for="option in qualificationList" :key="option.id" :label="option.enterpriseName" :value="option.id"></el-option>
-                </el-select>
-            </el-col>
+            <el-col :span="18"><label class="labelname">{{qualificationIdName}}</label></el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">开票信息</label></el-col>
             <el-col :span="18">
-            <el-radio-group v-model="formEdit.invoiceType" :disabled="true">
-                <el-radio :label="0">普通发票</el-radio>
-                <el-radio :label="1">专用发票</el-radio>
-              </el-radio-group>
-              </el-col>
+              <label class="labelname">{{formEdit.invoiceType == 1 ? "专用发票" : "普通发票"}}</label>
+            </el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">商户服务费</label></el-col>
-            <el-col :span="18"><label class="labelname">{{formEdit.merchantServiceCharge}}</label></el-col>
+            <el-col :span="18"><label class="labelname">{{formEdit.merchantServiceCharge}}%</label></el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">个人服务费</label></el-col>
-            <el-col :span="18"><label class="labelname">{{formEdit.personalServiceCharge}}</label></el-col>
+            <el-col :span="18"><label class="labelname">{{formEdit.personalServiceCharge}}%</label></el-col>
         </el-col>
     </el-row>
     <h4>税务信息</h4>
@@ -176,8 +161,9 @@ export default {
             salesManagerEmail:'',
             status:''
        },
-       provinceList:[],
-       cityList:[],
+       regionProvinceName:'',
+       regionCityName:'',
+       qualificationIdName:'',
        qualificationList:[]
     }
   },
@@ -197,15 +183,21 @@ export default {
     handleGetProvinceList(){
       getProvinceList().then(res => {
         if(res.success){
-          this.provinceList = res.result
+          let obj = res.result.find((item)=>{ 
+            return item.id === this.formEdit.openingBankRegionProvince
+          })
+          this.regionProvinceName = obj.name
         }
       }).catch(err=>{})
     },
     handleGetAllCityList(){
       return getCityList().then(res => {
-        if(res.success){
-          this.cityList = res.result
-        }
+          if(res.success){
+            let obj = res.result.find((item)=>{ 
+              return item.id === this.formEdit.openingBankRegionCity
+            })
+            this.regionCityName = obj.name
+          }
       }).catch( err => {})
     },
     handlegetQualificationPartyList(currentPage) {
@@ -213,7 +205,10 @@ export default {
       getQualificationPartyList(params)
         .then(res => {
           if (res.success) {
-            this.qualificationList = res.result.qualificationParties
+            let obj = res.result.qualificationParties.find((item)=>{ 
+              return item.id === this.formEdit.qualificationId
+            })
+            this.qualificationIdName = obj.enterpriseName
           }
         })
         .catch(err => {

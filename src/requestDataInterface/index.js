@@ -363,6 +363,10 @@ export const getReviewIdByRequestList = params => {//代付请求复核明细列
     return axiosInstance.post("/apii/paymentReview/getReviewIdByRequestList", params).then(res => res.data)
 }
 
+export const payBatchStatistics = params => {//批次出款统计
+    return axiosInstance.post("/apii/payBatch/statistics", params).then(res => res.data)
+}
+
 export const submitReview = params => {//批次出款审核
     return axiosInstance.post("/apii/payBatch/submitReview", params).then(res => res.data)
 }

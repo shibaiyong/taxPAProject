@@ -146,7 +146,12 @@ export default {
   },
   created() {},
   methods: {
+    initSearchForm(){
+      let formSearch = sessionStorage.getItem('substiteCheck')
+      Object.assign(this.formSearch, JSON.parse(formSearch))
+    },
     handleSearch() {
+      sessionStorage.setItem('substiteCheck',JSON.stringify(this.formSearch))
       this.handlegetPayReviewList(this.currentPage)
     },
     handleShowDetail(row, column, cell, event) {
@@ -235,6 +240,7 @@ export default {
   },
   computed: {},
   mounted() {
+    this.initSearchForm()
     this.handlegetPayReviewList(this.currentPage);
   },
   components: {},

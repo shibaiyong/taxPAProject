@@ -76,7 +76,7 @@
         <el-table-column label="文件名称" prop="fileName" width="240"></el-table-column>
         <el-table-column label="处理时间" prop="payDate" width="100"></el-table-column>
         <el-table-column label="打款渠道" prop="channelId" width="140"></el-table-column>
-        <el-table-column label="打款账户名称" prop="actualPayAccount" width="140"></el-table-column>
+        <el-table-column label="打款账户" prop="actualPayAccount" width="140"></el-table-column>
         <el-table-column label="状态" width="160">
           <template slot-scope="scope">
             {{scope.row.flag | bussType}}
@@ -104,12 +104,15 @@
     
     <div class="dialogblack">
       <el-dialog title="复核" :visible.sync="dialogBlackList">
+        <el-row>
+          <el-col :span="12"><label class="labelname">总笔数：</label></el-col>
+          <el-col :span="12"><label class="labelvalue">{{ COUNT }}</label></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><label class="labelname">总金额：</label></el-col>
+          <el-col :span="12"><label class="labelvalue">{{ TOTAL_AMT }}</label></el-col>
+        </el-row>
         <p>您确定要提交该代付吗？</p>
-        <!-- <el-form size="small" :model="formSearch">
-          <el-form-item label="备注：">
-            <el-input v-model="remark"></el-input>
-          </el-form-item>
-        </el-form> -->
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
           <el-button type="primary" size="small" @click="submitReview">确 定</el-button>
@@ -120,7 +123,7 @@
 </template>
 
 <script>
-import { getPayBatchList, submitReview } from "@/requestDataInterface";
+import { getPayBatchList, submitReview, payBatchStatistics } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -129,6 +132,8 @@ export default {
       currentPage: 1,
       total: 1,
       remark:'',
+      COUNT:'',
+      TOTAL_AMT:'',
       flag:[
         {label:"全部",value:''},
         { label: "未处理", value: '0' },
@@ -161,7 +166,7 @@ export default {
     },
     handlesubmitReview(){
       if(this.payBatchList.length){
-        this.dialogBlackList = true
+        this.payBatchStatistics()
       }else{
         this.dialogBlackList = false
       }
@@ -211,6 +216,45 @@ export default {
         this.dialogBlackList = false
         this.handlegetPayBatchList(this.currentPage)
       })
+    },
+
+    payBatchStatistics(){
+      let multipleSelection = this.multipleSelection
+      let len = multipleSelection.length
+      let params = {}
+      let idList = []
+      if ( !len && this.formSearch.flag=='0') {
+
+        params = Object.assign({},this.formSearch, {reviewType:'1'})
+
+      }else if(!len && this.formSearch.flag !='0'){
+        this.$message({
+          type: "error",
+          message: '复核数据状态必需是“未处理”'
+        })
+        return false
+      } else if (len >= 1) {
+        for(let i = 0; i < len; i++){
+          var item = multipleSelection[i]
+          if(item.flag == '0'){
+            idList.push(item.id)
+          }else{
+            this.$message({
+              type: "error",
+              message: '复核数据状态必需是“未处理”'
+            });
+            return false
+          }
+        }
+        params = Object.assign(params,{idList,flag:'0',reviewType:'1'})
+      }
+      payBatchStatistics(params).then(res => {
+        if (res.success) {
+          this.COUNT = res.result.COUNT
+          this.TOTAL_AMT = res.result.TOTAL_AMT
+        }
+        this.dialogBlackList = true
+      }).catch(err => {console.log(err)})
     },
     
     handlegetPayBatchList(currentPage) {

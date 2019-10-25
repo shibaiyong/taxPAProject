@@ -1,7 +1,7 @@
 <template>
   <div class="rolelist">
     <div class="operate">
-      <el-form :model="formSearch" label-width="100px" :rules="rules">
+      <el-form :model="formSearch" label-width="114px" :rules="rules">
         <el-row>
           <el-col :span="8">
             <el-form-item label="业务类型">
@@ -21,7 +21,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="结算卡号">
+            <el-form-item label="收款人银行账号">
               <el-input v-model="formSearch.payeeBankNumber"></el-input>
             </el-form-item>
           </el-col>
@@ -46,7 +46,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="出款金额">
+            <el-form-item label="实际出款金额">
               <el-input v-model="formSearch.actualPayAmt"></el-input>
             </el-form-item>
           </el-col>
@@ -222,11 +222,20 @@
     </div>
     <div class="dialogblack">
     <el-dialog title="批量生批" :visible.sync="createBatch">
-        <el-form size="small" :model="formCreateBatch" ref="formEdit">
+        <el-form size="small" :model="formCreateBatch" ref="formEdit" label-width="114px">
           <el-form-item label="总笔数">
             <el-input v-model="COUNT" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="总金额">
+          <el-form-item label="应出款金额">
+            <el-input v-model="ORG_PAYEE_AMT" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="商户服务费">
+            <el-input v-model="MERCH_FEE" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="个人服务费">
+            <el-input v-model="PERSONAL_FEE" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="实际出款金额">
             <el-input v-model="AMT" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="打款渠道">
@@ -280,6 +289,9 @@ export default {
       remark:'',
       COUNT: 0,
       AMT: 0,
+      ORG_PAYEE_AMT:0,
+      MERCH_FEE:0,
+      PERSONAL_FEE:0,
       title:'拦截',
       describe:'您确定要拦截该笔代付吗？',
       bussType: [
@@ -351,13 +363,16 @@ export default {
       }
     },
     handleStatistics(){
-      if (!this.judgeRight({ flag: '0' })) {
-        return false;
-      }
+      // if (!this.judgeRight({ flag: '0' })) {
+      //   return false;
+      // }
       statistics(this.createBatchParams).then(res => {
         if (res.success) {
           this.COUNT = res.result.COUNT
           this.AMT = res.result.AMT
+          this.ORG_PAYEE_AMT = res.result.ORG_PAYEE_AMT
+          this.MERCH_FEE = res.result.MERCH_FEE
+          this.PERSONAL_FEE = res.result.PERSONAL_FEE
           this.handlegetQualificationPartyList()
           this.handlegetPaymentChannelList()
           this.createBatch = true
@@ -576,11 +591,11 @@ export default {
 }
 
 .el-form-item__content > .el-input {
-  width: 230px;
+  width: 210px;
 }
 
 .el-form-item__content > .el-select {
-  width: 230px;
+  width: 210px;
 }
 
 .el-form-item__content > .el-date-editor {

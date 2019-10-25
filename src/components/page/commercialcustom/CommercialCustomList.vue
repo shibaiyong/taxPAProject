@@ -241,6 +241,7 @@ export default {
       total: 1,
       remark:'',
       statusOptions: [
+        { label: "全部", value: '' },
         { label: "生效中", value: 1 },
         { label: "停用中", value: 0 }
       ],

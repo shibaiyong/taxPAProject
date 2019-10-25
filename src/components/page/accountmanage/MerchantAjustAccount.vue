@@ -300,6 +300,7 @@ export default {
       Object.assign(this.formSearch, this.resetFormSearch);
     },
     judgeRight(multipleSelection) {
+      let status = multipleSelection[0].status
       if (!multipleSelection.length) {
         this.$message({
           type: "error",
@@ -310,6 +311,12 @@ export default {
         this.$message({
           type: "error",
           message: "请选择一个商户"
+        });
+        return false;
+      }else if( status == 2 ||  status == 3){
+        this.$message({
+          type: "error",
+          message: "该数据已审核完成"
         });
         return false;
       }
