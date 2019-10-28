@@ -182,22 +182,12 @@ export default {
           { required: true, message: '请输入姓名名', trigger: 'blur' }
         ],
         phone:[
-
           { validator: checkPhone, trigger: 'blur' },
+          { required: true, trigger: 'blur' },
           { min: 11, max: 11, message: '请输入11位数字', trigger: 'blur' }
-          
         ]
       },
-      userList: [
-        {
-          date: "2014/02/06",
-          name: "赵佳浩",
-          nick: "过往云烟",
-          mobile: "13716420520",
-          email: "1850418899@qq.com",
-          registerdate: "2011/09/09"
-        }
-      ],
+      userList: [],
       allRoleList:[],
       roleList:{
         roleIds:[],

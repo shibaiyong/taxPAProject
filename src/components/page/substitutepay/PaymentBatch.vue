@@ -57,6 +57,9 @@
                 <el-button type="primary" size="small" @click="handlesubmitReview">
                   <i class="el-icon-check"></i>&nbsp;提交复核
                 </el-button>
+                <el-button type="primary" size="small" @click="handlesubmitReview('statistics')">
+                  <i class="el-icon-check"></i>&nbsp;统计
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -104,18 +107,24 @@
     
     <div class="dialogblack">
       <el-dialog title="复核" :visible.sync="dialogBlackList">
-        <el-row>
-          <el-col :span="12"><label class="labelname">总笔数：</label></el-col>
-          <el-col :span="12"><label class="labelvalue">{{ COUNT }}</label></el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12"><label class="labelname">总金额：</label></el-col>
-          <el-col :span="12"><label class="labelvalue">{{ TOTAL_AMT }}</label></el-col>
-        </el-row>
+        
+        <p><label class="labelname">总笔数：</label><label class="labelvalue">{{ COUNT }}</label></p>
+        <p><label class="labelname">总金额：</label><label class="labelvalue">{{ TOTAL_AMT }}</label></p>
         <p>您确定要提交该代付吗？</p>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="dialogBlackList = false">取 消</el-button>
           <el-button type="primary" size="small" @click="submitReview">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
+
+    <div class="dialogblack statisticsdialog">
+      <el-dialog title="统计" :visible.sync="statistics">
+        <p><label class="labelname">总笔数：</label><label class="labelvalue">{{ COUNT }}</label></p>
+        <p><label class="labelname">总金额：</label><label class="labelvalue">{{ TOTAL_AMT }}</label></p>
+        <div slot="footer" class="dialog-footer">
+          <div></div>
+          <el-button type="primary" size="small" @click="statistics = false">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -129,6 +138,7 @@ export default {
   data() {
     return {
       dialogBlackList: false,
+      statistics:false,
       currentPage: 1,
       total: 1,
       remark:'',
@@ -164,11 +174,12 @@ export default {
     handleSearch() {
       this.handlegetPayBatchList(this.currentPage);
     },
-    handlesubmitReview(){
+    handlesubmitReview( params ){
       if(this.payBatchList.length){
-        this.payBatchStatistics()
+        this.payBatchStatistics( params )
       }else{
         this.dialogBlackList = false
+        this.statistics = false
       }
     },
     submitReview(){
@@ -218,7 +229,7 @@ export default {
       })
     },
 
-    payBatchStatistics(){
+    payBatchStatistics( dialogFlag ){
       let multipleSelection = this.multipleSelection
       let len = multipleSelection.length
       let params = {}
@@ -253,7 +264,11 @@ export default {
           this.COUNT = res.result.COUNT
           this.TOTAL_AMT = res.result.TOTAL_AMT
         }
-        this.dialogBlackList = true
+        if( dialogFlag == 'statistics' ){
+          this.statistics = true
+        }else{
+          this.dialogBlackList = true
+        }
       }).catch(err => {console.log(err)})
     },
     

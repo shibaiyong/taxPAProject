@@ -101,7 +101,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="18">
             <div class="operate">
               <div class="operateBtn">
                 <el-button type="primary" size="small" @click="handleSearch">
@@ -116,8 +116,7 @@
                 <el-button type="primary" size="small" @click="handleRevoke">
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
-                
-                <el-upload action="http://localhost:8088/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
+                <el-upload action="http://12.3.0.15:8090/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
                   :auto-upload="true"
                   :show-file-list="false"
                   :multiple="false"
@@ -128,6 +127,12 @@
                     <i class="el-icon-search"></i>&nbsp;导入
                   </el-button>
                 </el-upload>
+                <el-button type="primary" size="small" @click="handleStatistics('statistics')">
+                  <i class="el-icon-news"></i>&nbsp;统计
+                </el-button>
+                <el-button type="primary" size="small" @click="handleResetSearchForm">
+                  <i class="el-icon-circle-close"></i>&nbsp;重置
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -220,6 +225,31 @@
         </div>
       </el-dialog>
     </div>
+    <div class="dialogblack statisticsdialog">
+      <el-dialog title="统计" :visible.sync="statistics">
+        <el-form size="small" :model="formCreateBatch" ref="formEdit" label-width="114px">
+          <el-form-item label="总笔数">
+            <el-input v-model="COUNT" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="应出款金额">
+            <el-input v-model="ORG_PAYEE_AMT" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="商户服务费">
+            <el-input v-model="MERCH_FEE" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="个人服务费">
+            <el-input v-model="PERSONAL_FEE" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="实际出款金额">
+            <el-input v-model="AMT" :disabled="true"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <div></div>
+          <el-button type="primary" size="small" @click="statistics = false">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
     <div class="dialogblack">
     <el-dialog title="批量生批" :visible.sync="createBatch">
         <el-form size="small" :model="formCreateBatch" ref="formEdit" label-width="114px">
@@ -284,6 +314,7 @@ export default {
       },
       dialogBlackList: false,
       createBatch: false,
+      statistics:false,
       currentPage: 1,
       total: 1,
       remark:'',
@@ -328,10 +359,28 @@ export default {
       formSearch: {
         bussType:'',
         id:'',
-        inputTime:'',
+        beginInputTime:'',
+        endInputTime:'',
+        beginCreateBatchTime:'',
+        endCreateBatchTime:'',
         payeeBankNumber:'',
         payeeName:'',
-        createBatchTime:'',
+        merchId:'',
+        merchName:'',
+        actualPayAmt:'',
+        batchCode:'',
+        actualPayAccount:'',
+        flag:''
+      },
+      resetFormSearch: {
+        bussType:'',
+        id:'',
+        beginInputTime:'',
+        endInputTime:'',
+        beginCreateBatchTime:'',
+        endCreateBatchTime:'',
+        payeeBankNumber:'',
+        payeeName:'',
         merchId:'',
         merchName:'',
         actualPayAmt:'',
@@ -345,6 +394,9 @@ export default {
   methods: {
     handleSearch() {
       this.handlegetPaymentRequestList(this.currentPage)
+    },
+    handleResetSearchForm() {
+      Object.assign(this.formSearch, this.resetFormSearch)
     },
     handleBeforeUpload(file){
       // console.log(file)
@@ -362,23 +414,37 @@ export default {
         })
       }
     },
-    handleStatistics(){
-      // if (!this.judgeRight({ flag: '0' })) {
-      //   return false;
-      // }
-      statistics(this.createBatchParams).then(res => {
-        if (res.success) {
-          this.COUNT = res.result.COUNT
-          this.AMT = res.result.AMT
-          this.ORG_PAYEE_AMT = res.result.ORG_PAYEE_AMT
-          this.MERCH_FEE = res.result.MERCH_FEE
-          this.PERSONAL_FEE = res.result.PERSONAL_FEE
-          this.handlegetQualificationPartyList()
-          this.handlegetPaymentChannelList()
-          this.createBatch = true
-        }
-      })
+    handleStatistics( params ){
+      if (!this.judgeRight({ flag: '0' })) {
+        return false;
+      }
+      if(params == 'statistics'){
+        statistics(this.createBatchParams).then(res => {
+          if (res.success) {
+            this.COUNT = res.result.COUNT
+            this.AMT = res.result.AMT
+            this.ORG_PAYEE_AMT = res.result.ORG_PAYEE_AMT
+            this.MERCH_FEE = res.result.MERCH_FEE
+            this.PERSONAL_FEE = res.result.PERSONAL_FEE
+            this.statistics = true
+          }
+        })
+      }else{
+        statistics(this.createBatchParams).then(res => {
+          if (res.success) {
+            this.COUNT = res.result.COUNT
+            this.AMT = res.result.AMT
+            this.ORG_PAYEE_AMT = res.result.ORG_PAYEE_AMT
+            this.MERCH_FEE = res.result.MERCH_FEE
+            this.PERSONAL_FEE = res.result.PERSONAL_FEE
+            this.handlegetQualificationPartyList()
+            this.handlegetPaymentChannelList()
+            this.createBatch = true
+          }
+        })
+      }
     },
+
     handleRevoke() {
       if (!this.judgeRight({ flag: '0', reviewType:'3' })) {
         return false;
@@ -625,5 +691,8 @@ export default {
 .dialog-footer{
   display:flex;
   justify-content: space-between;
+}
+.statisticsdialog .el-button--small{
+  width:20%;
 }
 </style>
