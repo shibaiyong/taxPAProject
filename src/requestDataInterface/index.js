@@ -339,6 +339,11 @@ export const getPaymentRequestList = params => {//查询列表
     return axiosInstance.post("/paymentRequest/getPaymentRequestList",data).then(res => res.data)
 }
 
+export const paymentRequestExport = params => {//导出
+    // let data = qs.stringify(params)
+    return axiosInstance.post("/paymentRequest/export",params).then(res => res.data)
+}
+
 export const statistics = params => {//生批统计
     return axiosInstance.post("/paymentRequest/statistics", params).then(res => res.data)
 }

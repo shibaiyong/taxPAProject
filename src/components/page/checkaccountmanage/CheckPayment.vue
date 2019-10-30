@@ -46,7 +46,7 @@
     <div class="paddingcontainer">
     <el-table :data="reconciliationResultList" style="width: 100%">
         <el-table-column label="序号" type="index" width="50"></el-table-column>
-        <el-table-column prop="datePayment" label="交易日期" width="150"></el-table-column>
+        <el-table-column prop="datePayment" label="代付日期" width="150"></el-table-column>
         <el-table-column label="我司">
             <el-table-column prop="ourChannelSum" label="笔数" width="120"></el-table-column>
             <el-table-column label="金额" width="140">

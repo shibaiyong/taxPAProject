@@ -130,6 +130,10 @@
                 <el-button type="primary" size="small" @click="handleStatistics('statistics')">
                   <i class="el-icon-news"></i>&nbsp;统计
                 </el-button>
+                <el-button type="primary" size="small" @click="handleExport">
+                  <i class="el-icon-download"></i>&nbsp;导出
+                </el-button>
+                
                 <el-button type="primary" size="small" @click="handleResetSearchForm">
                   <i class="el-icon-circle-close"></i>&nbsp;重置
                 </el-button>
@@ -302,7 +306,7 @@
 </template>
 
 <script>
-import { revokeOrIntercept, getPaymentRequestList, createBatch, statistics, getQualificationPartyList, getPaymentChannelList } from "@/requestDataInterface";
+import { revokeOrIntercept, getPaymentRequestList, createBatch, statistics, getQualificationPartyList, getPaymentChannelList, paymentRequestExport } from "@/requestDataInterface";
 export default {
   props: {},
   data() {
@@ -413,6 +417,31 @@ export default {
           message: res.msg
         })
       }
+    },
+    handleExport(){
+      let formSearch = this.formSearch
+      var str = ''
+      Object.keys(formSearch).forEach((item,index)=>{
+        str += item + '=' + formSearch[item] + '&'
+      })
+      window.open('http://12.3.0.15:8090/paymentRequest/export?'+str.substr(0,str.length-1),'_self')
+      // paymentRequestExport(this.formSearch).then(res => {
+      //   const content = res
+      //   const blob = new Blob([content])
+      //   const fileName = '导出信息.xlsx'
+      //   if ('download' in document.createElement('a')) { // 非IE下载
+      //     const elink = document.createElement('a')
+      //     elink.download = fileName
+      //     elink.style.display = 'none'
+      //     elink.href = URL.createObjectURL(blob)
+      //     document.body.appendChild(elink)
+      //     elink.click()
+      //     URL.revokeObjectURL(elink.href) // 释放URL 对象
+      //     document.body.removeChild(elink)
+      //   } else { // IE10+下载
+      //     navigator.msSaveBlob(blob, fileName)
+      //   }
+      //})
     },
     handleStatistics( params ){
       if (!this.judgeRight({ flag: '0' })) {

@@ -60,6 +60,9 @@
                 <el-button type="primary" size="small" @click="handlesubmitReview('statistics')">
                   <i class="el-icon-check"></i>&nbsp;统计
                 </el-button>
+                <el-button type="primary" size="small" @click="handleDownLoad">
+                  <i class="el-icon-download"></i>&nbsp;下载
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -173,6 +176,13 @@ export default {
   methods: {
     handleSearch() {
       this.handlegetPayBatchList(this.currentPage);
+    },
+    handleDownLoad(){
+      let flag = this.judgeRight(this.multipleSelection)
+      if( !flag ){
+        return false
+      }
+      window.open('http://12.3.0.15:8090/payBatch/downLoadFile?id='+this.multipleSelection[0].id,'_self')
     },
     handlesubmitReview( params ){
       if(this.payBatchList.length){

@@ -174,7 +174,7 @@
       </el-form>
       <div class="dialog-footer">
         <el-button @click="resetForm('formEdit')" size="small">取 消</el-button>
-        <el-button type="primary" @click="submitForm('formEdit')" size="small"></el-button>
+        <el-button type="primary" @click="submitForm('formEdit')" size="small">保 存</el-button>
       </div>
   </div>
 </template>
