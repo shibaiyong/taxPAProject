@@ -434,6 +434,13 @@ export const getReconciliationResultList = params => {
     return axiosInstance.post("/reconciliationResult/getReconciliationResultList", data).then(res => res.data)
 }
 
+/*-------------------------------- 修改密码 --------------------------------------*/
+
+export const changePassword = params => {
+    let data = qs.stringify(params)
+    return axiosInstance.post("/user/changePassword", data).then(res => res.data)
+}
+
 
 
 

@@ -501,5 +501,3 @@ instance.beforeEach((to, from, next) => {
 
 
 export default instance
-
-

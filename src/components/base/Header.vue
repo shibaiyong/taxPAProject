@@ -12,6 +12,7 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="logout">退出</el-dropdown-item>
+          <el-dropdown-item command="changepassword">修改密码</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -44,6 +45,8 @@ export default {
             this.$router.push('/login')
           }
         }).catch(err => {console.log(err)})
+      }else if(command == 'changepassword'){
+        this.$emit('changePassword')
       }
     }
   },

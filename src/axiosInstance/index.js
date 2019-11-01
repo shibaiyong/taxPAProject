@@ -7,9 +7,12 @@ import router from '@/router'
 // 创建实例
 // http://12.3.16.12:8090/
 //http://12.3.0.15:8090     测试环境
+//http://10.3.144.20:8090   生产环境
 //baseURL:'http://192.168.129.108:8088',
 let axiosInstance = axios.create({
+    //baseURL:'http://10.3.144.20:8090',
     baseURL:'http://12.3.0.15:8090',
+    //baseURL:'http://192.168.129.108:8088',
     timeout: 60000
 })
 

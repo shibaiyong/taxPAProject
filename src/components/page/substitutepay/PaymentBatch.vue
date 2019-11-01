@@ -111,7 +111,7 @@
     <div class="dialogblack">
       <el-dialog title="复核" :visible.sync="dialogBlackList">
         
-        <p><label class="labelname">总笔数：</label><label class="labelvalue">{{ COUNT }}</label></p>
+        <p><label class="labelname">总批次：</label><label class="labelvalue">{{ COUNT }}</label></p>
         <p><label class="labelname">总金额：</label><label class="labelvalue">{{ TOTAL_AMT }}</label></p>
         <p>您确定要提交该代付吗？</p>
         <div slot="footer" class="dialog-footer">
@@ -123,7 +123,7 @@
 
     <div class="dialogblack statisticsdialog">
       <el-dialog title="统计" :visible.sync="statistics">
-        <p><label class="labelname">总笔数：</label><label class="labelvalue">{{ COUNT }}</label></p>
+        <p><label class="labelname">总批次：</label><label class="labelvalue">{{ COUNT }}</label></p>
         <p><label class="labelname">总金额：</label><label class="labelvalue">{{ TOTAL_AMT }}</label></p>
         <div slot="footer" class="dialog-footer">
           <div></div>

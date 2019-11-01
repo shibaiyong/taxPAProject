@@ -217,8 +217,8 @@ export default {
       }
     }
     let checkServiceCharge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('服务费不能为空'));
+      if(!Number.isInteger(value*1)){
+        callback(new Error('请输入数字'));
       }else if(value >= 100){
           callback(new Error('服务费不能超过100%'));
       }else{
@@ -290,11 +290,11 @@ export default {
         merchantServiceCharge:[
           
           { validator: checkServiceCharge, trigger: 'blur' },
-          { required: true, trigger: 'blur' }
+          { required: true, message:'商户服务费不能为空', trigger: 'blur' }
         ],
         personalServiceCharge: [
           { validator: checkServiceCharge, trigger: 'blur' },
-          { required: true, trigger: 'blur' }
+          { required: true, message:'个人服务费不能为空', trigger: 'blur' }
         ]
       },
       statusOptions: [

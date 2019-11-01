@@ -411,6 +411,7 @@ export default {
           type: 'success',
           message: '导入文件成功'
         })
+        this.handlegetPaymentRequestList(this.currentPage)
       }else{
         this.$message({
           type: 'error',

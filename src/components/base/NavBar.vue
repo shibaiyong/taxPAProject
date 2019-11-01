@@ -18,7 +18,6 @@
       </template>
       <el-menu-item v-for="subitem in item.childrens" :index="subitem.vueUrl" :route="{path: subitem.vueUrl, query: { add: subitem.childrens[0]?(subitem.childrens[0].isButton == 1 ? 1 : 0):0, edit : subitem.childrens[1]?(subitem.childrens[1].isButton == 1 ? 1 : 0):0, remove : subitem.childrens[2]?(subitem.childrens[2].isButton == 1 ? 1 : 0):0}}" :key="subitem.id">{{subitem.name}}</el-menu-item> 
     </el-submenu>
-
     </el-menu>
   </div>
 </template>
@@ -54,8 +53,9 @@ export default {
         console.log(err)
       })
     },
-    handleSelect(index) {
-
+    handleSelect(index, indexPath, item) {
+      // const {path, query} = item.route
+      // window.open(`http://192.168.129.42:14541/#${path}?add=${query.add}&edit=${query.edit}&remove=${query.remove}`,'')
     },
     ajustHeight() {
       return new Promise((resolve, reject) => {

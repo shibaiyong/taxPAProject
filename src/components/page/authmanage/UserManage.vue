@@ -74,17 +74,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建日期">
-              <el-date-picker
-                v-model="formEdit.createdTime"
-                type="date"
-                format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
-                placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="formEdit.email"></el-input>
             </el-form-item>
@@ -204,8 +193,7 @@ export default {
         address: "",
         email: "",
         name: "",
-        phone: "",
-        createdTime:''
+        phone: ""
       },
       resetFormEdit: {
         username: "",

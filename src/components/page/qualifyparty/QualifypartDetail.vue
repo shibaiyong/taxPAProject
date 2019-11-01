@@ -28,16 +28,11 @@
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">全年可用额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.sn}}</label></el-col>
-        </el-col>
-
-        <el-col :span="12">
-            <el-col :span="6"><label class="descr">全年已用额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.sn}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.singleMonthPayment}}</label></el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">当月全部额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.sn}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.singleMonthPayment}}</label></el-col>
         </el-col>
 
         <el-col :span="12">
@@ -46,12 +41,12 @@
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">当月已用额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.sn}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.monthUsablePayment}}</label></el-col>
         </el-col>
 
         <el-col :span="12">
             <el-col :span="6"><label class="descr">当前占用额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.sn}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.monthOccupyPayment}}</label></el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">单位地址</label></el-col>
