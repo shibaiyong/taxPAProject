@@ -169,9 +169,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://12.3.0.15:8090/export/exportDailyBillList?ids='+idsStr,'_self')
+        window.open('http://localhost:8088/export/exportDailyBillList?ids='+idsStr,'_self')
       }else{
-        window.open('http://12.3.0.15:8090/export/exportDailyBillList','_self')
+        window.open('http://localhost:8088/export/exportDailyBillList','_self')
       }
       
     },

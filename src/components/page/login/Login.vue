@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { Login } from "@/requestDataInterface"
+import { Login, getMenuList } from "@/requestDataInterface"
 import { setCookie, getCookie, deleteCookie} from "@/assets/utils"
 
 export default {
@@ -75,16 +75,19 @@ export default {
         if(res.success){
           localStorage.setItem('username',params.username)
           //sessionStorage.setItem('RyxToken',res.result.token)
-          this.$router.push('/home/commercialcustom')
           this.$store.dispatch('setLogin',1)
+          getMenuList().then( res => {
+            if(res.success){
+              let url = res.result.permissions[0].childrens[0].vueUrl
+              this.$router.push(url)
+            }
+          })
         }else{
           this.$message({
             type: "error",
             message: res.msg
           })
         }
-      }).catch(err => {
-
       })
     },
     rememberMe() {

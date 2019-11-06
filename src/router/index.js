@@ -473,7 +473,6 @@ instance.beforeEach((to, from, next) => {
   let _title = to.meta.title
   let bread = to.meta.bread
   document.title = _title ? _title : '默认标题'
-  let auth = localStorage.getItem('requireAuth')
   sessionStorage.setItem('path',to.path)
   store.dispatch('setBread',bread)
   // if(to.path=="/login"||to.path=="/auth/index"){

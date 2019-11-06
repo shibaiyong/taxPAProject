@@ -10,9 +10,10 @@ import router from '@/router'
 //http://10.3.144.20:8090   生产环境
 //baseURL:'http://192.168.129.108:8088',
 let axiosInstance = axios.create({
-    //baseURL:'http://10.3.144.20:8090',
-    baseURL:'http://12.3.0.15:8090',
     //baseURL:'http://192.168.129.108:8088',
+    //baseURL:'http://12.3.0.15:8090',
+    //baseURL:'http://10.3.144.20:8090',
+    baseURL:'http://localhost:8088',
     timeout: 60000
 })
 
