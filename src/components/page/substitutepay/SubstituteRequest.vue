@@ -116,7 +116,7 @@
                 <el-button type="primary" size="small" @click="handleRevoke">
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
-                <el-upload action="http://localhost:8088/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
+                <el-upload action="http://10.3.144.20:8090/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
                   :auto-upload="true"
                   :show-file-list="false"
                   :multiple="false"
@@ -152,13 +152,13 @@
         @select-all="handleSelectAll"
       >
         <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column label="代付流水号" prop="id" width="220"></el-table-column>
+        <el-table-column label="代付流水号" prop="id" width="240"></el-table-column>
         <el-table-column label="特约商户号" prop="tyMerchId" width="90"></el-table-column>
         <el-table-column label="商户编号" prop="merchId" width="130"></el-table-column>
         <el-table-column label="商户名称" prop="merchName" width="120"></el-table-column>
         <el-table-column label="收款人姓名" prop="payeeName" width="80"></el-table-column>
         <el-table-column label="收款人银行账号" prop="payeeBankNumber" width="160"></el-table-column>
-        <el-table-column label="联行号" prop="payeeBankCode" width="90"></el-table-column>
+        <el-table-column label="联行号" prop="payeeBankCode" width="110"></el-table-column>
         <el-table-column label="收款人身份证号" prop="payeeCardId" width="150"></el-table-column>
         <el-table-column label="导入日期" prop="inputTime" width="140"></el-table-column>
         <el-table-column label="出款日期" prop="createBatchTime" width="140"></el-table-column>
@@ -316,6 +316,7 @@ export default {
           { required: true, message:'必填', trigger: 'blur' }
         ]
       },
+      loadingInstance:'',
       dialogBlackList: false,
       createBatch: false,
       statistics:false,
@@ -403,9 +404,10 @@ export default {
       Object.assign(this.formSearch, this.resetFormSearch)
     },
     handleBeforeUpload(file){
-      // console.log(file)
+      this.loadingInstance = this.$loading({text:'正在上传文件，请稍后'})
     },
     handleSuccess(res, file, fileList){
+      this.loadingInstance.close()
       if(res.success){
         this.$message({
           type: 'success',
@@ -425,7 +427,7 @@ export default {
       Object.keys(formSearch).forEach((item,index)=>{
         str += item + '=' + formSearch[item] + '&'
       })
-      window.open('http://localhost:8088/paymentRequest/export?'+str.substr(0,str.length-1),'_self')
+      window.open('http://10.3.144.20:8090/paymentRequest/export?'+str.substr(0,str.length-1),'_self')
       // paymentRequestExport(this.formSearch).then(res => {
       //   const content = res
       //   const blob = new Blob([content])
@@ -499,13 +501,17 @@ export default {
         if (res.success) {
           this.$message({
             type:'success',
-            message: '提交审核成功！'
+            message: '提交审核成功！',
+            showClose: true,
+            duration: 0
           })
           this.handlegetPaymentRequestList(this.currentPage)
         }else{
           this.$message({
             type:'error',
-            message: '提交审核失败！'
+            message: '提交审核失败！',
+            showClose: true,
+            duration: 0
           })
         }
       })
@@ -563,13 +569,17 @@ export default {
               if(res.success){
                 this.$message({
                   type:'success',
-                  message: res.msg
+                  message: res.msg,
+                  showClose: true,
+                  duration: 0
                 })
                 this.handlegetPaymentRequestList(this.currentPage)
               }else{
                 this.$message({
                   type:'error',
-                  message: res.msg
+                  message: res.msg,
+                  showClose: true,
+                  duration: 0
                 })
               }
             }).catch(err => {console.log(err)})
@@ -591,7 +601,7 @@ export default {
       let params = {}
       let idList = []
       if ( !len ) {
-        params = Object.assign({}, this.formSearch, args)
+        params = Object.assign({}, args, this.formSearch )
       } else if (len >= 1) {
         for(let i = 0; i < len; i++){
           var item = multipleSelection[i]
@@ -600,7 +610,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: '生批数据状态必需是“未处理”'
+              message: '数据状态必需是“未处理”'
             });
             return false
           }

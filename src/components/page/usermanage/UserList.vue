@@ -172,9 +172,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://localhost:8088/export/userInfoList?ids='+idsStr)
+        window.open('http://10.3.144.20:8090/export/userInfoList?ids='+idsStr)
       }else{
-        window.open('http://localhost:8088/export/userInfoList')
+        window.open('http://10.3.144.20:8090/export/userInfoList')
       }
     },
     

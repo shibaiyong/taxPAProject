@@ -182,7 +182,7 @@ export default {
       if( !flag ){
         return false
       }
-      window.open('http://localhost:8088/payBatch/downLoadFile?id='+this.multipleSelection[0].id,'_self')
+      window.open('http://10.3.144.20:8090/payBatch/downLoadFile?id='+this.multipleSelection[0].id,'_self')
     },
     handlesubmitReview( params ){
       if(this.payBatchList.length){
@@ -226,12 +226,16 @@ export default {
         if (res.success) {
          this.$message({
             type: "success",
-            message: res.msg
+            message: res.msg,
+            showClose: true,
+            duration: 0
           })
         }else{
           this.$message({
             type: "error",
-            message: res.msg
+            message: res.msg,
+            showClose: true,
+            duration: 0
           })
         }
         this.dialogBlackList = false

@@ -107,8 +107,8 @@
           </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="confirmPay('2')">驳 回</el-button>
-          <el-button type="primary" size="small" @click="confirmPay('1')">确 定</el-button>
+          <el-button size="small" @click="confirmPay('2')" :disabled="btndisabled">驳 回</el-button>
+          <el-button type="primary" size="small" @click="confirmPay('1')" :disabled="btndisabled">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -121,6 +121,7 @@ export default {
   props: {},
   data() {
     return {
+      btndisabled:false,
       dialogBlackList: false,
       currentPage: 1,
       total: 1,
@@ -197,20 +198,26 @@ export default {
     confirmPay( status ){
       let multipleSelection = this.multipleSelection
       let params = Object.assign(this.checkParamsForm,{status})
+      this.btndisabled = true
       confirmPay(params).then(res => {
-        this.dialogBlackList = false
         this.handlegetPayReviewList(this.currentPage)
         if (res.success) {
           this.$message({
             type: "success",
-            message: '操作成功！'
+            message: '操作成功！',
+            showClose: true,
+            duration: 0
           })
         }else{
           this.$message({
             type: "error",
-            message: '操作失败！'
+            message: '操作失败！',
+            showClose: true,
+            duration: 0
           })
         }
+        this.dialogBlackList = false
+        this.btndisabled = false
       })
     },
 

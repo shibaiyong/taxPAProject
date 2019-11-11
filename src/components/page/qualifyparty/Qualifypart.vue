@@ -136,9 +136,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://localhost:8088/export/qualificationPartyList?ids='+idsStr,'_self')
+        window.open('http://10.3.144.20:8090/export/qualificationPartyList?ids='+idsStr,'_self')
       }else{
-        window.open('http://localhost:8088/export/qualificationPartyList','_self')
+        window.open('http://10.3.144.20:8090/export/qualificationPartyList','_self')
       }
     },
     handleAdd() {
