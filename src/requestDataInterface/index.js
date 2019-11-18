@@ -15,7 +15,7 @@ export const Login = params => {
 //登出
 export const logOut = params => {
     let data = qs.stringify(params)
-    return axiosInstance.post("/auth/logout", data).then(res => res.data)
+    return axiosInstance.post("/apii/auth/logout", data).then(res => res.data)
 }
 //获取权限侧边栏菜单
 

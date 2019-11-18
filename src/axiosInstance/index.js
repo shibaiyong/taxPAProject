@@ -20,11 +20,11 @@ let axiosInstance = axios.create({
 // 请求拦截器
 axiosInstance.interceptors.request.use(
     config => {
-        config.headers.Authorization = sessionStorage.getItem('RyxToken')
-        return config
+      config.headers.Authorization = sessionStorage.getItem('RyxToken')
+      return config
     },
     err => {
-        return Promise.reject(err)
+      return Promise.reject(err)
     }
 )
 

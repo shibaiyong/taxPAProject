@@ -78,14 +78,14 @@
                 v-model="formSearch.beginCreateBatchTime"
                 type="date"
                 format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
               ></el-date-picker>
               -
               <el-date-picker
                 v-model="formSearch.endCreateBatchTime"
                 type="date"
                 format="yyyy - MM - dd"
-                value-format="yyyy-MM-dd"
+                value-format="yyyyMMdd"
               ></el-date-picker>
             </el-form-item>
           </el-col>

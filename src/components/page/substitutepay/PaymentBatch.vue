@@ -204,7 +204,7 @@ export default {
       }else if(!len && this.formSearch.flag !='0'){
         this.$message({
           type: "error",
-          message: '复核数据状态必需是“未处理”'
+          message: '数据状态必需是“未处理”'
         })
         return false
       } else if (len >= 1) {
@@ -215,7 +215,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: '复核数据状态必需是“未处理”'
+              message: '数据状态必需是“未处理”'
             });
             return false
           }
@@ -248,17 +248,9 @@ export default {
       let len = multipleSelection.length
       let params = {}
       let idList = []
-      if ( !len && this.formSearch.flag=='0') {
-
+      if ( !len) {
         params = Object.assign({},this.formSearch, {reviewType:'1'})
-
-      }else if(!len && this.formSearch.flag !='0'){
-        this.$message({
-          type: "error",
-          message: '复核数据状态必需是“未处理”'
-        })
-        return false
-      } else if (len >= 1) {
+      }else if (len >= 1) {
         for(let i = 0; i < len; i++){
           var item = multipleSelection[i]
           if(item.flag == '0'){
@@ -266,7 +258,7 @@ export default {
           }else{
             this.$message({
               type: "error",
-              message: '复核数据状态必需是“未处理”'
+              message: '数据状态必需是“未处理”'
             });
             return false
           }

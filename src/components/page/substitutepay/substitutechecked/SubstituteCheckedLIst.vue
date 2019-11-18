@@ -241,6 +241,14 @@ export default {
           message: "请选择一条数据"
         });
         return false;
+      }else{
+          if(multipleSelection[0].status != '0'){
+            this.$message({
+            type: "error",
+            message: "请选择“待复核”的数据操作"
+          });
+          return false;
+        }
       }
       return true;
     }

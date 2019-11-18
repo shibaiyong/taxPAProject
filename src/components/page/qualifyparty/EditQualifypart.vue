@@ -57,7 +57,7 @@
           
           <el-col :span="12">
             <el-form-item label="全年可用额度">
-              <el-input v-model="formEdit.singleMonthPayment" :disabled="isEdit"></el-input>
+              <el-input v-model="formEdit.yearUsablePayment" :disabled="isEdit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">

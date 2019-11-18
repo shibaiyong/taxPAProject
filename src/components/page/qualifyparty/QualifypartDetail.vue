@@ -28,11 +28,11 @@
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">全年可用额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.singleMonthPayment}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.yearUsablePayment}}</label></el-col>
         </el-col>
         <el-col :span="12">
             <el-col :span="6"><label class="descr">当月全部额度</label></el-col>
-            <el-col :span="18"><label>{{formEdit.singleMonthPayment}}</label></el-col>
+            <el-col :span="18"><label>{{formEdit.thisMonthAllPayment}}</label></el-col>
         </el-col>
 
         <el-col :span="12">
