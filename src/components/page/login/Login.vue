@@ -69,6 +69,9 @@ export default {
         //如果验证没有通过，中断登录操作
         return false
       }
+      if(this.rememberP){
+        this.rememberMe()
+      }
       let params = this.userInfo
       Login( params ).then( res => {
         

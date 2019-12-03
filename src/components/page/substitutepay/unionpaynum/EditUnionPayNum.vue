@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     handleEdit() {
-      let row = this.$route.params
+      let row = this.$route.query
       Object.assign(this.formEdit,row)
     },
     submitForm(ref) {

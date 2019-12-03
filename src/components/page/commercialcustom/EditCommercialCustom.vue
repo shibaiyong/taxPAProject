@@ -110,7 +110,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="企业电子账户">
-              <el-input v-model="formEdit.enterpriseElectronicAccount" :disabled="editable"></el-input>
+              <el-input v-model="formEdit.enterpriseElectronicAccount"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -358,7 +358,7 @@ export default {
       this.$router.go(-1)
     },
     handleEdit() {
-      let id = this.$route.params.id
+      let id = this.$route.query.id
       getMerchantById({ id }).then(res => {
         if(res.success){
           Object.assign(this.formEdit, res.result)

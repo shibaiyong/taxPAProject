@@ -182,7 +182,7 @@ export default {
       if( !flag ){
         return false
       }
-      window.open('http://10.3.144.20:8090/payBatch/downLoadFile?id='+this.multipleSelection[0].id,'_self')
+      window.open('http://12.3.0.15:8090/payBatch/downLoadFile?id='+this.multipleSelection[0].id,'_self')
     },
     handlesubmitReview( params ){
       if(this.payBatchList.length){

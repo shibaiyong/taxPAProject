@@ -72,7 +72,7 @@ export default {
       this.handleGetDailyBillDetailList(this.currentPage)
     },
     handleGetDailyBillDetailList(currentPage) {
-      let dailyBillId = this.$route.params.id
+      let dailyBillId = this.$route.query.id
       let params = Object.assign({}, this.formSearch, {
         page: currentPage,
         rows: 20,

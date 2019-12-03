@@ -124,8 +124,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="企业电子账户" prop="enterpriseElectronicAccount">
-              <el-input v-model="formEdit.enterpriseElectronicAccount"></el-input>
+            <el-form-item label="企业电子账户">
+              <el-input v-model="formEdit.enterpriseElectronicAccount" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -276,9 +276,6 @@ export default {
           { required: true, message:'必填', trigger: 'blur' }
         ],
         openingBankLinkSn: [
-          { required: true, message:'必填', trigger: 'blur' }
-        ],
-        enterpriseElectronicAccount: [
           { required: true, message:'必填', trigger: 'blur' }
         ],
         qualificationId: [

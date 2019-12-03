@@ -39,31 +39,37 @@
       >
         <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column label="编号" prop="sn" width="120"></el-table-column>
-        <el-table-column label="企业名称">
+        <el-table-column label="企业名称" width="150">
           <template slot-scope="scope">
             <span class="myblue">{{scope.row.enterpriseName}}</span>
           </template>
         </el-table-column>
         <el-table-column label="联系人" prop="contacts"></el-table-column>
-        <el-table-column label="手机号" prop="contactsTel"></el-table-column>
-        <el-table-column label="当月全部额度" prop="thisMonthAllPayment">
+        <el-table-column label="手机号" prop="contactsTel" width="120"></el-table-column>
+        <el-table-column label="当月全部额度" width="120">
           <template slot-scope="scope">
             {{scope.row.thisMonthAllPayment | fMoney}}
           </template>
         </el-table-column>
-        <el-table-column label="当月可用额度" prop="thisMonthPayment">
+        <el-table-column label="当月可用额度" width="120">
           <template slot-scope="scope">
             {{scope.row.thisMonthPayment | fMoney}}
           </template>
         </el-table-column>
-        <el-table-column label="当月已用额度" prop="monthUsablePayment">
+        <el-table-column label="当月已用额度" width="120">
           <template slot-scope="scope">
             {{scope.row.monthUsablePayment | fMoney}}
           </template>
         </el-table-column>
-        <el-table-column label="当前占用额度" prop="monthOccupyPayment">
+        <el-table-column label="当前占用额度" width="120">
           <template slot-scope="scope">
             {{scope.row.monthOccupyPayment | fMoney}}
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="余额" width="120" v-if="hiddenBalance">
+          <template slot-scope="scope">
+            {{scope.row.accountBalance | fMoney}}
           </template>
         </el-table-column>
         <el-table-column label="状态" prop="status">
@@ -99,6 +105,7 @@ export default {
       dialogTitle: "编辑",
       dialogEditVisible: false,
       isEdit:false,
+      hiddenBalance:false,
       currentPage: 1,
       total: 1,
       qualificationPartiesList:[],
@@ -136,9 +143,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://10.3.144.20:8090/export/qualificationPartyList?ids='+idsStr,'_self')
+        window.open('http://12.3.0.15:8090/export/qualificationPartyList?ids='+idsStr,'_self')
       }else{
-        window.open('http://10.3.144.20:8090/export/qualificationPartyList','_self')
+        window.open('http://12.3.0.15:8090/export/qualificationPartyList','_self')
       }
     },
     handleAdd() {
@@ -150,11 +157,11 @@ export default {
       if (!this.judgeRight(multipleSelection)) {
         return false
       }
-      this.$router.push({name:'EditQualifypart',params:multipleSelection[0]})
+      this.$router.push({name:'EditQualifypart',query:{ id:multipleSelection[0].id }})
     },
     handleShowDetail(row, column, cell, event) {
       if( column.label == '企业名称'){
-        this.$router.push({ name: 'QualifypartDetail', params: row })
+        this.$router.push({ name: 'QualifypartDetail', query: { id: row.id } })
       }
     },
     handlegetQualificationPartyList(currentPage) {
@@ -166,7 +173,8 @@ export default {
         .then(res => {
           if (res.success) {
             this.qualificationPartiesList = res.result.qualificationParties
-            this.total = res.result.total
+            this.total = res.result.total,
+            this.hiddenBalance = res.result.hiddenBalance
           }
         })
         .catch(err => {
@@ -199,7 +207,8 @@ export default {
       return true;
     }
   },
-  computed: {},
+  computed: {
+  },
   mounted() {
     this.handlegetQualificationPartyList(this.currentPage);
   },

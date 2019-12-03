@@ -129,7 +129,7 @@ export default {
   created() {},
   methods: {
     handleDetail() {
-      let id = this.$route.params.id
+      let id = this.$route.query.id
       getQualificationPartyById({id}).then(res => {
           if (res.success) {
             Object.assign(this.formEdit,res.result)

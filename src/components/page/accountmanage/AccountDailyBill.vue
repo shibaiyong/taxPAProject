@@ -142,7 +142,7 @@ export default {
       }
       this.$router.push({
         name: "DetailAccountDailyBill",
-        params: multipleSelection[0]
+        query: { id : multipleSelection[0].id }
       });
     },
     handleGetDailyBillList(currentPage) {
@@ -169,9 +169,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://10.3.144.20:8090/export/exportDailyBillList?ids='+idsStr,'_self')
+        window.open('http://12.3.0.15:8090/export/exportDailyBillList?ids='+idsStr,'_self')
       }else{
-        window.open('http://10.3.144.20:8090/export/exportDailyBillList','_self')
+        window.open('http://12.3.0.15:8090/export/exportDailyBillList','_self')
       }
       
     },

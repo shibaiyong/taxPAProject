@@ -404,12 +404,12 @@ export default {
       }
       this.$router.push({
         name: "EditCommercialCustom",
-        params: multipleSelection[0]
+        query: { id : multipleSelection[0].id }
       });
     },
     handleShowDetail(row, column, cell, event) {
       if(column.label == '企业名称'){
-        this.$router.push({ name: 'DetailCommercialCustom', params: row })
+        this.$router.push({ name: 'DetailCommercialCustom', query: {id:row.id} })
       }
     },
     handleGetMerchantList(currentPage) {
@@ -437,9 +437,9 @@ export default {
       }
       idsStr = ids.join(',')
       if(idsStr){
-        window.open('http://10.3.144.20:8090/export/merchantList?ids='+idsStr,'_self')
+        window.open('http://12.3.0.15:8090/export/merchantList?ids='+idsStr,'_self')
       }else{
-        window.open('http://10.3.144.20:8090/export/merchantList','_self')
+        window.open('http://12.3.0.15:8090/export/merchantList','_self')
       }
     },
 

@@ -180,7 +180,7 @@ export default {
       }
       this.$router.push({
         name: "EditSubstituteChannel",
-        params: multipleSelection[0]
+        query: multipleSelection[0]
       });
     },
     handlegetPaymentChannelList(currentPage) {
