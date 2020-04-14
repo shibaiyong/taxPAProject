@@ -116,7 +116,7 @@
                 <el-button type="primary" size="small" @click="handleRevoke">
                   <i class="el-icon-circle-close"></i>&nbsp;撤销
                 </el-button>
-                <el-upload action="http://12.3.0.15:8090/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
+                <el-upload action="http://localhost:8088/paymentRequest/uploadFileExcel" :style="{display:'inline-block'}"
                   :auto-upload="true"
                   :show-file-list="false"
                   :multiple="false"
@@ -427,7 +427,7 @@ export default {
       Object.keys(formSearch).forEach((item,index)=>{
         str += item + '=' + formSearch[item] + '&'
       })
-      window.open('http://12.3.0.15:8090/paymentRequest/export?'+str.substr(0,str.length-1),'_self')
+      window.open('http://localhost:8088/paymentRequest/export?'+str.substr(0,str.length-1),'_self')
       // paymentRequestExport(this.formSearch).then(res => {
       //   const content = res
       //   const blob = new Blob([content])
