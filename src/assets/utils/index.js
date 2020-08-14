@@ -26,25 +26,6 @@ function padLeftZero(str) {
     return ('00' + str).substr(str.length)
 }
 
-//数据千分位格式化
-
-export const filters = {
-    fMoney(num) {
-        //处理一些特殊情况
-        if(!num && num != 0) return '';
-        var num = num.toString().replace(/\$|\,/g,'');
-        if(isNaN(num)) num = "0";
-        var sign = (num == (num = Math.abs(num)));
-        num = Math.floor(num * 100 + 0.50000000001);
-        var cents = num % 100;
-        num = Math.floor(num / 100).toString();
-        if(cents < 10) cents = "0" + cents;
-        for (var i = 0; i < Math.floor( (num.length - (1+i))/3 ); i++)
-            num = num.substring( 0, num.length - (4*i+3) ) + ',' + num.substring( num.length - (4*i+3) );
-        return (((sign)?'':'-') + num + '.' + cents);
-    }
-}
-
 //数组对象按某个键排序
 
 export const sortArr = (arr, prop) => {
@@ -99,4 +80,60 @@ export const getCookie = (key) => {//获取cookie
     }
   }
 
+//数据千分位格式化
+
+export const filters = {
+    fMoney(num) {
+        //处理一些特殊情况
+        if(!num && num != 0) return '';
+        var num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num)) num = "0";
+        var sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        var cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        if(cents < 10) cents = "0" + cents;
+        for (var i = 0; i < Math.floor( (num.length - (1+i))/3 ); i++)
+            num = num.substring( 0, num.length - (4*i+3) ) + ',' + num.substring( num.length - (4*i+3) );
+        return (((sign)?'':'-') + num + '.' + cents);
+    }
+}
+
+export const directives = {
+    has:{
+        inserted(el, binding, vnode) {
+            // 获取按钮权限
+            let { add, edit, remove } = vnode.context.$route.query
+            if(binding.value == 'add'&& add == 0){
+                el.parentNode.removeChild(el)
+            }else if(binding.value == 'edit'&& edit == 0){
+                el.parentNode.removeChild(el)
+            }else if(binding.value == 'remove'&& remove == 0){
+                el.parentNode.removeChild(el)
+            }
+        }
+    },
+    status:{
+        bind(el, binding, vonode) {
+            if (binding.value.status == 1) {
+                el.innerHTML = "停用";
+            } else {
+                el.innerHTML = "启用";
+            }
+        },
+        inserted(el, binding, vonode) {
+            el.onclick = function() {
+                if (el.innerHTML == "启用") {
+                    vonode.context.handleEffect(binding.value.id, 1).then(res => {
+                        el.innerHTML = "停用";
+                    })
+                } else {
+                    vonode.context.handleEffect(binding.value.id, 0).then(res => {
+                        el.innerHTML = "启用";
+                    })
+                }
+            }
+        }
+    }
+}
 

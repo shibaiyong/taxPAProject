@@ -6,7 +6,6 @@ template/*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-config/index.js
 # Editor directories and files
 .idea
 .vscode
